@@ -39,8 +39,7 @@ class ConnectionStateMachine(secsgem.common.StateMachine):
 
         self.not_connected = secsgem.common.State(
             ConnectionState.NOT_CONNECTED,
-            "NOT_CONNECTED",
-            initial=True)
+            "NOT_CONNECTED")
         self.connected = secsgem.common.State(
             ConnectionState.CONNECTED,
             "CONNECTED")

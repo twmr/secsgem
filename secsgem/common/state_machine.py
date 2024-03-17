@@ -62,7 +62,6 @@ class State:
         state: enum.Enum,
         name: str,
         parent: State | None = None,
-        initial: bool = False,
     ) -> None:
         """Initialize state object.
 
@@ -70,13 +69,11 @@ class State:
             state: state
             name: state name
             parent: parent state
-            initial: is initial state
 
         """
         self._state = state
         self._name = name
         self._parent = parent
-        self._active = initial
 
         self._event_producer = EventProducer()
 
@@ -100,11 +97,6 @@ class State:
         """Get parent state if available."""
         return self._parent
 
-    @property
-    def active(self) -> bool:
-        """Get if the state is active."""
-        return self._active
-
     def enter(self, source: State | None):
         """Enter the state.
 
@@ -113,8 +105,6 @@ class State:
 
         """
         self.events.fire("enter", {})
-
-        self._active = True
 
         if self.parent is not None and (source is None or source.parent != self.parent):
             self.parent.enter(source.parent if source is not None else None)
@@ -127,8 +117,6 @@ class State:
 
         """
         self.events.fire("leave", {})
-
-        self._active = False
 
         if self.parent is not None and (destination is None or destination.parent != self.parent):
             self.parent.leave(destination.parent if destination is not None else None)

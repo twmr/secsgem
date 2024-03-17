@@ -54,8 +54,7 @@ class ControlStateMachine(secsgem.common.StateMachine):  # pylint: disable=too-m
 
         self.init = secsgem.common.State(
             ControlState.INIT,
-            "INIT",
-            initial=True)
+            "INIT")
         self.control = secsgem.common.State(
             ControlState.CONTROL,
             "CONTROL")

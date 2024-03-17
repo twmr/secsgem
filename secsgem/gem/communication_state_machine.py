@@ -55,8 +55,7 @@ class CommunicationStateMachine(secsgem.common.StateMachine):  # pylint: disable
 
         self.disabled = secsgem.common.State(
             CommunicationState.DISABLED,
-            "DISABLED",
-            initial=True)
+            "DISABLED")
         self.enabled = secsgem.common.State(
             CommunicationState.ENABLED,
             "ENABLED")

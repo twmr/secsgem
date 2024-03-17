@@ -129,4 +129,3 @@ class TestHsmsConnectionStateMachine:
             transition_function()
 
             assert csm.current_state == destination_attribute  # pylint: disable=protected-access
-            assert csm.current_state.active  # pylint: disable=protected-access
