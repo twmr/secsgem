@@ -39,12 +39,15 @@ if typing.TYPE_CHECKING:
 class GemEquipmentHandler(  # pylint: disable=too-many-ancestors
     AlarmCapability,
     ClockCapability,
-    CollectionEventCapability,
     DataValueCapability,
     EquipmentConstantsCapability,
     RemoteControlCapability,
     StateModelsCapability,
     StatusDataCollectionCapability,
+    # __init__ of this class must have completed before the
+    # StateModelsCapability.__init__ is allowed to send collection events (via
+    # trigger_collection_events)
+    CollectionEventCapability,
     GemHandler):
     """Baseclass for creating equipment models. Inherit from this class and override required functions."""
 
