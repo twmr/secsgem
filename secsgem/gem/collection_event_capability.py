@@ -118,7 +118,7 @@ class CollectionEventCapability(GemHandler, Capability):
                     ceid = ceid.value
 
                 if ceid in self._registered_collection_events and self._registered_collection_events[ceid].enabled:
-                    reports = self._build_collection_event(ceid)
+                    reports = self._build_reports_for_collection_event(ceid)
 
                     self.send_and_waitfor_response(self.stream_function(6, 11)(
                         {"DATAID": 1, "CEID": ceid, "RPT": reports}))
@@ -267,7 +267,7 @@ class CollectionEventCapability(GemHandler, Capability):
         reports = []
 
         if ceid in self._registered_collection_events and self._registered_collection_events[ceid].enabled:
-            reports = self._build_collection_event(ceid)
+            reports = self._build_reports_for_collection_event(ceid)
 
         return self.stream_function(6, 16)({"DATAID": 1, "CEID": ceid, "RPT": reports})
 
@@ -295,7 +295,7 @@ class CollectionEventCapability(GemHandler, Capability):
 
         return result
 
-    def _build_collection_event(self, ceid: int | str):
+    def _build_reports_for_collection_event(self, ceid: int | str):
         """Build reports for a collection event.
 
         Args:
