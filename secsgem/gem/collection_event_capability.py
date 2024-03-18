@@ -309,7 +309,8 @@ class CollectionEventCapability(GemHandler, Capability):
             ceid: collection event to build
 
         Returns:
-            collection event data
+            A sequence of reports each consisting of a RPTID and a sequence of
+            variable data.
 
         """
         reports = []
