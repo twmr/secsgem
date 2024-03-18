@@ -26,10 +26,7 @@ if typing.TYPE_CHECKING:
 class CollectionEventLink:
     """Representation for registered/linked collection event."""
 
-    def __init__(self,
-                 collection_event: CollectionEvent,
-                 reports: list[CollectionEventReport],
-                 **kwargs):
+    def __init__(self, collection_event: CollectionEvent, reports: list[int | str], **kwargs):
         """Initialize a collection event link.
 
         Args:
@@ -51,7 +48,7 @@ class CollectionEventLink:
         return self._collection_event
 
     @property
-    def reports(self):
+    def reports(self) -> list[int | str]:
         """Get list of the data values.
 
         Returns:
