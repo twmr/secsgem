@@ -20,7 +20,6 @@ import typing
 
 if typing.TYPE_CHECKING:
     from .collection_event import CollectionEvent
-    from .collection_event_report import CollectionEventReport
 
 
 class CollectionEventLink:
