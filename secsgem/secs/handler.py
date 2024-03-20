@@ -159,12 +159,12 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
         return self.send_and_waitfor_response(self.stream_function(2, 33)({"DATAID": 0, "DATA": []}))
 
     def list_svs(self, svs=None):
-        """Get list of available Service Variables.
+        """Get list of available Status Variables.
 
-        :returns: available Service Variables
+        :returns: available Status Variables
         :rtype: list
         """
-        self.logger.info("Get list of service variables")
+        self.logger.info("Get list of status variables")
 
         if svs is None:
             svs = []
@@ -174,28 +174,28 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
         return self.settings.streams_functions.decode(message)
 
     def request_svs(self, svs):
-        """Request contents of supplied Service Variables.
+        """Request contents of supplied Status Variables.
 
-        :param svs: Service Variables to request
+        :param svs: Status Variables to request
         :type svs: list
-        :returns: values of requested Service Variables
+        :returns: values of requested Status Variables
         :rtype: list
         """
-        self.logger.info("Get value of service variables %s", svs)
+        self.logger.info("Get value of status variables %s", svs)
 
         message = self.send_and_waitfor_response(self.stream_function(1, 3)(svs))
 
         return self.settings.streams_functions.decode(message)
 
     def request_sv(self, sv_id):
-        """Request contents of one Service Variable.
+        """Request contents of one Status Variable.
 
-        :param sv_id: id of Service Variable
+        :param sv_id: id of Status Variable
         :type sv_id: int
-        :returns: value of requested Service Variable
+        :returns: value of requested Status Variable
         :rtype: various
         """
-        self.logger.info("Get value of service variable %s", sv_id)
+        self.logger.info("Get value of status variable %s", sv_id)
 
         return self.request_svs([sv_id])[0]
 
