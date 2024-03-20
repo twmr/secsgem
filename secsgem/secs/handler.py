@@ -22,6 +22,10 @@ import typing
 import secsgem.common
 import secsgem.hsms
 
+if typing.TYPE_CHECKING:
+    from .data_items import SV
+    from .functions import SecsS01F04, SecsS01F12
+
 
 class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-public-methods
     """Baseclass for creating Host/Equipment models. This layer contains the SECS functionality.
@@ -158,7 +162,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         return self.send_and_waitfor_response(self.stream_function(2, 33)({"DATAID": 0, "DATA": []}))
 
-    def list_svs(self, svs=None):
+    def list_svs(self, svs: typing.Sequence[int | str] | None=None) -> SecsS01F12:
         """Get list of available Status Variables.
 
         :returns: available Status Variables
@@ -173,7 +177,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         return self.settings.streams_functions.decode(message)
 
-    def request_svs(self, svs):
+    def request_svs(self, svs: typing.Sequence[int | str]) -> SecsS01F04:
         """Request contents of supplied Status Variables.
 
         :param svs: Status Variables to request
@@ -187,7 +191,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         return self.settings.streams_functions.decode(message)
 
-    def request_sv(self, sv_id):
+    def request_sv(self, sv_id: int | str) -> SV:
         """Request contents of one Status Variable.
 
         :param sv_id: id of Status Variable
