@@ -53,7 +53,7 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
 
     @property
     @abc.abstractmethod
-    def _data_values(self) -> dict[int | str, DataValue]:
+    def data_values(self) -> dict[int | str, DataValue]:
         raise NotImplementedError
 
     @property

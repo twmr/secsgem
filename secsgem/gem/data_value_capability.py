@@ -38,16 +38,6 @@ class DataValueCapability(GemHandler, Capability):
         }
 
     @property
-    def _data_values(self) -> dict[int | str, DataValue]:
-        """Get list of the data values.
-
-        Returns:
-            Data value list
-
-        """
-        return self.__data_values
-
-    @property
     def data_values(self) -> dict[int | str, DataValue]:
         """Get list of the data values.
 
@@ -55,7 +45,7 @@ class DataValueCapability(GemHandler, Capability):
             Data value list
 
         """
-        return self._data_values
+        return self.__data_values
 
     def on_dv_value_request(self,
                             data_value_id: secsgem.secs.variables.Base,
