@@ -58,12 +58,12 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
 
     @property
     @abc.abstractmethod
-    def _time_format(self) -> int:
+    def time_format(self) -> int:
         raise NotImplementedError
 
-    @_time_format.setter
+    @time_format.setter
     @abc.abstractmethod
-    def _time_format(self, value: int):
+    def time_format(self, value: int):
         raise NotImplementedError
 
     @abc.abstractmethod

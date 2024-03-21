@@ -109,7 +109,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         if equipment_constant.ecid == EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value:
             return equipment_constant.value_type(self.settings.establish_communication_timeout)
         if equipment_constant.ecid == EquipmentConstantId.TIME_FORMAT.value:
-            return equipment_constant.value_type(self._time_format)
+            return equipment_constant.value_type(self.time_format)
 
         if equipment_constant.use_callback:
             return self.on_ec_value_request(equipment_constant.id_type(equipment_constant.ecid), equipment_constant)
@@ -126,7 +126,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         if equipment_constant.ecid == EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value:
             self.settings.establish_communication_timeout = int(value)
         if equipment_constant.ecid == EquipmentConstantId.TIME_FORMAT.value:
-            self._time_format = int(value)
+            self.time_format = int(value)
 
         if equipment_constant.use_callback:
             self.on_ec_value_update(equipment_constant.id_type(equipment_constant.ecid), equipment_constant, value)

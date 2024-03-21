@@ -34,11 +34,11 @@ class ClockCapability(GemHandler, Capability):
         self.__time_format = 1
 
     @property
-    def _time_format(self) -> int:
+    def time_format(self) -> int:
         return self.__time_format
 
-    @_time_format.setter
-    def _time_format(self, value: int):
+    @time_format.setter
+    def time_format(self, value: int):
         self.__time_format = value
 
     def _get_clock(self) -> str:
@@ -49,10 +49,10 @@ class ClockCapability(GemHandler, Capability):
 
         """
         now = datetime.datetime.now(tzlocal())
-        if self._time_format == 0:
+        if self.__time_format == 0:
             return now.strftime("%y%m%d%H%M%S")
 
-        if self._time_format == 2:
+        if self.__time_format == 2:
             return now.isoformat()
 
         return now.strftime("%Y%m%d%H%M%S") + now.strftime("%f")[0:2]
