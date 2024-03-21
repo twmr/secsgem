@@ -34,12 +34,7 @@ class AlarmCapability(GemHandler, Capability):
         """Initialize capability."""
         super().__init__(*args, **kwargs)
 
-        self.__alarms: dict[int | str, Alarm] = {
-        }
-
-    @property
-    def _alarms(self) -> dict[int | str, Alarm]:
-        return self.__alarms
+        self.__alarms: dict[int | str, Alarm] = {}
 
     @property
     def alarms(self) -> dict[int | str, Alarm]:
@@ -49,7 +44,7 @@ class AlarmCapability(GemHandler, Capability):
             Alarms list
 
         """
-        return self._alarms
+        return self.__alarms
 
     def set_alarm(self, alid: int | str):
         """Set the list of the alarms.
@@ -114,7 +109,7 @@ class AlarmCapability(GemHandler, Capability):
         result = secsgem.secs.data_items.ACKC5.ACCEPTED
 
         alid = function.ALID.get()
-        if alid not in self._alarms:
+        if alid not in self.__alarms:
             result = secsgem.secs.data_items.ACKC5.ERROR
         else:
             self.alarms[alid].enabled = function.ALED.get() == secsgem.secs.data_items.ALED.ENABLE
@@ -176,7 +171,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         enabled_alarms = []
 
-        for alid, alarm in self._alarms.items():
+        for alid, alarm in self.__alarms.items():
             if alarm.enabled:
                 enabled_alarms.append(alid)
 
@@ -190,7 +185,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         set_alarms = []
 
-        for alid, alarm in self._alarms.items():
+        for alid, alarm in self.__alarms.items():
             if alarm.set:
                 set_alarms.append(alid)
 
