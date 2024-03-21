@@ -59,10 +59,6 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         }
 
     @property
-    def _status_variables(self) -> dict[int | str, StatusVariable]:
-        return self.__status_variables
-
-    @property
     def status_variables(self) -> dict[int | str, StatusVariable]:
         """Get list of the status variables.
 
@@ -70,7 +66,7 @@ class StatusDataCollectionCapability(GemHandler, Capability):
             Status variable list
 
         """
-        return self._status_variables
+        return self.__status_variables
 
     def on_sv_value_request(self,
                             svid: secsgem.secs.variables.Base,
@@ -139,13 +135,13 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         responses = []
 
         if len(function) == 0:
-            responses = [self._get_sv_value(status_variable) for status_variable in self._status_variables.values()]
+            responses = [self._get_sv_value(status_variable) for status_variable in self.__status_variables.values()]
         else:
             for status_variable_id in function:
-                if status_variable_id not in self._status_variables:
+                if status_variable_id not in self.__status_variables:
                     responses.append(secsgem.secs.variables.Array(secsgem.secs.data_items.SV, []))
                 else:
-                    status_variable = self._status_variables[status_variable_id]
+                    status_variable = self.__status_variables[status_variable_id]
                     responses.append(self._get_sv_value(status_variable))
 
         return self.stream_function(1, 4)(responses)
@@ -171,13 +167,13 @@ class StatusDataCollectionCapability(GemHandler, Capability):
                 "SVID": status_variable.svid,
                 "SVNAME": status_variable.name,
                 "UNITS": status_variable.unit,
-            } for status_variable in self._status_variables.values()]
+            } for status_variable in self.__status_variables.values()]
         else:
             for status_variable_id in function:
-                if status_variable_id not in self._status_variables:
+                if status_variable_id not in self.__status_variables:
                     responses.append({"SVID": status_variable_id, "SVNAME": "", "UNITS": ""})
                 else:
-                    status_variable = self._status_variables[status_variable_id]
+                    status_variable = self.__status_variables[status_variable_id]
                     responses.append({"SVID": status_variable.svid,
                                       "SVNAME": status_variable.name,
                                       "UNITS": status_variable.unit})

@@ -147,7 +147,7 @@ class CollectionEventCapability(GemHandler, Capability):
                 drack = secsgem.secs.data_items.DRACK.RPTID_REDEFINED
             else:
                 for vid in report.VID:
-                    if (vid not in self.data_values) and (vid not in self._status_variables):
+                    if (vid not in self.data_values) and (vid not in self.status_variables):
                         drack = secsgem.secs.data_items.DRACK.VID_UNKNOWN
 
         result = self.stream_function(2, 34)(drack)
@@ -312,8 +312,8 @@ class CollectionEventCapability(GemHandler, Capability):
             report = self._registered_reports[rptid]
             variables = []
             for var in report.vars:
-                if var in self._status_variables:
-                    value = self._get_sv_value(self._status_variables[var])
+                if var in self.status_variables:
+                    value = self._get_sv_value(self.status_variables[var])
                     variables.append(value)
                 elif var in self.data_values:
                     value = self._get_dv_value(self.data_values[var])

@@ -48,7 +48,7 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
 
     @property
     @abc.abstractmethod
-    def _status_variables(self) -> dict[int | str, StatusVariable]:
+    def status_variables(self) -> dict[int | str, StatusVariable]:
         raise NotImplementedError
 
     @property
