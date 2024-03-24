@@ -15,7 +15,6 @@
 #####################################################################
 """SECS variable types."""
 
-from .array import Array
 from .base import Base
 from .binary import Binary
 from .boolean import Boolean
@@ -27,7 +26,7 @@ from .i2 import I2
 from .i4 import I4
 from .i8 import I8
 from .jis8 import JIS8
-from .list_type import List
+from .list_type import Array, List
 from .string import String
 from .u1 import U1
 from .u2 import U2

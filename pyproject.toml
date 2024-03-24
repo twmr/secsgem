@@ -142,6 +142,10 @@ max-line-length = 120
 disable = [
   "duplicate-code",
   "bad-mcs-classmethod-argument",
+  "cyclic-import",
+  "import-outside-toplevel",
+  "too-many-arguments",
+  "too-many-branches",
 ]
 ignore-paths = [
     "tests",

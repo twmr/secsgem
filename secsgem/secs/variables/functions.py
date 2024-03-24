@@ -18,6 +18,7 @@
 import inspect
 
 from .base import Base
+from .list_type import Array, List
 
 
 def generate(data_format):
@@ -28,9 +29,6 @@ def generate(data_format):
     :returns: created variable
     :rtype: Base based class
     """
-    from .array import Array  # pylint: disable=import-outside-toplevel,cyclic-import
-    from .list_type import List  # pylint: disable=import-outside-toplevel,cyclic-import
-
     if data_format is None:
         return None
 
@@ -52,9 +50,6 @@ def get_format(data_format, showname=False):
     :rtype: string
     """
     del showname  # unused variable
-
-    from .array import Array  # pylint: disable=import-outside-toplevel,cyclic-import
-    from .list_type import List  # pylint: disable=import-outside-toplevel,cyclic-import
 
     if data_format is None:
         return None

@@ -15,7 +15,6 @@
 #####################################################################
 """SECS dynamic variable type."""
 
-from .array import Array
 from .base import Base
 from .binary import Binary
 from .boolean import Boolean
@@ -25,6 +24,7 @@ from .i1 import I1
 from .i2 import I2
 from .i4 import I4
 from .i8 import I8
+from .list_type import Array
 from .string import String
 from .u1 import U1
 from .u2 import U2
