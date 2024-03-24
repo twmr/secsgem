@@ -36,11 +36,14 @@ def generate(data_format):
         if len(data_format) == 1:
             return Array(data_format[0])
         return List(data_format)
-    if inspect.isclass(data_format):
-        if issubclass(data_format, Base):
-            return data_format()
-        raise TypeError(f"Can't generate item of class {data_format.__name__}")
-    raise TypeError(f"Can't handle item of class {data_format.__class__.__name__}")
+    try:
+        derived_from_base = issubclass(data_format, Base)
+    except TypeError:
+        raise TypeError(f"Can't handle item of class {data_format.__class__.__name__}") from None
+
+    if derived_from_base:
+        return data_format()
+    raise TypeError(f"Can't generate item of class {data_format.__name__}")
 
 
 def get_format(data_format, showname=False):

@@ -22,6 +22,33 @@ import secsgem.common
 from .base import Base
 
 
+def _generate(data_format):
+    """Generate actual variable from data format.
+
+    This function is copied from the functions module to avoid a cyclic import.
+
+    :param data_format: data format to create variable for
+    :type data_format: list/Base based class
+    :returns: created variable
+    :rtype: Base based class
+    """
+    if data_format is None:
+        return None
+
+    if isinstance(data_format, list):
+        if len(data_format) == 1:
+            return Array(data_format[0])
+        return List(data_format)
+    try:
+        derived_from_base = issubclass(data_format, Base)
+    except TypeError:
+        raise TypeError(f"Can't handle item of class {data_format.__class__.__name__}") from None
+
+    if derived_from_base:
+        return data_format()
+    raise TypeError(f"Can't generate item of class {data_format.__name__}")
+
+
 class List(Base):
     """List variable type. List with items of different types."""
 
@@ -133,8 +160,7 @@ class List(Base):
             self.data[index].set(value)
 
     def _generate(self, data_format):
-        # pylint: disable=import-outside-toplevel,cyclic-import
-        from .functions import generate
+        # pylint: disable=import-outside-toplevel
 
         if data_format is None:
             return None
@@ -145,7 +171,7 @@ class List(Base):
                 self.name = item
                 continue
 
-            item_value = generate(item)
+            item_value = _generate(item)
             if isinstance(item_value, Array):
                 result_data[item_value.name] = item_value
             elif isinstance(item_value, List):
@@ -372,11 +398,7 @@ class Array(Base):
         :param value: new value
         :type value: various
         """
-        from .functions import (
-            generate,
-        )
-
-        new_object = generate(self.item_decriptor)
+        new_object = _generate(self.item_decriptor)
         new_object.set(data)
         self.data.append(new_object)
 
@@ -395,11 +417,7 @@ class Array(Base):
         self.data = []
 
         for item in value:
-            from .functions import (
-                generate,
-            )
-
-            new_object = generate(self.item_decriptor)
+            new_object = _generate(self.item_decriptor)
             new_object.set(item)
             self.data.append(new_object)
 
@@ -434,17 +452,13 @@ class Array(Base):
         :returns: new start position
         :rtype: integer
         """
-        from .functions import (
-            generate,
-        )
-
         (text_pos, _, length) = self.decode_item_header(data, start)
 
         # list
         self.data = []
 
         for _ in range(length):
-            new_object = generate(self.item_decriptor)
+            new_object = _generate(self.item_decriptor)
             text_pos = new_object.decode(data, text_pos)
             self.data.append(new_object)
 
