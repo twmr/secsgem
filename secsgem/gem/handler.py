@@ -23,11 +23,12 @@ import typing
 
 import secsgem.common
 import secsgem.secs
+import secsgem.secs.handler
 
 from .communication_state_machine import CommunicationState, CommunicationStateMachine
 
 
-class GemHandler(secsgem.secs.SecsHandler):  # pylint: disable=too-many-instance-attributes
+class GemHandler(secsgem.secs.handler.SecsHandler):  # pylint: disable=too-many-instance-attributes
     """Baseclass for creating Host/Equipment models. This layer contains GEM functionality."""
 
     def __init__(self, settings: secsgem.common.Settings):
