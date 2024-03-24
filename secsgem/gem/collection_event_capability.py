@@ -121,8 +121,8 @@ class CollectionEventCapability(GemHandler, Capability):
 
         threading.Thread(target=_ce_sender, daemon=True).start()
 
-    def _on_s02f33(
-        self,  # noqa: C901, pylint: disable=too-many-branches
+    def _on_s02f33(  # noqa: C901
+        self,  # pylint: disable=too-many-branches
         handler: secsgem.secs.SecsHandler,
         message: secsgem.common.Message,
     ) -> secsgem.secs.SecsStreamFunction | None:
@@ -179,8 +179,8 @@ class CollectionEventCapability(GemHandler, Capability):
 
         return result
 
-    def _on_s02f35(
-        self,  # noqa: C901, pylint: disable=too-many-branches
+    def _on_s02f35(  # noqa: C901
+        self,  # , pylint: disable=too-many-branches
         handler: secsgem.secs.SecsHandler,
         message: secsgem.common.Message,
     ) -> secsgem.secs.SecsStreamFunction | None:
@@ -223,7 +223,8 @@ class CollectionEventCapability(GemHandler, Capability):
                             collection_event.reports.append(rptid)
                     else:
                         self._registered_collection_events[event.CEID.get()] = CollectionEventLink(
-                            self._collection_events[event.CEID.get()], event.RPTID.get()
+                            self._collection_events[event.CEID.get()],
+                            event.RPTID.get(),
                         )
 
         return self.stream_function(2, 36)(lrack)

@@ -75,7 +75,9 @@ class List(Base):
         :returns: returns the string representation of the function
         :rtype: string
         """
-        from .array import Array  # pylint: disable=import-outside-toplevel,cyclic-import
+        from .array import (
+            Array,
+        )
 
         array_name = f"{List.get_name_from_format(data_format)}: " if showname else ""
 
@@ -135,8 +137,14 @@ class List(Base):
             self.data[index].set(value)
 
     def _generate(self, data_format):
-        from .array import Array  # pylint: disable=import-outside-toplevel,cyclic-import
-        from .functions import generate  # pylint: disable=import-outside-toplevel,cyclic-import
+        from .array import (
+            Array,
+        )
+
+        # pylint: disable=import-outside-toplevel,cyclic-import
+        from .functions import (
+            generate,
+        )
 
         if data_format is None:
             return None
@@ -214,10 +222,8 @@ class List(Base):
             if len(value) > len(self.data):
                 raise ValueError(f"Value has invalid field count (expected: {len(self.data)}, actual: {len(value)})")
 
-            counter = 0
-            for itemvalue in value:
+            for counter, itemvalue in enumerate(value):
                 self.data[list(self.data.keys())[counter]].set(itemvalue)
-                counter += 1
         else:
             raise TypeError(f"Invalid value type {type(value).__name__} for {self.__class__.__name__}")
 

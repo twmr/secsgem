@@ -88,11 +88,9 @@ class Array(Base):
             array_name = ""
 
         if isinstance(data_format, list):
-            return f"{array_name}[\n" f"{secsgem.common.indent_block(List.get_format(data_format), 4)}\n" f"    ...\n]"
+            return f"{array_name}[\n{secsgem.common.indent_block(List.get_format(data_format), 4)}\n    ...\n]"
 
-        return (
-            f"{array_name}[\n" f"{secsgem.common.indent_block(data_format.get_format(not showname), 4)}\n" f"    ...\n]"
-        )
+        return f"{array_name}[\n{secsgem.common.indent_block(data_format.get_format(not showname), 4)}\n    ...\n]"
 
     def __repr__(self):
         """Generate textual representation for an object of this class."""

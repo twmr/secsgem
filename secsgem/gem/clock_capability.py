@@ -36,6 +36,7 @@ class ClockCapability(GemHandler, Capability):
 
     @property
     def time_format(self) -> int:
+        """Get the time-format used for the clock."""
         return self.__time_format
 
     @time_format.setter

@@ -121,14 +121,14 @@ class Settings(abc.ABC):
         """Print help for the attributes."""
         for attribute in cls._attributes():
             if attribute.default_class is not None:
-                print(
-                    f".. attribute:: {attribute.name}\n\n"  # noqa: T201
+                print(  # noqa: T201
+                    f".. attribute:: {attribute.name}\n\n"
                     f"   :type: {attribute.default_class.__name__}\n"
                     f"   {attribute.help_text}"
                 )
             else:
-                print(
-                    f".. attribute:: {attribute.name}\n\n"  # noqa: T201
+                print(  # noqa: T201
+                    f".. attribute:: {attribute.name}\n\n"
                     f"   :type: {attribute.default_value.__class__.__name__}\n"
                     f"   :value: {attribute.default_value}\n"
                     f"   {attribute.help_text}"
@@ -152,7 +152,9 @@ class Settings(abc.ABC):
             self._data[attribute.name] = value
 
         if self._data["streams_functions"] is None:
-            from secsgem.secs.functions import StreamsFunctions  # pylint: disable=import-outside-toplevel,cyclic-import
+            from secsgem.secs.functions import (
+                StreamsFunctions,
+            )
 
             self._data["streams_functions"] = StreamsFunctions()
 

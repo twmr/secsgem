@@ -23,7 +23,6 @@ import typing
 if typing.TYPE_CHECKING:
     import secsgem.secs
 
-    from .alarm import Alarm
     from .collection_event import CollectionEventId
     from .data_value import DataValue
     from .status_variable import StatusVariable
@@ -44,22 +43,20 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
 
     @property
     @abc.abstractmethod
-    def alarms(self) -> dict[int | str, Alarm]:
-        raise NotImplementedError
-
-    @property
-    @abc.abstractmethod
     def status_variables(self) -> dict[int | str, StatusVariable]:
+        """Get a dict of all known status-variables."""
         raise NotImplementedError
 
     @property
     @abc.abstractmethod
     def data_values(self) -> dict[int | str, DataValue]:
+        """Get a dict of all known data-values."""
         raise NotImplementedError
 
     @property
     @abc.abstractmethod
     def time_format(self) -> int:
+        """Get the time-format used for the clock."""
         raise NotImplementedError
 
     @time_format.setter
