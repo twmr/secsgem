@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """ALID data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -49,5 +50,5 @@ class ALID(DataItemBase):
         variables.I1,
         variables.I2,
         variables.I4,
-        variables.I8
+        variables.I8,
     ]

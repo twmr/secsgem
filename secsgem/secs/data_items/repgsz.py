@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """REPGSZ data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -47,5 +48,5 @@ class REPGSZ(DataItemBase):
         variables.U2,
         variables.U4,
         variables.U8,
-        variables.String
+        variables.String,
     ]

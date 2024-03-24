@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """NULBC data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -33,7 +34,4 @@ class NULBC(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.String
-    ]
+    __allowedtypes__ = [variables.U1, variables.String]

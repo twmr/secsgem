@@ -50,10 +50,7 @@ class SecsS09F13(SecsStreamFunction):
     _stream = 9
     _function = 13
 
-    _data_format = [
-        MEXP,
-        EDID
-    ]
+    _data_format = [MEXP, EDID]
 
     _to_host = True
     _to_equipment = False

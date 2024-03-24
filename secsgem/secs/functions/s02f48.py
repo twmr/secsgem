@@ -94,23 +94,7 @@ class SecsS02F48(SecsStreamFunction):
     _stream = 2
     _function = 48
 
-    _data_format = [
-        [
-            VID,
-            [
-                UNITS,
-                LIMITMIN,
-                LIMITMAX,
-                [
-                    [
-                        LIMITID,
-                        UPPERDB,
-                        LOWERDB
-                    ]
-                ]
-            ]
-        ]
-    ]
+    _data_format = [[VID, [UNITS, LIMITMIN, LIMITMAX, [[LIMITID, UPPERDB, LOWERDB]]]]]
 
     _to_host = True
     _to_equipment = False

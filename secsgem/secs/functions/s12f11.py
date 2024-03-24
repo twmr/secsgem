@@ -74,16 +74,7 @@ class SecsS12F11(SecsStreamFunction):
     _stream = 12
     _function = 11
 
-    _data_format = [
-        MID,
-        IDTYP,
-        [
-            [
-                XYPOS,
-                BINLT
-            ]
-        ]
-    ]
+    _data_format = [MID, IDTYP, [[XYPOS, BINLT]]]
 
     _to_host = True
     _to_equipment = False

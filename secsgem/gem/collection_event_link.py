@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Wrapper for GEM collection event link."""
+
 from __future__ import annotations
 
 import typing

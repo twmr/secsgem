@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """V data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -60,5 +61,5 @@ class V(DataItemBase):  # pylint: disable=invalid-name
         variables.F4,
         variables.F8,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

@@ -141,7 +141,7 @@ class SecsS12F01(SecsStreamFunction):
         COLCT,
         NULBC,
         PRDCT,
-        PRAXI
+        PRAXI,
     ]
 
     _to_host = True

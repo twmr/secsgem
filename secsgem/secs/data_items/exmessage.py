@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """EXMESSAGE data item."""
+
 from .. import variables
 from .base import DataItemBase
 

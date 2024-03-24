@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """SECS variable base type."""
+
 from __future__ import annotations
 
 
@@ -26,7 +27,6 @@ class Base:
 
     format_code = -1
     preferred_types: list[type] | None
-
 
     def __init__(self, value=None):
         """Initialize a secs variable."""
@@ -56,8 +56,9 @@ class Base:
         if length > 0xFFFF:
             length_bytes = 3
             format_byte = (self.format_code << 2) | length_bytes
-            return bytes(bytearray((format_byte, (length & 0xFF0000) >> 16, (length & 0x00FF00) >> 8,
-                                    (length & 0x0000FF))))
+            return bytes(
+                bytearray((format_byte, (length & 0xFF0000) >> 16, (length & 0x00FF00) >> 8, (length & 0x0000FF)))
+            )
         if length > 0xFF:
             length_bytes = 2
             format_byte = (self.format_code << 2) | length_bytes
@@ -98,7 +99,8 @@ class Base:
 
         if 0 <= self.format_code != format_code:
             raise ValueError(
-                f"Decoding data for {self.__class__.__name__} ({self.format_code}) has invalid format {format_code}")
+                f"Decoding data for {self.__class__.__name__} ({self.format_code}) has invalid format {format_code}"
+            )
 
         return text_pos, format_code, length
 

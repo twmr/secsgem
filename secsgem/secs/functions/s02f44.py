@@ -81,16 +81,7 @@ class SecsS02F44(SecsStreamFunction):
     _stream = 2
     _function = 44
 
-    _data_format = [
-        RSPACK,
-        [
-            [
-                STRID,
-                STRACK,
-                [FCNID]
-            ]
-        ]
-    ]
+    _data_format = [RSPACK, [[STRID, STRACK, [FCNID]]]]
 
     _to_host = True
     _to_equipment = False

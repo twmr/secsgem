@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """TEXT data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -50,5 +51,5 @@ class TEXT(DataItemBase):
         variables.I4,
         variables.I8,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

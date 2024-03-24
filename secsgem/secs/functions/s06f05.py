@@ -50,10 +50,7 @@ class SecsS06F05(SecsStreamFunction):
     _stream = 6
     _function = 5
 
-    _data_format = [
-        DATAID,
-        DATALENGTH
-    ]
+    _data_format = [DATAID, DATALENGTH]
 
     _to_host = True
     _to_equipment = False

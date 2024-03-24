@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Status Data Collection capability."""
+
 from __future__ import annotations
 
 import secsgem.secs
@@ -32,30 +33,20 @@ class StatusDataCollectionCapability(GemHandler, Capability):
 
         self.__status_variables: dict[int | str, StatusVariable] = {
             StatusVariableId.CLOCK.value: StatusVariable(
-                StatusVariableId.CLOCK,
-                "Clock",
-                "",
-                secsgem.secs.variables.String),
+                StatusVariableId.CLOCK, "Clock", "", secsgem.secs.variables.String
+            ),
             StatusVariableId.CONTROL_STATE.value: StatusVariable(
-                StatusVariableId.CONTROL_STATE,
-                "ControlState",
-                "",
-                secsgem.secs.variables.Binary),
+                StatusVariableId.CONTROL_STATE, "ControlState", "", secsgem.secs.variables.Binary
+            ),
             StatusVariableId.EVENTS_ENABLED.value: StatusVariable(
-                StatusVariableId.EVENTS_ENABLED,
-                "EventsEnabled",
-                "",
-                secsgem.secs.variables.Array),
+                StatusVariableId.EVENTS_ENABLED, "EventsEnabled", "", secsgem.secs.variables.Array
+            ),
             StatusVariableId.ALARMS_ENABLED.value: StatusVariable(
-                StatusVariableId.ALARMS_ENABLED,
-                "AlarmsEnabled",
-                "",
-                secsgem.secs.variables.Array),
+                StatusVariableId.ALARMS_ENABLED, "AlarmsEnabled", "", secsgem.secs.variables.Array
+            ),
             StatusVariableId.ALARMS_SET.value: StatusVariable(
-                StatusVariableId.ALARMS_SET,
-                "AlarmsSet",
-                "",
-                secsgem.secs.variables.Array),
+                StatusVariableId.ALARMS_SET, "AlarmsSet", "", secsgem.secs.variables.Array
+            ),
         }
 
     @property
@@ -68,9 +59,9 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         """
         return self.__status_variables
 
-    def on_sv_value_request(self,
-                            svid: secsgem.secs.variables.Base,
-                            status_variable: StatusVariable) -> secsgem.secs.variables.Base:
+    def on_sv_value_request(
+        self, svid: secsgem.secs.variables.Base, status_variable: StatusVariable
+    ) -> secsgem.secs.variables.Base:
         """Get the status variable value depending on its configuation.
 
         Override in inherited class to provide custom status variable request handling.
@@ -118,9 +109,9 @@ class StatusDataCollectionCapability(GemHandler, Capability):
 
         return result
 
-    def _on_s01f03(self,
-                   handler: secsgem.secs.SecsHandler,
-                   message: secsgem.common.Message) -> secsgem.secs.SecsStreamFunction | None:
+    def _on_s01f03(
+        self, handler: secsgem.secs.SecsHandler, message: secsgem.common.Message
+    ) -> secsgem.secs.SecsStreamFunction | None:
         """Handle Stream 1, Function 3, Equipment status request.
 
         Args:
@@ -146,9 +137,9 @@ class StatusDataCollectionCapability(GemHandler, Capability):
 
         return self.stream_function(1, 4)(responses)
 
-    def _on_s01f11(self,
-                   handler: secsgem.secs.SecsHandler,
-                   message: secsgem.common.Message) -> secsgem.secs.SecsStreamFunction | None:
+    def _on_s01f11(
+        self, handler: secsgem.secs.SecsHandler, message: secsgem.common.Message
+    ) -> secsgem.secs.SecsStreamFunction | None:
         """Handle Stream 1, Function 11, SV namelist request.
 
         Args:
@@ -163,19 +154,22 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         responses = []
 
         if len(function) == 0:
-            responses = [{
-                "SVID": status_variable.svid,
-                "SVNAME": status_variable.name,
-                "UNITS": status_variable.unit,
-            } for status_variable in self.__status_variables.values()]
+            responses = [
+                {
+                    "SVID": status_variable.svid,
+                    "SVNAME": status_variable.name,
+                    "UNITS": status_variable.unit,
+                }
+                for status_variable in self.__status_variables.values()
+            ]
         else:
             for status_variable_id in function:
                 if status_variable_id not in self.__status_variables:
                     responses.append({"SVID": status_variable_id, "SVNAME": "", "UNITS": ""})
                 else:
                     status_variable = self.__status_variables[status_variable_id]
-                    responses.append({"SVID": status_variable.svid,
-                                      "SVNAME": status_variable.name,
-                                      "UNITS": status_variable.unit})
+                    responses.append(
+                        {"SVID": status_variable.svid, "SVNAME": status_variable.name, "UNITS": status_variable.unit}
+                    )
 
         return self.stream_function(1, 12)(responses)

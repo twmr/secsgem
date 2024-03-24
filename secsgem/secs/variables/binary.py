@@ -166,7 +166,8 @@ class Binary(Base):
                 value = bytearray([value])
             else:
                 raise ValueError(
-                    f"Value {value} of type {type(value).__name__} is out of range for {self.__class__.__name__}")
+                    f"Value {value} of type {type(value).__name__} is out of range for {self.__class__.__name__}"
+                )
         else:
             raise TypeError(f"Unsupported type {type(value).__name__} for {self.__class__.__name__}")
 
@@ -215,7 +216,7 @@ class Binary(Base):
         result = None
 
         if length > 0:
-            result = data[text_pos:text_pos + length]
+            result = data[text_pos : text_pos + length]
 
         self.set(result)
 

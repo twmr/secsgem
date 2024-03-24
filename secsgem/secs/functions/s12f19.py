@@ -50,10 +50,7 @@ class SecsS12F19(SecsStreamFunction):
     _stream = 12
     _function = 19
 
-    _data_format = [
-        MAPER,
-        DATLC
-    ]
+    _data_format = [MAPER, DATLC]
 
     _to_host = True
     _to_equipment = True

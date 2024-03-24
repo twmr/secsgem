@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """GRNT1 data item."""
+
 from .. import variables
 from .base import DataItemBase
 

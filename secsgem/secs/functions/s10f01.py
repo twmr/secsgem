@@ -50,10 +50,7 @@ class SecsS10F01(SecsStreamFunction):
     _stream = 10
     _function = 1
 
-    _data_format = [
-        TID,
-        TEXT
-    ]
+    _data_format = [TID, TEXT]
 
     _to_host = True
     _to_equipment = False

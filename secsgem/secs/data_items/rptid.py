@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """RPTID data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -52,5 +53,5 @@ class RPTID(DataItemBase):
         variables.I2,
         variables.I4,
         variables.I8,
-        variables.String
+        variables.String,
     ]

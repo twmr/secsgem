@@ -55,10 +55,7 @@ class SecsS02F37(SecsStreamFunction):
     _stream = 2
     _function = 37
 
-    _data_format = [
-        CEED,
-        [CEID]
-    ]
+    _data_format = [CEED, [CEID]]
 
     _to_host = False
     _to_equipment = True

@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """MID data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -44,8 +45,5 @@ class MID(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.String,
-        variables.Binary
-    ]
+    __allowedtypes__ = [variables.String, variables.Binary]
     __count__ = 80

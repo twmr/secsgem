@@ -81,19 +81,7 @@ class SecsS02F46(SecsStreamFunction):
     _stream = 2
     _function = 46
 
-    _data_format = [
-        VLAACK,
-        [
-            [
-                VID,
-                LVACK,
-                [
-                    LIMITID,
-                    LIMITACK
-                ]
-            ]
-        ]
-    ]
+    _data_format = [VLAACK, [[VID, LVACK, [LIMITID, LIMITACK]]]]
 
     _to_host = True
     _to_equipment = False

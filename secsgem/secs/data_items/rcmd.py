@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """RCMD data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -34,8 +35,4 @@ class RCMD(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.I1,
-        variables.String
-    ]
+    __allowedtypes__ = [variables.U1, variables.I1, variables.String]

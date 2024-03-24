@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """REFP data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -34,9 +35,4 @@ class REFP(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.I1,
-        variables.I2,
-        variables.I4,
-        variables.I8
-    ]
+    __allowedtypes__ = [variables.I1, variables.I2, variables.I4, variables.I8]

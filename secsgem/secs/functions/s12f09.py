@@ -60,12 +60,7 @@ class SecsS12F09(SecsStreamFunction):
     _stream = 12
     _function = 9
 
-    _data_format = [
-        MID,
-        IDTYP,
-        STRP,
-        BINLT
-    ]
+    _data_format = [MID, IDTYP, STRP, BINLT]
 
     _to_host = True
     _to_equipment = False

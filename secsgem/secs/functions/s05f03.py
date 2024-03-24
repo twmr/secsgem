@@ -50,10 +50,7 @@ class SecsS05F03(SecsStreamFunction):
     _stream = 5
     _function = 3
 
-    _data_format = [
-        ALED,
-        ALID
-    ]
+    _data_format = [ALED, ALID]
 
     _to_host = False
     _to_equipment = True

@@ -50,10 +50,7 @@ class SecsS12F13(SecsStreamFunction):
     _stream = 12
     _function = 13
 
-    _data_format = [
-        MID,
-        IDTYP
-    ]
+    _data_format = [MID, IDTYP]
 
     _to_host = True
     _to_equipment = False

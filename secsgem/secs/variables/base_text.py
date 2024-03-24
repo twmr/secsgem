@@ -212,7 +212,7 @@ class BaseText(Base):
         result = ""
 
         if length > 0:
-            result = data[text_pos:text_pos + length].decode(self.coding)
+            result = data[text_pos : text_pos + length].decode(self.coding)
 
         self.set(result)
 

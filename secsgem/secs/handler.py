@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Handler for SECS commands."""
+
 from __future__ import annotations
 
 import logging
@@ -162,7 +163,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         return self.send_and_waitfor_response(self.stream_function(2, 33)({"DATAID": 0, "DATA": []}))
 
-    def list_svs(self, svs: typing.Sequence[int | str] | None=None) -> SecsS01F12:
+    def list_svs(self, svs: typing.Sequence[int | str] | None = None) -> SecsS01F12:
         """Get list of available Status Variables.
 
         :returns: available Status Variables

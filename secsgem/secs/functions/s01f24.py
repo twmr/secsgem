@@ -64,13 +64,7 @@ class SecsS01F24(SecsStreamFunction):
     _stream = 1
     _function = 24
 
-    _data_format = [
-        [
-            CEID,
-            CENAME,
-            [VID]
-        ]
-    ]
+    _data_format = [[CEID, CENAME, [VID]]]
 
     _to_host = True
     _to_equipment = False

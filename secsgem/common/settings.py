@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """settings base class."""
+
 from __future__ import annotations
 
 import abc
@@ -41,12 +42,14 @@ class DeviceType(enum.Enum):
 class Setting:
     """Setting descriptor."""
 
-    def __init__(self,  # pylint: disable=too-many-arguments
-                 name: str,
-                 default_value: typing.Any,
-                 help_text: str,
-                 default_class: type | None = None,
-                 writeable: bool = False) -> None:
+    def __init__(
+        self,  # pylint: disable=too-many-arguments
+        name: str,
+        default_value: typing.Any,
+        help_text: str,
+        default_class: type | None = None,
+        writeable: bool = False,
+    ) -> None:
         """Initialize setting descriptor.
 
         Args:
@@ -118,14 +121,18 @@ class Settings(abc.ABC):
         """Print help for the attributes."""
         for attribute in cls._attributes():
             if attribute.default_class is not None:
-                print(f".. attribute:: {attribute.name}\n\n"  # noqa: T201
-                      f"   :type: {attribute.default_class.__name__}\n"
-                      f"   {attribute.help_text}")
+                print(
+                    f".. attribute:: {attribute.name}\n\n"  # noqa: T201
+                    f"   :type: {attribute.default_class.__name__}\n"
+                    f"   {attribute.help_text}"
+                )
             else:
-                print(f".. attribute:: {attribute.name}\n\n"  # noqa: T201
-                      f"   :type: {attribute.default_value.__class__.__name__}\n"
-                      f"   :value: {attribute.default_value}\n"
-                      f"   {attribute.help_text}")
+                print(
+                    f".. attribute:: {attribute.name}\n\n"  # noqa: T201
+                    f"   :type: {attribute.default_value.__class__.__name__}\n"
+                    f"   :value: {attribute.default_value}\n"
+                    f"   {attribute.help_text}"
+                )
 
     def __init__(self, **kwargs) -> None:
         """Initialize settings.
@@ -146,6 +153,7 @@ class Settings(abc.ABC):
 
         if self._data["streams_functions"] is None:
             from secsgem.secs.functions import StreamsFunctions  # pylint: disable=import-outside-toplevel,cyclic-import
+
             self._data["streams_functions"] = StreamsFunctions()
 
     @abc.abstractmethod

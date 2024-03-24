@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """CEPVAL data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -57,5 +58,5 @@ class CEPVAL(DataItemBase):
         variables.F4,
         variables.F8,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

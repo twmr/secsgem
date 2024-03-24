@@ -67,16 +67,7 @@ class SecsS02F41(SecsStreamFunction):
     _stream = 2
     _function = 41
 
-    _data_format = [
-        RCMD,
-        [
-            [
-                "PARAMS",
-                CPNAME,
-                CPVAL
-            ]
-        ]
-    ]
+    _data_format = [RCMD, [["PARAMS", CPNAME, CPVAL]]]
 
     _to_host = False
     _to_equipment = True

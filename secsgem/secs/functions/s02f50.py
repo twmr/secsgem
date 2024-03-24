@@ -70,16 +70,7 @@ class SecsS02F50(SecsStreamFunction):
     _stream = 2
     _function = 50
 
-    _data_format = [
-        HCACK,
-        [
-            [
-                "PARAMS",
-                CPNAME,
-                CPACK
-            ]
-        ]
-    ]
+    _data_format = [HCACK, [["PARAMS", CPNAME, CPACK]]]
 
     _to_host = True
     _to_equipment = False

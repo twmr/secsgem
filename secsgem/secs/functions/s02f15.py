@@ -61,12 +61,7 @@ class SecsS02F15(SecsStreamFunction):
     _stream = 2
     _function = 15
 
-    _data_format = [
-        [
-            ECID,
-            ECV
-        ]
-    ]
+    _data_format = [[ECID, ECV]]
 
     _to_host = False
     _to_equipment = True

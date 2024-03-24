@@ -80,10 +80,7 @@ class SecsS01F14(SecsStreamFunction):
     _stream = 1
     _function = 14
 
-    _data_format = [
-        COMMACK,
-        [MDLN]
-    ]
+    _data_format = [COMMACK, [MDLN]]
 
     _to_host = True
     _to_equipment = True

@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """SV data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -58,5 +59,5 @@ class SV(DataItemBase):
         variables.F4,
         variables.F8,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

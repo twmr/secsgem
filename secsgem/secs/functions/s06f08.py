@@ -88,23 +88,7 @@ class SecsS06F08(SecsStreamFunction):
     _stream = 6
     _function = 8
 
-    _data_format = [
-        DATAID,
-        CEID,
-        [
-            [
-                "DS",
-                DSID,
-                [
-                    [
-                        "DV",
-                        DVNAME,
-                        DVVAL
-                    ]
-                ]
-            ]
-        ]
-    ]
+    _data_format = [DATAID, CEID, [["DS", DSID, [["DV", DVNAME, DVVAL]]]]]
 
     _to_host = True
     _to_equipment = False

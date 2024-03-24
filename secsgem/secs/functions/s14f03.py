@@ -79,18 +79,7 @@ class SecsS14F03(SecsStreamFunction):
     _stream = 14
     _function = 3
 
-    _data_format = [
-        OBJSPEC,
-        OBJTYPE,
-        [OBJID],
-        [
-            [
-                "ATTRIBS",
-                ATTRID,
-                ATTRDATA
-            ]
-        ]
-    ]
+    _data_format = [OBJSPEC, OBJTYPE, [OBJID], [["ATTRIBS", ATTRID, ATTRDATA]]]
 
     _to_host = True
     _to_equipment = True

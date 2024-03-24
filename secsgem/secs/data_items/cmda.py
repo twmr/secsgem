@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """CMDA data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -44,10 +45,7 @@ class CMDA(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.I1
-    ]
+    __allowedtypes__ = [variables.U1, variables.I1]
 
     DONE = 0
     COMMAND_UNKNOWN = 1

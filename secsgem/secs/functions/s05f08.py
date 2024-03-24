@@ -62,13 +62,7 @@ class SecsS05F08(SecsStreamFunction):
     _stream = 5
     _function = 8
 
-    _data_format = [
-        [
-            ALCD,
-            ALID,
-            ALTX
-        ]
-    ]
+    _data_format = [[ALCD, ALID, ALTX]]
 
     _to_host = True
     _to_equipment = False

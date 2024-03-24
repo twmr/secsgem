@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """DATAID data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -55,5 +56,5 @@ class DATAID(DataItemBase):
         variables.I2,
         variables.I4,
         variables.I8,
-        variables.String
+        variables.String,
     ]

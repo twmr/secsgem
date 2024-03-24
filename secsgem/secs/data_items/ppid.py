@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """PPID data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -37,8 +38,5 @@ class PPID(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.String,
-        variables.Binary
-    ]
+    __allowedtypes__ = [variables.String, variables.Binary]
     __count__ = 120

@@ -141,7 +141,7 @@ class SecsS12F04(SecsStreamFunction):
         PRDCT,
         BCEQU,
         NULBC,
-        MLCL
+        MLCL,
     ]
 
     _to_host = False

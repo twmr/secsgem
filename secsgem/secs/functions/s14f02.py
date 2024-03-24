@@ -113,31 +113,7 @@ class SecsS14F02(SecsStreamFunction):
     _stream = 14
     _function = 2
 
-    _data_format = [
-        [
-            [
-                OBJID,
-                [
-                    [
-                        "ATTRIBS",
-                        ATTRID,
-                        ATTRDATA
-                    ]
-                ]
-            ]
-        ],
-        [
-            "ERRORS",
-            OBJACK,
-            [
-                [
-                    "ERROR",
-                    ERRCODE,
-                    ERRTEXT
-                ]
-            ]
-        ]
-    ]
+    _data_format = [[[OBJID, [["ATTRIBS", ATTRID, ATTRDATA]]]], ["ERRORS", OBJACK, [["ERROR", ERRCODE, ERRTEXT]]]]
 
     _to_host = True
     _to_equipment = True

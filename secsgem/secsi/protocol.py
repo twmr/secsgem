@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """SECS-I protocol implementation."""
+
 from __future__ import annotations
 
 import typing
@@ -69,9 +70,9 @@ class SecsIProtocol(secsgem.common.Protocol[SecsIMessage, SecsIBlock]):
         super().__init__(settings)
 
     def _create_message_for_function(
-            self,
-            function: SecsStreamFunction,
-            system_id: int,
+        self,
+        function: SecsStreamFunction,
+        system_id: int,
     ) -> secsgem.common.Message:
         """Create a protocol specific message for a function.
 
@@ -190,7 +191,9 @@ class SecsIProtocol(secsgem.common.Protocol[SecsIMessage, SecsIBlock]):
 
     def _get_log_extra(self) -> dict[str, typing.Any]:
         """Get extra fields for logging."""
-        return {"port": self._settings.port,
-                "speed": self._settings.speed,
-                "session_id": self._settings.session_id,
-                "remoteName": self._settings.name}
+        return {
+            "port": self._settings.port,
+            "speed": self._settings.speed,
+            "session_id": self._settings.session_id,
+            "remoteName": self._settings.name,
+        }

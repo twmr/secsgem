@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Container class for streams and functions."""
+
 from __future__ import annotations
 
 import typing

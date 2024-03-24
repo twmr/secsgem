@@ -64,13 +64,7 @@ class SecsS01F12(SecsStreamFunction):
     _stream = 1
     _function = 12
 
-    _data_format = [
-        [
-            SVID,
-            SVNAME,
-            UNITS
-        ]
-    ]
+    _data_format = [[SVID, SVNAME, UNITS]]
 
     _to_host = True
     _to_equipment = False

@@ -58,13 +58,7 @@ class SecsS01F22(SecsStreamFunction):
     _stream = 1
     _function = 22
 
-    _data_format = [
-        [
-            VID,
-            DVVALNAME,
-            UNITS
-        ]
-    ]
+    _data_format = [[VID, DVVALNAME, UNITS]]
 
     _to_host = True
     _to_equipment = False

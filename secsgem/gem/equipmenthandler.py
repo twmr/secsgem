@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Handler for GEM equipment."""
+
 from __future__ import annotations
 
 import typing
@@ -48,13 +49,16 @@ class GemEquipmentHandler(  # pylint: disable=too-many-ancestors
     # StateModelsCapability.__init__ is allowed to send collection events (via
     # trigger_collection_events)
     CollectionEventCapability,
-    GemHandler):
+    GemHandler,
+):
     """Baseclass for creating equipment models. Inherit from this class and override required functions."""
 
-    def __init__(self,
-                 settings: secsgem.common.Settings,
-                 initial_control_state: str = "ATTEMPT_ONLINE",
-                 initial_online_control_state: str = "REMOTE"):
+    def __init__(
+        self,
+        settings: secsgem.common.Settings,
+        initial_control_state: str = "ATTEMPT_ONLINE",
+        initial_online_control_state: str = "REMOTE",
+    ):
         """Initialize a gem equipment handler.
 
         Args:

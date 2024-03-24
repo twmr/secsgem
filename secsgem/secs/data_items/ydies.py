@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """YDIES data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -36,11 +37,4 @@ class YDIES(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.U2,
-        variables.U4,
-        variables.U8,
-        variables.F4,
-        variables.F8
-    ]
+    __allowedtypes__ = [variables.U1, variables.U2, variables.U4, variables.U8, variables.F4, variables.F8]

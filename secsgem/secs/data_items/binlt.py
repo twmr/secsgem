@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """BINLT data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -36,7 +37,4 @@ class BINLT(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.String
-    ]
+    __allowedtypes__ = [variables.U1, variables.String]

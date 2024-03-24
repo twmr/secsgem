@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """BCEQU data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -32,7 +33,4 @@ class BCEQU(DataItemBase):
     """
 
     __type__ = variables.Dynamic
-    __allowedtypes__ = [
-        variables.U1,
-        variables.String
-    ]
+    __allowedtypes__ = [variables.U1, variables.String]

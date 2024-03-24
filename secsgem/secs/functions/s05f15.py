@@ -75,17 +75,7 @@ class SecsS05F15(SecsStreamFunction):
     _stream = 5
     _function = 15
 
-    _data_format = [
-        TIMESTAMP,
-        EXID,
-        [
-            ACKA,
-            [
-                ERRCODE,
-                ERRTEXT
-            ]
-        ]
-    ]
+    _data_format = [TIMESTAMP, EXID, [ACKA, [ERRCODE, ERRTEXT]]]
 
     _to_host = True
     _to_equipment = False

@@ -76,15 +76,7 @@ class SecsS02F33(SecsStreamFunction):
     _stream = 2
     _function = 33
 
-    _data_format = [
-        DATAID,
-        [
-            [
-                RPTID,
-                [VID]
-            ]
-        ]
-    ]
+    _data_format = [DATAID, [[RPTID, [VID]]]]
 
     _to_host = False
     _to_equipment = True

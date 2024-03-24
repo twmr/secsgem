@@ -66,12 +66,7 @@ class SecsS06F01(SecsStreamFunction):
     _stream = 6
     _function = 1
 
-    _data_format = [
-        TRID,
-        SMPLN,
-        STIME,
-        [SV]
-    ]
+    _data_format = [TRID, SMPLN, STIME, [SV]]
 
     _to_host = True
     _to_equipment = False

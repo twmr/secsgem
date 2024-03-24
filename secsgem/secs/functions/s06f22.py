@@ -59,12 +59,7 @@ class SecsS06F22(SecsStreamFunction):
     _stream = 6
     _function = 22
 
-    _data_format = [
-        [
-            VID,
-            V
-        ]
-    ]
+    _data_format = [[VID, V]]
 
     _to_host = True
     _to_equipment = False

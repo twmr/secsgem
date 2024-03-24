@@ -15,6 +15,7 @@
 #####################################################################
 # pylint: disable=non-parent-init-called
 """Data item base class."""
+
 from __future__ import annotations
 
 from .. import variables
@@ -26,7 +27,7 @@ class DataItemMeta(type):
     def __new__(cls, name, bases, attrs):
         """Meta class creation."""
         if name != "DataItemBase":
-            bases += (attrs["__type__"], )
+            bases += (attrs["__type__"],)
         return type.__new__(cls, name, bases, attrs)
 
 

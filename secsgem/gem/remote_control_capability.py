@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Remote Control capability."""
+
 from __future__ import annotations
 
 import secsgem.secs
@@ -33,15 +34,11 @@ class RemoteControlCapability(GemHandler, Capability):
 
         self._remote_commands: dict[int | str | RemoteCommandId, RemoteCommand] = {
             RemoteCommandId.START.value: RemoteCommand(
-                RemoteCommandId.START,
-                "Start",
-                [],
-                CollectionEventId.CMD_START_DONE.value),
+                RemoteCommandId.START, "Start", [], CollectionEventId.CMD_START_DONE.value
+            ),
             RemoteCommandId.STOP.value: RemoteCommand(
-                RemoteCommandId.STOP,
-                "Stop",
-                [],
-                CollectionEventId.CMD_STOP_DONE.value),
+                RemoteCommandId.STOP, "Stop", [], CollectionEventId.CMD_STOP_DONE.value
+            ),
         }
 
     @property
@@ -54,9 +51,9 @@ class RemoteControlCapability(GemHandler, Capability):
         """
         return self._remote_commands
 
-    def _on_s02f41(self,
-                   handler: secsgem.secs.SecsHandler,
-                   message: secsgem.common.Message) -> secsgem.secs.SecsStreamFunction | None:
+    def _on_s02f41(
+        self, handler: secsgem.secs.SecsHandler, message: secsgem.common.Message
+    ) -> secsgem.secs.SecsStreamFunction | None:
         """Handle Stream 2, Function 41, host command send.
 
         The remote command handing differs from usual stream function handling, because we send the ack with later
@@ -86,12 +83,14 @@ class RemoteControlCapability(GemHandler, Capability):
         for param in function.PARAMS:
             if param.CPNAME.get() not in self._remote_commands[rcmd_name].params:
                 self._logger.warning("parameter %s for remote command %s not available", param.CPNAME.get(), rcmd_name)
-                return self.stream_function(2, 42)({"HCACK": secsgem.secs.data_items.HCACK.PARAMETER_INVALID,
-                                                    "PARAMS": []})
+                return self.stream_function(2, 42)(
+                    {"HCACK": secsgem.secs.data_items.HCACK.PARAMETER_INVALID, "PARAMS": []}
+                )
 
-        self.send_response(self.stream_function(2, 42)({"HCACK": secsgem.secs.data_items.HCACK.ACK_FINISH_LATER,
-                                                        "PARAMS": []}),
-                           message.header.system)
+        self.send_response(
+            self.stream_function(2, 42)({"HCACK": secsgem.secs.data_items.HCACK.ACK_FINISH_LATER, "PARAMS": []}),
+            message.header.system,
+        )
 
         callback = getattr(self._callback_handler, rcmd_callback_name)
 

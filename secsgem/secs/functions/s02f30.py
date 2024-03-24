@@ -87,16 +87,7 @@ class SecsS02F30(SecsStreamFunction):
     _stream = 2
     _function = 30
 
-    _data_format = [
-        [
-            ECID,
-            ECNAME,
-            ECMIN,
-            ECMAX,
-            ECDEF,
-            UNITS
-        ]
-    ]
+    _data_format = [[ECID, ECNAME, ECMIN, ECMAX, ECDEF, UNITS]]
 
     _to_host = True
     _to_equipment = False

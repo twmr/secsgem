@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Data Value capability."""
+
 from __future__ import annotations
 
 import typing
@@ -34,8 +35,7 @@ class DataValueCapability(GemHandler, Capability):
         """Initialize capability."""
         super().__init__(*args, **kwargs)
 
-        self.__data_values: dict[int | str, DataValue] = {
-        }
+        self.__data_values: dict[int | str, DataValue] = {}
 
     @property
     def data_values(self) -> dict[int | str, DataValue]:
@@ -47,9 +47,9 @@ class DataValueCapability(GemHandler, Capability):
         """
         return self.__data_values
 
-    def on_dv_value_request(self,
-                            data_value_id: secsgem.secs.variables.Base,
-                            data_value: DataValue) -> secsgem.secs.variables.Base:
+    def on_dv_value_request(
+        self, data_value_id: secsgem.secs.variables.Base, data_value: DataValue
+    ) -> secsgem.secs.variables.Base:
         """Get the data value depending on its configuation.
 
         Override in inherited class to provide custom data value request handling.

@@ -80,17 +80,7 @@ class SecsS12F03(SecsStreamFunction):
     _stream = 12
     _function = 3
 
-    _data_format = [
-        MID,
-        IDTYP,
-        MAPFT,
-        FNLOC,
-        FFROT,
-        ORLOC,
-        PRAXI,
-        BCEQU,
-        NULBC
-    ]
+    _data_format = [MID, IDTYP, MAPFT, FNLOC, FFROT, ORLOC, PRAXI, BCEQU, NULBC]
 
     _to_host = True
     _to_equipment = False

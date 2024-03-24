@@ -70,16 +70,7 @@ class SecsS05F18(SecsStreamFunction):
     _stream = 5
     _function = 18
 
-    _data_format = [
-        EXID,
-        [
-            ACKA,
-            [
-                ERRCODE,
-                ERRTEXT
-            ]
-        ]
-    ]
+    _data_format = [EXID, [ACKA, [ERRCODE, ERRTEXT]]]
 
     _to_host = True
     _to_equipment = False

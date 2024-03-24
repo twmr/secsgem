@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """LIMITMIN data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -54,6 +55,6 @@ class LIMITMIN(DataItemBase):
         variables.I8,
         variables.F4,
         variables.F8,
-        variables.String
+        variables.String,
     ]
     __count__ = 1

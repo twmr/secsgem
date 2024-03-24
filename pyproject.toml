@@ -127,13 +127,16 @@ ignore = [
   "RUF012",  # TODO: remove
 ]
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 suppress-none-returning = true
 mypy-init-return = true
 allow-star-arg-any = true
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.ruff.lint.isort]
+known-first-party = ["secsgem"]
 
 [tool.pylint]
 max-line-length = 120

@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """ECDEF data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -55,5 +56,5 @@ class ECDEF(DataItemBase):
         variables.U2,
         variables.U4,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

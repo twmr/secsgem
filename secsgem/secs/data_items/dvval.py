@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """DVVAL data item."""
+
 from .. import variables
 from .base import DataItemBase
 
@@ -57,5 +58,5 @@ class DVVAL(DataItemBase):
         variables.F4,
         variables.F8,
         variables.String,
-        variables.Binary
+        variables.Binary,
     ]

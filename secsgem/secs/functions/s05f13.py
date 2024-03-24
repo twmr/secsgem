@@ -50,10 +50,7 @@ class SecsS05F13(SecsStreamFunction):
     _stream = 5
     _function = 13
 
-    _data_format = [
-        EXID,
-        EXRECVRA
-    ]
+    _data_format = [EXID, EXRECVRA]
 
     _to_host = False
     _to_equipment = True

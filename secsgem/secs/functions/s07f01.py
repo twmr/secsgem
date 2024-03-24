@@ -50,10 +50,7 @@ class SecsS07F01(SecsStreamFunction):
     _stream = 7
     _function = 1
 
-    _data_format = [
-        PPID,
-        LENGTH
-    ]
+    _data_format = [PPID, LENGTH]
 
     _to_host = True
     _to_equipment = True

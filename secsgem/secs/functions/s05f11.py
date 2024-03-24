@@ -60,12 +60,7 @@ class SecsS05F11(SecsStreamFunction):
     _stream = 5
     _function = 11
 
-    _data_format = [
-        TIMESTAMP,
-        EXID,
-        EXTYPE,
-        EXMESSAGE
-    ]
+    _data_format = [TIMESTAMP, EXID, EXTYPE, EXMESSAGE]
 
     _to_host = True
     _to_equipment = False

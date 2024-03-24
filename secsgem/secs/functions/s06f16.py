@@ -76,17 +76,7 @@ class SecsS06F16(SecsStreamFunction):
     _stream = 6
     _function = 16
 
-    _data_format = [
-        DATAID,
-        CEID,
-        [
-            [
-                "RPT",
-                RPTID,
-                [V]
-            ]
-        ]
-    ]
+    _data_format = [DATAID, CEID, [["RPT", RPTID, [V]]]]
 
     _to_host = True
     _to_equipment = False
