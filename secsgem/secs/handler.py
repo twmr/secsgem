@@ -21,7 +21,6 @@ import logging
 import typing
 
 import secsgem.common
-import secsgem.hsms
 
 if typing.TYPE_CHECKING:
     from .data_items import SV

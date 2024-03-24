@@ -21,7 +21,6 @@ import pytest
 
 import secsgem.hsms
 import secsgem.secs
-import secsgem.secs.handler
 
 from mock_protocol import MockProtocol
 from mock_settings import MockSettings
@@ -30,7 +29,7 @@ from mock_settings import MockSettings
 class TestSecsHandler(unittest.TestCase):
     def testSecsDecode(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         packet = settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(["MDLN", "SOFTREV"]), 0)
 
@@ -43,7 +42,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testSecsDecodeNone(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         function = client.settings.streams_functions.decode(None)
 
@@ -51,7 +50,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testSecsDecodeInvalidStream(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
         function = client.settings.streams_functions.decode(packet)
@@ -60,7 +59,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testSecsDecodeInvalidFunction(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
         function = client.settings.streams_functions.decode(packet)
@@ -69,7 +68,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testStreamFunction(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         function = client.stream_function(1, 1)
 
@@ -77,7 +76,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testStreamFunctionInvalidStream(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         with pytest.raises(KeyError) as exc:
             client.stream_function(99, 1)
@@ -86,7 +85,7 @@ class TestSecsHandler(unittest.TestCase):
 
     def testStreamFunctionInvalidFunction(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.secs.handler.SecsHandler(settings)
+        client = secsgem.secs.SecsHandler(settings)
 
         with pytest.raises(KeyError) as exc:
             client.stream_function(1, 99)
@@ -98,7 +97,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def setUp(self):
         self.settings = MockSettings(MockProtocol)
 
-        self.client = secsgem.secs.handler.SecsHandler(self.settings)
+        self.client = secsgem.secs.SecsHandler(self.settings)
 
         self.client.enable()
 
@@ -575,11 +574,12 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.client.callbacks.test = None
         self.assertNotIn("test", self.client._callback_handler._callbacks)
 
+
 class TestSecsHandlerActive(unittest.TestCase):
     def setUp(self):
         self.settings = MockSettings(MockProtocol)
 
-        self.client = secsgem.secs.handler.SecsHandler(self.settings)
+        self.client = secsgem.secs.SecsHandler(self.settings)
 
         self.client.enable()
 
