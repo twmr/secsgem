@@ -29,6 +29,7 @@ from .events import EventProducer
 from .protocol_dispatcher import ProtocolDispatcher
 
 if typing.TYPE_CHECKING:
+    from ..secs.functions import StreamsFunctions
     from ..secs.functions.base import SecsStreamFunction
     from .connection import Connection
     from .message import Block, Message
@@ -43,11 +44,12 @@ class Protocol(abc.ABC, typing.Generic[MessageT, BlockT]):  # pylint: disable=to
 
     message_type: type[MessageT]
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, streams_functions: StreamsFunctions) -> None:
         """Initialize protocol base object."""
         super().__init__()
 
         self._settings = settings
+        self._streams_functions = streams_functions
 
         self._event_producer = EventProducer()
         self._event_producer.targets += self

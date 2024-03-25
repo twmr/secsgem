@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import secsgem.common
 import secsgem.hsms
-
+from secsgem.secs.functions import StreamsFunctions
 
 class MockSettings(secsgem.common.Settings):
     """Mock settings class."""
@@ -33,7 +33,7 @@ class MockSettings(secsgem.common.Settings):
 
         self._data.update(kwargs)
 
-        object.__setattr__(self, "protocol", protocol_class(self))
+        object.__setattr__(self, "protocol", protocol_class(self, StreamsFunctions()))
         object.__setattr__(
             self,
             "connection", None if connection_class is None else connection_class(self)
@@ -44,7 +44,7 @@ class MockSettings(secsgem.common.Settings):
         """Get the available settings for the class."""
         return super()._attributes()
 
-    def create_protocol(self) -> secsgem.common.Protocol:
+    def create_protocol(self, streams_functions: StreamsFunctions) -> secsgem.common.Protocol:
         """Protocol class for this configuration."""
         return self.protocol
 

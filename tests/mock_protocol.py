@@ -22,6 +22,7 @@ import typing
 import secsgem.common
 import secsgem.secs
 
+
 if typing.TYPE_CHECKING:
     from .mock_settings import MockSettings
 
@@ -105,9 +106,9 @@ class MockMessage(secsgem.common.Message[MockBlock]):
 class MockProtocol(secsgem.common.Protocol[secsgem.common.Message, secsgem.common.Block]):
     """Mock protocol class."""
 
-    def __init__(self, settings: MockSettings) -> None:
+    def __init__(self, settings: MockSettings, streams_functions) -> None:
         """Instantiate mock protocol class."""
-        super().__init__(settings)
+        super().__init__(settings, streams_functions)
 
         self.received_messages: list[secsgem.common.Message] = []
 

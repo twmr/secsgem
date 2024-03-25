@@ -33,7 +33,7 @@ class TestSecsHandler(unittest.TestCase):
 
         packet = settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(["MDLN", "SOFTREV"]), 0)
 
-        function = client.settings.streams_functions.decode(packet)
+        function = client.streams_functions.decode(packet)
 
         self.assertEqual(function.stream, 1)
         self.assertEqual(function.function, 2)
@@ -44,7 +44,7 @@ class TestSecsHandler(unittest.TestCase):
         settings = MockSettings(MockProtocol)
         client = secsgem.secs.SecsHandler(settings)
 
-        function = client.settings.streams_functions.decode(None)
+        function = client.streams_functions.decode(None)
 
         self.assertIsNone(function)
 
@@ -53,7 +53,7 @@ class TestSecsHandler(unittest.TestCase):
         client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
-        function = client.settings.streams_functions.decode(packet)
+        function = client.streams_functions.decode(packet)
 
         self.assertIsNone(function)
 
@@ -62,7 +62,7 @@ class TestSecsHandler(unittest.TestCase):
         client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
-        function = client.settings.streams_functions.decode(packet)
+        function = client.streams_functions.decode(packet)
 
         self.assertIsNone(function)
 
@@ -190,7 +190,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 37)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["CEED"], False)
         self.assertEqual(function["CEID"].get(), [])
@@ -215,7 +215,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 33)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"].get(), [])
@@ -240,7 +240,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 11)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [])
 
@@ -264,7 +264,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 11)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -288,7 +288,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 3)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -312,7 +312,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 3)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -336,7 +336,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 29)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [])
 
@@ -361,7 +361,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 29)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -386,7 +386,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 13)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -410,7 +410,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 13)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [1])
 
@@ -434,7 +434,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 15)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [{'ECID': 1, 'ECV': u'1337'}])
 
@@ -458,7 +458,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 15)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [{'ECV': 1337, 'ECID': 1}])
 
@@ -483,7 +483,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 10)
         self.assertEqual(packet.header.function, 3)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.TID.get(), 0)
         self.assertEqual(function.TEXT.get(), "Hello World")

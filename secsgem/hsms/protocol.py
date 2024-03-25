@@ -38,6 +38,7 @@ from .separate_req_header import HsmsSeparateReqHeader
 from .stream_function_header import HsmsStreamFunctionHeader
 
 if typing.TYPE_CHECKING:
+    from ..secs.functions import StreamsFunctions
     from ..secs.functions.base import SecsStreamFunction
     from .settings import HsmsSettings
 
@@ -54,11 +55,12 @@ class HsmsProtocol(secsgem.common.Protocol[HsmsMessage, HsmsBlock]):  # pylint: 
 
     message_type = HsmsMessage
 
-    def __init__(self, settings: HsmsSettings):
+    def __init__(self, settings: HsmsSettings, streams_functions: StreamsFunctions) -> None:
         """Initialize hsms handler.
 
         Args:
             settings: protocol and communication settings
+            streams_functions: container of all known stream functions
 
         Example:
             import secsgem.hsms
@@ -72,7 +74,7 @@ class HsmsProtocol(secsgem.common.Protocol[HsmsMessage, HsmsBlock]):  # pylint: 
             def onConnect(event, data):
                 print ("Connected")
 
-            client = secsgem.hsms.HsmsProtocol(settings)
+            client = secsgem.hsms.HsmsProtocol(settings, streams_functions)
             client.events.connected += onConnect
 
             client.enable()
@@ -82,7 +84,7 @@ class HsmsProtocol(secsgem.common.Protocol[HsmsMessage, HsmsBlock]):  # pylint: 
             client.disable()
 
         """
-        super().__init__(settings)
+        super().__init__(settings, streams_functions)
 
         self._connected = False
 
@@ -269,7 +271,7 @@ class HsmsProtocol(secsgem.common.Protocol[HsmsMessage, HsmsBlock]):  # pylint: 
         if message.header.s_type.value > 0:
             self.__handle_hsms_requests(message)
         else:
-            decoded_message = self._settings.streams_functions.decode(message)
+            decoded_message = self._streams_functions.decode(message)
             self._communication_logger.info("< %s\n%s", message, decoded_message, extra=self._get_log_extra())
 
             if self._connection_state.current != ConnectionState.CONNECTED_SELECTED:

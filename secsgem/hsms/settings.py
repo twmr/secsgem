@@ -18,8 +18,12 @@
 from __future__ import annotations
 
 import enum
+import typing
 
 import secsgem.common
+
+if typing.TYPE_CHECKING:
+    from secsgem.secs.functions import StreamsFunctions
 
 
 class HsmsConnectMode(enum.Enum):
@@ -64,11 +68,11 @@ class HsmsSettings(secsgem.common.Settings):
             secsgem.common.Setting("port", 5000, "TCP port of remote host"),
         ]
 
-    def create_protocol(self) -> secsgem.common.Protocol:
+    def create_protocol(self, streams_functions: StreamsFunctions) -> secsgem.common.Protocol:
         """Protocol class for this configuration."""
         from .protocol import HsmsProtocol  # pylint: disable=import-outside-toplevel
 
-        return HsmsProtocol(self)
+        return HsmsProtocol(self, streams_functions)
 
     def create_connection(self) -> secsgem.common.Connection:
         """Connection class for this configuration."""

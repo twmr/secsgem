@@ -27,7 +27,8 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
     def setUp(self):
         self.settings = MockHsmsSettings(secsgem.hsms.HsmsProtocol, MockHsmsConnection, connect_mode=secsgem.hsms.HsmsConnectMode.PASSIVE)
 
-        self.client = self.settings.create_protocol()
+        streams_functions = None  # TODO
+        self.client = self.settings.create_protocol(streams_functions)
 
         self.client.enable()
 
@@ -171,7 +172,8 @@ class TestHsmsProtocolActive(unittest.TestCase):
     def setUp(self):
         self.settings = MockHsmsSettings(secsgem.hsms.HsmsProtocol, MockHsmsConnection, connect_mode=secsgem.hsms.HsmsConnectMode.ACTIVE)
 
-        self.client = self.settings.create_protocol()
+        streams_functions = None  # TODO
+        self.client = self.settings.create_protocol(streams_functions)
 
         self.client.enable()
 

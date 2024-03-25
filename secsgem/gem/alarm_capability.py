@@ -111,7 +111,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         result = secsgem.secs.data_items.ACKC5.ACCEPTED
 
@@ -135,7 +135,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         alids = function.get()
 

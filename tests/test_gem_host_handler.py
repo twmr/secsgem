@@ -54,7 +54,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 37)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["CEED"], False)
         self.assertEqual(function["CEID"].get(), [])
@@ -69,7 +69,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 33)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"].get(), [])
@@ -117,7 +117,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 33)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"][0]["RPTID"], 30)
@@ -133,7 +133,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 35)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"][0]["CEID"], 10)
@@ -149,7 +149,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 37)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["CEED"], True)
         self.assertEqual(function["CEID"][0], 10)
@@ -174,7 +174,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 33)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"][0]["VID"][0], 20)
@@ -191,7 +191,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 35)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"][0]["CEID"], 10)
@@ -207,7 +207,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 37)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function["CEED"], True)
         self.assertEqual(function["CEID"][0], 10)
@@ -232,7 +232,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 2)
         self.assertEqual(packet.header.function, 41)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.RCMD.get(), "RCMD")
         self.assertEqual(function.PARAMS[0].CPNAME.get(), "PARAM1")
@@ -267,7 +267,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 7)
         self.assertEqual(packet.header.function, 17)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function[0].get(), "PP1")
         self.assertEqual(function[1].get(), "PP2")
@@ -355,7 +355,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 5)
         self.assertEqual(packet.header.function, 3)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.ALED.get(), secsgem.secs.data_items.ALED.ENABLE)
         self.assertEqual(function.ALID.get(), 25)
@@ -380,7 +380,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 5)
         self.assertEqual(packet.header.function, 3)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.ALED.get(), secsgem.secs.data_items.ALED.DISABLE)
         self.assertEqual(function.ALID.get(), 25)
@@ -405,7 +405,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 5)
         self.assertEqual(packet.header.function, 5)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [])
 
@@ -429,7 +429,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 5)
         self.assertEqual(packet.header.function, 5)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), [25])
 
@@ -472,7 +472,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 5)
         self.assertEqual(packet.header.function, 2)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), secsgem.secs.data_items.ACKC5.ACCEPTED)
 
@@ -489,7 +489,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 10)
         self.assertEqual(packet.header.function, 2)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), 0)
 
@@ -508,7 +508,7 @@ class TestGemHostHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
         self.assertEqual(packet.header.stream, 6)
         self.assertEqual(packet.header.function, 12)
 
-        function = self.client.settings.streams_functions.decode(packet)
+        function = self.client.streams_functions.decode(packet)
 
         self.assertEqual(function.get(), 0)
 

@@ -21,6 +21,7 @@ import logging
 import typing
 
 import secsgem.common
+from secsgem.secs.functions import StreamsFunctions
 
 if typing.TYPE_CHECKING:
     from .data_items import SV
@@ -41,8 +42,9 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         """
         self._settings = settings
+        self.streams_functions = StreamsFunctions()
 
-        self._protocol = settings.create_protocol()
+        self._protocol = settings.create_protocol(self.streams_functions)
         self._protocol.events.message_received += self._on_message_received
 
         self.logger = logging.getLogger(self.__module__ + "." + self.__class__.__name__)
@@ -175,7 +177,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(1, 11)(svs))
 
-        return self.settings.streams_functions.decode(message)
+        return self.streams_functions.decode(message)
 
     def request_svs(self, svs: typing.Sequence[int | str]) -> SecsS01F04:
         """Request contents of supplied Status Variables.
@@ -189,7 +191,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(1, 3)(svs))
 
-        return self.settings.streams_functions.decode(message)
+        return self.streams_functions.decode(message)
 
     def request_sv(self, sv_id: int | str) -> SV:
         """Request contents of one Status Variable.
@@ -215,7 +217,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
             ecs = []
         message = self.send_and_waitfor_response(self.stream_function(2, 29)(ecs))
 
-        return self.settings.streams_functions.decode(message)
+        return self.streams_functions.decode(message)
 
     def request_ecs(self, ecs):
         """Request contents of supplied Equipment Constants.
@@ -229,7 +231,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(2, 13)(ecs))
 
-        return self.settings.streams_functions.decode(message)
+        return self.streams_functions.decode(message)
 
     def request_ec(self, ec_id):
         """Request contents of one Equipment Constant.
@@ -253,7 +255,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(2, 15)(ecs))
 
-        return self.settings.streams_functions.decode(message).get()
+        return self.streams_functions.decode(message).get()
 
     def set_ec(self, ec_id, value):
         """Set contents of one Equipment Constant.
@@ -296,7 +298,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
             class for function
 
         """
-        klass = self.settings.streams_functions.function(stream, function)
+        klass = self.streams_functions.function(stream, function)
 
         if klass is None:
             raise KeyError(f"Undefined function requested: S{stream:02d}F{function:02d}")

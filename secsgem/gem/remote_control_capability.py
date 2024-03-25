@@ -67,7 +67,7 @@ class RemoteControlCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         rcmd_name = function.RCMD.get()
         rcmd_callback_name = "rcmd_" + rcmd_name

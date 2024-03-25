@@ -121,7 +121,7 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         responses = []
 
@@ -149,7 +149,7 @@ class StatusDataCollectionCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         responses = []
 

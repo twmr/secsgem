@@ -18,9 +18,13 @@
 from __future__ import annotations
 
 import enum
+import typing
 
 import secsgem.common
 import secsgem.secsi
+
+if typing.TYPE_CHECKING:
+    from secsgem.secs.functions import StreamsFunctions
 
 
 class SecsITcpConnectMode(enum.Enum):
@@ -65,11 +69,11 @@ class SecsITcpSettings(secsgem.secsi.SecsISettings):
             secsgem.common.Setting("port", 5000, "TCP port of remote host"),
         ]
 
-    def create_protocol(self) -> secsgem.common.Protocol:
+    def create_protocol(self, streams_functions: StreamsFunctions) -> secsgem.common.Protocol:
         """Protocol class for this configuration."""
         from ..secsi.protocol import SecsIProtocol  # pylint: disable=import-outside-toplevel
 
-        return SecsIProtocol(self)
+        return SecsIProtocol(self, streams_functions)
 
     def create_connection(self) -> secsgem.common.Connection:
         """Connection class for this configuration."""

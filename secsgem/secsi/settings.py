@@ -17,7 +17,12 @@
 
 from __future__ import annotations
 
+import typing
+
 import secsgem.common
+
+if typing.TYPE_CHECKING:
+    from secsgem.secs.functions import StreamsFunctions
 
 
 class SecsISettings(secsgem.common.Settings):
@@ -50,11 +55,11 @@ class SecsISettings(secsgem.common.Settings):
             secsgem.common.Setting("speed", 9600, "Serial port baud rate"),
         ]
 
-    def create_protocol(self) -> secsgem.common.Protocol:
+    def create_protocol(self, streams_functions: StreamsFunctions) -> secsgem.common.Protocol:
         """Protocol class for this configuration."""
         from .protocol import SecsIProtocol  # pylint: disable=import-outside-toplevel
 
-        return SecsIProtocol(self)
+        return SecsIProtocol(self, streams_functions)
 
     def create_connection(self) -> secsgem.common.Connection:
         """Connection class for this configuration."""

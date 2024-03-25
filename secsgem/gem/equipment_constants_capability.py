@@ -144,7 +144,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         responses = []
 
@@ -174,7 +174,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         eac = 0
 
@@ -208,7 +208,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         responses = []
 

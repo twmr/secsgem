@@ -25,6 +25,7 @@ from .header import SecsIHeader
 from .message import SecsIBlock, SecsIMessage
 
 if typing.TYPE_CHECKING:
+    from ..secs.functions import StreamsFunctions
     from ..secs.functions.base import SecsStreamFunction
     from .settings import SecsISettings
 
@@ -41,11 +42,12 @@ class SecsIProtocol(secsgem.common.Protocol[SecsIMessage, SecsIBlock]):
 
     message_type = SecsIMessage
 
-    def __init__(self, settings: SecsISettings):
+    def __init__(self, settings: SecsISettings, streams_functions: StreamsFunctions) -> None:
         """Instantiate SECS I protocol class.
 
         Args:
             settings: protocol and communication settings
+            streams_functions: Container of all Streams Functions
 
         Example:
             import secsgem.secsi
@@ -67,7 +69,7 @@ class SecsIProtocol(secsgem.common.Protocol[SecsIMessage, SecsIBlock]):
             client.disable()
 
         """
-        super().__init__(settings)
+        super().__init__(settings, streams_functions)
 
     def _create_message_for_function(
         self,
@@ -180,7 +182,7 @@ class SecsIProtocol(secsgem.common.Protocol[SecsIMessage, SecsIBlock]):
             message: received data message
 
         """
-        decoded_message = self._settings.streams_functions.decode(message)
+        decoded_message = self._streams_functions.decode(message)
         self._communication_logger.info("< %s\n%s", message, decoded_message, extra=self._get_log_extra())
 
         # someone is waiting for this message

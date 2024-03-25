@@ -27,6 +27,7 @@ from .timeouts import Timeouts
 if typing.TYPE_CHECKING:
     from .connection import Connection
     from .protocol import Protocol
+    from .secs.functions import StreamsFunctions
 
 
 class DeviceType(enum.Enum):
@@ -111,7 +112,6 @@ class Settings(abc.ABC):
         return [
             Setting("timeouts", None, "Communication timeout", Timeouts),
             Setting("device_type", DeviceType.HOST, "Device type"),
-            Setting("streams_functions", None, "Container with streams/functions"),
             Setting("session_id", 0, "session / device ID to use for connection"),
             Setting("establish_communication_timeout", 10, "Time to wait between CA requests", writeable=True),
         ]
@@ -151,14 +151,8 @@ class Settings(abc.ABC):
 
             self._data[attribute.name] = value
 
-        if self._data["streams_functions"] is None:
-            # move this out of secsgem.common to secsgem.secs
-            from secsgem.secs.functions import StreamsFunctions  # pylint: disable=cyclic-import
-
-            self._data["streams_functions"] = StreamsFunctions()
-
     @abc.abstractmethod
-    def create_protocol(self) -> Protocol:
+    def create_protocol(self, streams_functions: StreamsFunctions) -> Protocol:
         """Protocol class for this configuration."""
         raise NotImplementedError(f"function 'create_protocol' is not implemented for '{self.__class__.__name__}'")
 

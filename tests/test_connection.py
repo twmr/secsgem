@@ -115,9 +115,9 @@ class HsmsTestServerSettings(secsgem.common.Settings):
             secsgem.common.settings.Setting("session_id", 0, "session / device ID to use for connection")
         ]
 
-    def create_protocol(self) -> HsmsProtocol:
+    def create_protocol(self, streams_functions) -> HsmsProtocol:
         """Protocol class for this configuration."""
-        return HsmsProtocol(self)
+        return HsmsProtocol(self, streams_functions)
 
     def create_connection(self) -> HsmsTestConnection:
         """Connection class for this configuration."""

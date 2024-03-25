@@ -135,7 +135,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         drack = secsgem.secs.data_items.DRACK.ACK
 
@@ -193,7 +193,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         lrack = secsgem.secs.data_items.LRACK.ACK
 
@@ -241,7 +241,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         erack = secsgem.secs.data_items.ERACK.ACCEPTED
 
@@ -262,7 +262,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.settings.streams_functions.decode(message)
+        function = self.streams_functions.decode(message)
 
         ceid = function.get()
 

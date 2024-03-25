@@ -186,7 +186,7 @@ class GemHandler(secsgem.secs.SecsHandler):  # pylint: disable=too-many-instance
         # send remote command
         self._logger.info("Send process program %s", ppid)
 
-        return self.settings.streams_functions.decode(
+        return self.streams_functions.decode(
             self.send_and_waitfor_response(self.stream_function(7, 3)({"PPID": ppid, "PPBODY": ppbody}))
         ).get()
 
@@ -199,7 +199,7 @@ class GemHandler(secsgem.secs.SecsHandler):  # pylint: disable=too-many-instance
         self._logger.info("Request process program %s", ppid)
 
         # send remote command
-        s7f6 = self.settings.streams_functions.decode(self.send_and_waitfor_response(self.stream_function(7, 5)(ppid)))
+        s7f6 = self.streams_functions.decode(self.send_and_waitfor_response(self.stream_function(7, 5)(ppid)))
         return s7f6.PPID.get(), s7f6.PPBODY.get()
 
     def waitfor_communicating(self, timeout: float | None = None) -> bool:
