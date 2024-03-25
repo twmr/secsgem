@@ -17,8 +17,11 @@
 
 from __future__ import annotations
 
+import typing
+
 import secsgem.secs
 
+from ..secs.functions import SecsS02F41
 from .capability import Capability
 from .collection_event import CollectionEventId
 from .handler import GemHandler
@@ -67,7 +70,7 @@ class RemoteControlCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F41, self.streams_functions.decode(message))
 
         rcmd_name = function.RCMD.get()
         rcmd_callback_name = "rcmd_" + rcmd_name

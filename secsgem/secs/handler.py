@@ -21,11 +21,10 @@ import logging
 import typing
 
 import secsgem.common
-from secsgem.secs.functions import StreamsFunctions
+from secsgem.secs.functions import SecsS01F04, SecsS01F12, StreamsFunctions
 
 if typing.TYPE_CHECKING:
     from .data_items import SV
-    from .functions import SecsS01F04, SecsS01F12
 
 
 class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-public-methods
@@ -177,7 +176,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(1, 11)(svs))
 
-        return self.streams_functions.decode(message)
+        return typing.cast(SecsS01F12, self.streams_functions.decode(message))
 
     def request_svs(self, svs: typing.Sequence[int | str]) -> SecsS01F04:
         """Request contents of supplied Status Variables.
@@ -191,7 +190,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
 
         message = self.send_and_waitfor_response(self.stream_function(1, 3)(svs))
 
-        return self.streams_functions.decode(message)
+        return typing.cast(SecsS01F04, self.streams_functions.decode(message))
 
     def request_sv(self, sv_id: int | str) -> SV:
         """Request contents of one Status Variable.

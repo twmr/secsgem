@@ -17,7 +17,10 @@
 
 from __future__ import annotations
 
+import typing
+
 import secsgem.secs
+from secsgem.secs.functions import SecsS02F13, SecsS02F15, SecsS02F29
 
 from .capability import Capability
 from .equipment_constant import EquipmentConstant, EquipmentConstantId
@@ -144,7 +147,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F13, self.streams_functions.decode(message))
 
         responses = []
 
@@ -153,7 +156,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
                 self._get_ec_value(equipment_constant) for equipment_constant in self._equipment_constants.values()
             ]
         else:
-            for equipment_constant_id in function:
+            for equipment_constant_id in function.data:
                 if equipment_constant_id not in self._equipment_constants:
                     responses.append(secsgem.secs.variables.Array(secsgem.secs.data_items.ECV, []))
                 else:
@@ -174,11 +177,11 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F15, self.streams_functions.decode(message))
 
         eac = 0
 
-        for equipment_constant in function:
+        for equipment_constant in function.data:
             if equipment_constant.ECID not in self._equipment_constants:
                 eac = 1
             else:
@@ -191,7 +194,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
                     eac = 3
 
         if eac == 0:
-            for equipment_constant in function:
+            for equipment_constant in function.data:
                 self._set_ec_value(self._equipment_constants[equipment_constant.ECID], equipment_constant.ECV.get())
 
         return self.stream_function(2, 16)(eac)
@@ -208,7 +211,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F29, self.streams_functions.decode(message))
 
         responses = []
 
@@ -225,7 +228,7 @@ class EquipmentConstantsCapability(GemHandler, Capability):
                 for eq_constant in self._equipment_constants.values()
             ]
         else:
-            for ecid in function:
+            for ecid in function.data:
                 if ecid not in self._equipment_constants:
                     responses.append({"ECID": ecid, "ECNAME": "", "ECMIN": "", "ECMAX": "", "ECDEF": "", "UNITS": ""})
                 else:

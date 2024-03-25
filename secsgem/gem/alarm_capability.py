@@ -21,6 +21,7 @@ import typing
 
 import secsgem.secs
 
+from ..secs.functions import SecsS05F03, SecsS05F05
 from .capability import Capability
 from .handler import GemHandler
 
@@ -111,7 +112,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS05F03, self.streams_functions.decode(message))
 
         result = secsgem.secs.data_items.ACKC5.ACCEPTED
 
@@ -135,7 +136,7 @@ class AlarmCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS05F05, self.streams_functions.decode(message))
 
         alids = function.get()
 

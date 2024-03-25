@@ -18,10 +18,12 @@
 from __future__ import annotations
 
 import threading
+import typing
 
 import secsgem.common
 import secsgem.secs
 
+from ..secs.functions import SecsS02F33, SecsS02F35, SecsS02F37, SecsS06F15
 from .capability import Capability
 from .collection_event import CollectionEvent, CollectionEventId
 from .collection_event_link import CollectionEventLink
@@ -135,7 +137,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F33, self.streams_functions.decode(message))
 
         drack = secsgem.secs.data_items.DRACK.ACK
 
@@ -193,7 +195,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F35, self.streams_functions.decode(message))
 
         lrack = secsgem.secs.data_items.LRACK.ACK
 
@@ -241,7 +243,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS02F37, self.streams_functions.decode(message))
 
         erack = secsgem.secs.data_items.ERACK.ACCEPTED
 
@@ -262,7 +264,7 @@ class CollectionEventCapability(GemHandler, Capability):
         """
         del handler  # unused parameters
 
-        function = self.streams_functions.decode(message)
+        function = typing.cast(SecsS06F15, self.streams_functions.decode(message))
 
         ceid = function.get()
 

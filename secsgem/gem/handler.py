@@ -24,6 +24,7 @@ import typing
 import secsgem.common
 import secsgem.secs
 
+from ..secs.functions import SecsS07F04, SecsS07F06
 from .communication_state_machine import CommunicationState, CommunicationStateMachine
 
 
@@ -186,9 +187,14 @@ class GemHandler(secsgem.secs.SecsHandler):  # pylint: disable=too-many-instance
         # send remote command
         self._logger.info("Send process program %s", ppid)
 
-        return self.streams_functions.decode(
-            self.send_and_waitfor_response(self.stream_function(7, 3)({"PPID": ppid, "PPBODY": ppbody}))
-        ).get()
+        s7f4 = typing.cast(
+            SecsS07F04,
+            self.streams_functions.decode(
+                self.send_and_waitfor_response(self.stream_function(7, 3)({"PPID": ppid, "PPBODY": ppbody}))
+            ),
+        )
+
+        return s7f4.get()
 
     def request_process_program(self, ppid: int | str) -> tuple[int | str, str]:
         """Request a process program.
@@ -199,7 +205,10 @@ class GemHandler(secsgem.secs.SecsHandler):  # pylint: disable=too-many-instance
         self._logger.info("Request process program %s", ppid)
 
         # send remote command
-        s7f6 = self.streams_functions.decode(self.send_and_waitfor_response(self.stream_function(7, 5)(ppid)))
+
+        s7f6 = typing.cast(
+            SecsS07F06, self.streams_functions.decode(self.send_and_waitfor_response(self.stream_function(7, 5)(ppid)))
+        )
         return s7f6.PPID.get(), s7f6.PPBODY.get()
 
     def waitfor_communicating(self, timeout: float | None = None) -> bool:

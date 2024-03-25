@@ -25,9 +25,9 @@ from typing import Any
 from .timeouts import Timeouts
 
 if typing.TYPE_CHECKING:
+    from ..secs.functions import StreamsFunctions
     from .connection import Connection
     from .protocol import Protocol
-    from .secs.functions import StreamsFunctions
 
 
 class DeviceType(enum.Enum):
