@@ -22,8 +22,6 @@ import enum
 import typing
 from typing import Any
 
-from secsgem.secs.functions import StreamsFunctions
-
 from .timeouts import Timeouts
 
 if typing.TYPE_CHECKING:
@@ -154,6 +152,9 @@ class Settings(abc.ABC):
             self._data[attribute.name] = value
 
         if self._data["streams_functions"] is None:
+            # move this out of secsgem.common to secsgem.secs
+            from secsgem.secs.functions import StreamsFunctions  # pylint: disable=cyclic-import
+
             self._data["streams_functions"] = StreamsFunctions()
 
     @abc.abstractmethod
