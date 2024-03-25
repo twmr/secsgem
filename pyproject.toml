@@ -119,6 +119,7 @@ extend-select = [
 #  "FURB",  # refurb
 #  "LOG",  # flake8 - logging
   "RUF",  # ruff
+  "UP",  # pyupgrade
 ]
 ignore = [
   "ANN101",
