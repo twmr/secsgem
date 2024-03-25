@@ -51,7 +51,7 @@ class StreamsFunctions:
         """
         return [function for function in self._functions if function.stream == stream]
 
-    def function(self, stream: int, function: int) -> type[SecsStreamFunction] | None:
+    def function(self, stream: int, function: int) -> type[SecsStreamFunction]:
         """Get a specific function.
 
         Args:
@@ -65,11 +65,17 @@ class StreamsFunctions:
         functions = [func for func in self._functions if func.stream == stream and func.function == function]
 
         if len(functions) == 0:
-            return None
+            raise ValueError(f"No function found for S{stream:02}F{function:02}")
         if len(functions) > 1:
             raise ValueError(f"More than one function found for S{stream:02}F{function:02}: {functions}")
 
         return functions[0]
+
+    @typing.overload
+    def decode(self, message: None) -> None: ...
+
+    @typing.overload
+    def decode(self, message: secsgem.common.Message) -> SecsStreamFunction: ...
 
     def decode(self, message: secsgem.common.Message | None) -> SecsStreamFunction | None:
         """Get object of decoded stream and function class, or None if no class is available.
@@ -85,9 +91,6 @@ class StreamsFunctions:
             return None
 
         func = self.function(message.header.stream, message.header.function)
-        if func is None:
-            return None
-
         if isinstance(message.data, SecsStreamFunction):
             return message.data
 

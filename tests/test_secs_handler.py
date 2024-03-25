@@ -53,18 +53,16 @@ class TestSecsHandler(unittest.TestCase):
         client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
-        function = client.streams_functions.decode(packet)
-
-        self.assertIsNone(function)
+        with pytest.raises(ValueError):
+            client.streams_functions.decode(packet)
 
     def testSecsDecodeInvalidFunction(self):
         settings = MockSettings(MockProtocol)
         client = secsgem.secs.SecsHandler(settings)
 
         packet = secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsHeader(0, 0, 99), b"")
-        function = client.streams_functions.decode(packet)
-
-        self.assertIsNone(function)
+        with pytest.raises(ValueError):
+            client.streams_functions.decode(packet)
 
     def testStreamFunction(self):
         settings = MockSettings(MockProtocol)
@@ -78,19 +76,15 @@ class TestSecsHandler(unittest.TestCase):
         settings = MockSettings(MockProtocol)
         client = secsgem.secs.SecsHandler(settings)
 
-        with pytest.raises(KeyError) as exc:
+        with pytest.raises(ValueError, match="No function found for S99F01"):
             client.stream_function(99, 1)
-
-        assert str(exc.value) == "'Undefined function requested: S99F01'"
 
     def testStreamFunctionInvalidFunction(self):
         settings = MockSettings(MockProtocol)
         client = secsgem.secs.SecsHandler(settings)
 
-        with pytest.raises(KeyError) as exc:
+        with pytest.raises(ValueError, match="No function found for S01F99"):
             client.stream_function(1, 99)
-
-        assert str(exc.value) == "'Undefined function requested: S01F99'"
 
 
 class TestSecsHandlerPassive(unittest.TestCase):
