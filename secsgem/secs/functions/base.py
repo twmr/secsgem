@@ -21,10 +21,12 @@ import typing
 
 import secsgem.common
 
-from ..data_items import DataItemBase
 from ..variables import functions
 
-DataItemRecursive = typing.Union[typing.Type[DataItemBase], typing.Iterable["DataItemRecursive"]]
+if typing.TYPE_CHECKING:
+    from ..data_items import DataItemBase
+
+    DataItemRecursive = typing.Union[typing.Type[DataItemBase], typing.Iterable["DataItemRecursive"]]
 
 
 class StructureDisplayingMeta(type):
