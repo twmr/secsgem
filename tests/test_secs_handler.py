@@ -436,7 +436,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [{'ECID': 1, 'ECV': u'1337'}])
+        self.assertEqual(function.get(), [{'ECID': 1, 'ECV': '1337'}])
 
         packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system)
         self.settings.protocol.simulate_message(packet)

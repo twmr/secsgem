@@ -18,7 +18,7 @@ class DataItem:
         assert "description" in data
 
     @classmethod
-    def load_all(cls, root) -> typing.List["DataItem"]:
+    def load_all(cls, root) -> list["DataItem"]:
         """Load all data item objects."""
         data = (root / "data_items.yaml").read_text(encoding="utf8")
         yaml_data = yaml.safe_load(data)
@@ -72,7 +72,7 @@ class DataItem:
         return self._name
 
     @property
-    def type(self) -> typing.List[str]:
+    def type(self) -> list[str]:
         """Get the type of the data item."""
         if not isinstance(self._data["type"], list):
             return [self._data["type"]]

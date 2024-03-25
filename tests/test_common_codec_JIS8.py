@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #####################################################################
 # test_common_codec_JIS8.py
 #
@@ -15,7 +14,6 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 
-from builtins import chr
 
 import pytest
 
@@ -24,8 +22,8 @@ import secsgem.common
 
 class TestCodecJIS8:
     charMap = [
-        [u"¥", b"\\"],
-        [u"‾", b"~"],
+        ["¥", b"\\"],
+        ["‾", b"~"],
     ]
 
     for i in range(0x00A1, 0x00E0):

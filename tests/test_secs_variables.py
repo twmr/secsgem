@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #####################################################################
 # test_secs_variables.py
 #
@@ -1037,7 +1036,7 @@ class TestSecsVarString(unittest.TestCase):
 
         secsvar.decode(b"A\ntestStrin\xc2")
 
-        self.assertEqual(secsvar.get(), u"testStrin\xc2")
+        self.assertEqual(secsvar.get(), "testStrin\xc2")
 
     def testEncodeEmptyString(self):
         secsvar = String("")
@@ -1113,12 +1112,12 @@ class TestSecsVarJIS8(unittest.TestCase):
         secsvar = JIS8(count=5)
 
         with self.assertRaises(ValueError):
-            secsvar.set(u"testString")
+            secsvar.set("testString")
 
     def testConstructorConvertsNoneToEmptyString(self):
         secsvar = JIS8(None)
 
-        self.assertEqual(secsvar.get(), u"")
+        self.assertEqual(secsvar.get(), "")
 
     def testHash(self):
         secsvar = JIS8("Test")
@@ -1137,7 +1136,7 @@ class TestSecsVarJIS8(unittest.TestCase):
             secsvar.set(Boolean(True))
 
     def testEncodeString(self):
-        secsvar = JIS8(u"testString¥")
+        secsvar = JIS8("testString¥")
 
         self.assertEqual(secsvar.encode(), b"E\x0btestString\\")
 
@@ -1957,13 +1956,13 @@ class TestSecsVarBinaryValues(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"TEST1", "RESULT": b"TEST1"},
-        {"VALUE": u"1234QWERasdf.-+ \n\r\t\1 \127", "RESULT": b"1234QWERasdf.-+ \n\r\t\1 \127"},
-        {"VALUE": u"TEST1", "RESULT": b"TEST1", "LENGTH": 5},
+        {"VALUE": "TEST1", "RESULT": b"TEST1"},
+        {"VALUE": "1234QWERasdf.-+ \n\r\t\1 \127", "RESULT": b"1234QWERasdf.-+ \n\r\t\1 \127"},
+        {"VALUE": "TEST1", "RESULT": b"TEST1", "LENGTH": 5},
     ]
     _badUnicodeValues = [
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1", "RESULT": b"TEST1", "LENGTH": 4},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1", "RESULT": b"TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2078,15 +2077,15 @@ class TestSecsVarBooleanValues(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"YES", "RESULT": True},
-        {"VALUE": u"tRuE", "RESULT": True},
-        {"VALUE": u"No", "RESULT": False},
-        {"VALUE": u"False", "RESULT": False},
+        {"VALUE": "YES", "RESULT": True},
+        {"VALUE": "tRuE", "RESULT": True},
+        {"VALUE": "No", "RESULT": False},
+        {"VALUE": "False", "RESULT": False},
     ]
     _badUnicodeValues = [
-        {"VALUE": u"TEST1"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
+        {"VALUE": "TEST1"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
     ]
 
     #list
@@ -2213,15 +2212,15 @@ class TestSecsVarStringValues(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"YES", "RESULT": "YES"},
-        {"VALUE": u"tRuE", "RESULT": "tRuE"},
-        {"VALUE": u"No", "RESULT": "No"},
-        {"VALUE": u"False", "RESULT": "False"},
-        {"VALUE": u"JOS\xc9", "RESULT": u"JOS\xc9"}, # CP1252
+        {"VALUE": "YES", "RESULT": "YES"},
+        {"VALUE": "tRuE", "RESULT": "tRuE"},
+        {"VALUE": "No", "RESULT": "No"},
+        {"VALUE": "False", "RESULT": "False"},
+        {"VALUE": "JOS\xc9", "RESULT": "JOS\xc9"}, # CP1252
     ]
     _badUnicodeValues = [
-        {"VALUE": u'ABRA\u0103 JOS\xc9'},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": 'ABRA\u0103 JOS\xc9'},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2229,7 +2228,7 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": [False, True, False, False], "RESULT": "\x00\x01\x00\x00"},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7F"},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": u"\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
     ]
     _badListValues = [
         {"VALUE": [1, -1, 256, 5]},
@@ -2242,7 +2241,7 @@ class TestSecsVarStringValues(GoodBadLists):
     _goodTupleValues = [
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7F"},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": u"\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
     ]
     _badTupleValues = [
         {"VALUE": (1, -1, 256, 5)},
@@ -2255,7 +2254,7 @@ class TestSecsVarStringValues(GoodBadLists):
     _goodByteArrayValues = [
         {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": "\x00\x01\x05\x20\x10\x7F"},
         {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH" : 6},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": u"\x00\x01\x05\x20\x10\xFF", "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH" : 6},
     ]
     _badByteArrayValues = [
         {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "LENGTH" : 5},
@@ -2353,17 +2352,17 @@ class TestSecsVarI8Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-9223372036854775808", "RESULT":-9223372036854775808},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"9223372036854775807", "RESULT": 9223372036854775807}
+        {"VALUE": "-9223372036854775808", "RESULT":-9223372036854775808},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "9223372036854775807", "RESULT": 9223372036854775807}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-9223372036854775809"},
-        {"VALUE": u"9223372036854775808"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-9223372036854775809"},
+        {"VALUE": "9223372036854775808"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2500,16 +2499,16 @@ class TestSecsVarI1Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-128", "RESULT":-128},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"127", "RESULT": 127}
+        {"VALUE": "-128", "RESULT":-128},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "127", "RESULT": 127}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-129"},
-        {"VALUE": u"128"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-129"},
+        {"VALUE": "128"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2647,16 +2646,16 @@ class TestSecsVarI2Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-32768", "RESULT":-32768},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"32767", "RESULT": 32767}
+        {"VALUE": "-32768", "RESULT":-32768},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "32767", "RESULT": 32767}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-32769"},
-        {"VALUE": u"32768"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-32769"},
+        {"VALUE": "32768"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2794,17 +2793,17 @@ class TestSecsVarI4Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-2147483648", "RESULT":-2147483648},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"2147483647", "RESULT": 2147483647}
+        {"VALUE": "-2147483648", "RESULT":-2147483648},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "2147483647", "RESULT": 2147483647}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-2147483649"},
-        {"VALUE": u"2147483648"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-2147483649"},
+        {"VALUE": "2147483648"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -2932,15 +2931,15 @@ class TestSecsVarF8Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-1.79769e+308", "RESULT":-1.79769e+308},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"1.79769e+308", "RESULT": 1.79769e+308}
+        {"VALUE": "-1.79769e+308", "RESULT":-1.79769e+308},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "1.79769e+308", "RESULT": 1.79769e+308}
     ]
     _badUnicodeValues = [
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -3060,15 +3059,15 @@ class TestSecsVarF4Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"-3.40282e+38", "RESULT":-3.40282e+38},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"3.40282e+38", "RESULT": 3.40282e+38}
+        {"VALUE": "-3.40282e+38", "RESULT":-3.40282e+38},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "3.40282e+38", "RESULT": 3.40282e+38}
     ]
     _badUnicodeValues = [
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -3194,17 +3193,17 @@ class TestSecsVarU8Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"0", "RESULT":0},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"18446744073709551615", "RESULT": 18446744073709551615}
+        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "18446744073709551615", "RESULT": 18446744073709551615}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-1"},
-        {"VALUE": u"18446744073709551616"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-1"},
+        {"VALUE": "18446744073709551616"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -3335,16 +3334,16 @@ class TestSecsVarU1Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"0", "RESULT":0},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"255", "RESULT": 255}
+        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "255", "RESULT": 255}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-1"},
-        {"VALUE": u"256"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-1"},
+        {"VALUE": "256"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -3476,17 +3475,17 @@ class TestSecsVarU2Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"0", "RESULT":0},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"65535", "RESULT": 65535}
+        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "65535", "RESULT": 65535}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-1"},
-        {"VALUE": u"65536"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-1"},
+        {"VALUE": "65536"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list
@@ -3618,17 +3617,17 @@ class TestSecsVarU4Values(GoodBadLists):
 
     #unicode
     _goodUnicodeValues = [
-        {"VALUE": u"0", "RESULT":0},
-        {"VALUE": u"1", "RESULT": 1},
-        {"VALUE": u"65535", "RESULT": 65535},
-        {"VALUE": u"4294967295", "RESULT": 4294967295}
+        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "1", "RESULT": 1},
+        {"VALUE": "65535", "RESULT": 65535},
+        {"VALUE": "4294967295", "RESULT": 4294967295}
     ]
     _badUnicodeValues = [
-        {"VALUE": u"-1"},
-        {"VALUE": u"4294967296"},
-        {"VALUE": u'ABRA\xc3O JOS\xc9'},
-        {"VALUE": u"TEST1"},
-        {"VALUE": u"TEST1", "LENGTH": 4},
+        {"VALUE": "-1"},
+        {"VALUE": "4294967296"},
+        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "TEST1"},
+        {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
     #list

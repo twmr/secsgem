@@ -57,8 +57,8 @@ class Function:  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         name: str,
-        data: typing.Dict[str, typing.Any],
-        data_items: typing.Dict[str, typing.Any]
+        data: dict[str, typing.Any],
+        data_items: dict[str, typing.Any]
     ) -> None:
         """Initialize item config."""
         self._name = name
@@ -82,18 +82,18 @@ class Function:  # pylint: disable=too-many-instance-attributes
         self._stream = int(match.group(1))
         self._function = int(match.group(2))
 
-        self._samples: typing.Optional[typing.List[typing.Dict[str, typing.Any]]] = None
-        self._preferred_type: typing.Optional[typing.Type] = None
+        self._samples: list[dict[str, typing.Any]] | None = None
+        self._preferred_type: type | None = None
 
     @classmethod
-    def load_all(cls, root, data_items: typing.Dict[str, DataItem]) -> typing.List["Function"]:
+    def load_all(cls, root, data_items: dict[str, DataItem]) -> list["Function"]:
         """Load all function objects."""
         data = (root / "functions.yaml").read_text(encoding="utf8")
         yaml_data = yaml.safe_load(data)
         return [cls(function, function_data, data_items) for function, function_data in yaml_data.items()]
 
     @classmethod
-    def render_list(cls, functions: typing.List["Function"], env, target_path):
+    def render_list(cls, functions: list["Function"], env, target_path):
         """Render all functions to file."""
         last = None
 
@@ -132,10 +132,10 @@ class Function:  # pylint: disable=too-many-instance-attributes
         return last
 
     @staticmethod
-    def stream_function_dict(functions: typing.List["Function"]) -> typing.Dict:
+    def stream_function_dict(functions: list["Function"]) -> dict:
         """Get streams functions in a dict."""
         # build the old style streams functions dictionary
-        secs_streams_functions: typing.Dict[int, typing.Dict[int, "Function"]] = collections.OrderedDict()
+        secs_streams_functions: dict[int, dict[int, "Function"]] = collections.OrderedDict()
 
         for function in functions:
             if function.stream not in secs_streams_functions:
@@ -213,7 +213,7 @@ class Function:  # pylint: disable=too-many-instance-attributes
         return self._data["multi_block"]
 
     @property
-    def raw_structure(self) -> typing.Optional[typing.Union[str, typing.List]]:
+    def raw_structure(self) -> str | list | None:
         """Get the raw, textual structure."""
         if "structure" not in self._data:
             return None
@@ -245,17 +245,17 @@ class Function:  # pylint: disable=too-many-instance-attributes
         return f"{indent_text}{structure}"
 
     @property
-    def data_items(self) -> typing.List[DataItem]:
+    def data_items(self) -> list[DataItem]:
         """Get the data items used."""
         if self.raw_structure is None:
             return []
 
-        items: typing.List[DataItem] = []
+        items: list[DataItem] = []
         self._find_items(self.raw_structure, items)
         return items
 
     @property
-    def data_items_sorted(self) -> typing.List[DataItem]:
+    def data_items_sorted(self) -> list[DataItem]:
         """Get the data items used sorted alphabetically."""
         return sorted(self.data_items, key=lambda data_item: data_item.name)
 
@@ -279,15 +279,15 @@ class Function:  # pylint: disable=too-many-instance-attributes
 
         code = STRUCTURE_CODE.format(imports=imports, data_item=self.structure)
 
-        glob: typing.Dict[str, typing.Any] = {}
-        loc: typing.Dict[str, typing.Any] = {}
+        glob: dict[str, typing.Any] = {}
+        loc: dict[str, typing.Any] = {}
 
         exec(code, glob, loc)  # pylint: disable=exec-used
 
         return loc["var"]
 
     @property
-    def samples(self) -> typing.List[typing.Dict[str, typing.Any]]:
+    def samples(self) -> list[dict[str, typing.Any]]:
         """Get samples and result data."""
         if self._samples is None:
             self._samples, self._preferred_type = self._load_samples()
@@ -295,14 +295,14 @@ class Function:  # pylint: disable=too-many-instance-attributes
         return self._samples
 
     @property
-    def preferred_type(self) -> typing.Optional[typing.Type]:
+    def preferred_type(self) -> type | None:
         """Get preferred type."""
         if self._samples is None:
             self._samples, self._preferred_type = self._load_samples()
 
         return self._preferred_type
 
-    def _load_samples(self) -> typing.Tuple[typing.List[typing.Dict[str, typing.Any]], typing.Optional[typing.Type]]:
+    def _load_samples(self) -> tuple[list[dict[str, typing.Any]], type | None]:
         if "sample_data" not in self._data:
             sample_data = [{"data": ""}]
         else:
@@ -327,8 +327,8 @@ class Function:  # pylint: disable=too-many-instance-attributes
                     data_item=self.structure,
                     sample_value=sample["data"])
 
-            glob: typing.Dict[str, typing.Any] = {}
-            loc: typing.Dict[str, typing.Any] = {}
+            glob: dict[str, typing.Any] = {}
+            loc: dict[str, typing.Any] = {}
 
             exec(code, glob, loc)  # pylint: disable=exec-used
 

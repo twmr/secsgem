@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # secsgem documentation build configuration file, created by
 # sphinx-quickstart on Tue Apr 28 17:32:23 2015.
@@ -62,8 +61,8 @@ source_suffix = {
 master_doc = 'index'
 
 # General information about the project.
-project = u'secsgem'
-copyright = u'2015-2023, Benjamin Parzella'
+project = 'secsgem'
+copyright = '2015-2023, Benjamin Parzella'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -104,8 +103,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'secsgem.tex', u'secsgem Documentation',
-   u'Benjamin Parzella', 'manual'),
+  ('index', 'secsgem.tex', 'secsgem Documentation',
+   'Benjamin Parzella', 'manual'),
 ]
 
 
@@ -114,8 +113,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'secsgem', u'secsgem Documentation',
-     [u'Benjamin Parzella'], 1)
+    ('index', 'secsgem', 'secsgem Documentation',
+     ['Benjamin Parzella'], 1)
 ]
 
 
@@ -125,7 +124,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'secsgem', u'secsgem Documentation',
-   u'Benjamin Parzella', 'secsgem', 'One line description of project.',
+  ('index', 'secsgem', 'secsgem Documentation',
+   'Benjamin Parzella', 'secsgem', 'One line description of project.',
    'Miscellaneous'),
 ]

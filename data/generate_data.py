@@ -11,7 +11,7 @@ from function import Function
 
 def py_indent(
     text: str,
-    width: typing.Union[int, str] = 4,
+    width: int | str = 4,
     first: bool = False,
     blank: bool = False
 ) -> str:

@@ -483,13 +483,13 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV2 = next((x for x in function if x[0].get() == "SV2"), None)
 
         self.assertIsNotNone(SV2)
-        self.assertEqual(SV2[1].get(), u"sample2, text SVID, String")
+        self.assertEqual(SV2[1].get(), "sample2, text SVID, String")
         self.assertEqual(SV2[2].get(), "chars")
 
         SV10 = next((x for x in function if x[0].get() == 10), None)
 
         self.assertIsNotNone(SV10)
-        self.assertEqual(SV10[1].get(), u"sample1, numeric SVID, U4")
+        self.assertEqual(SV10[1].get(), "sample1, numeric SVID, U4")
         self.assertEqual(SV10[2].get(), "meters")
 
     def testStatusVariableNameListLimited(self):
@@ -501,15 +501,15 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV2 = function[0]
 
         self.assertIsNotNone(SV2)
-        self.assertEqual(SV2[0].get(), u"SV2")
-        self.assertEqual(SV2[1].get(), u"sample2, text SVID, String")
+        self.assertEqual(SV2[0].get(), "SV2")
+        self.assertEqual(SV2[1].get(), "sample2, text SVID, String")
         self.assertEqual(SV2[2].get(), "chars")
 
         SV10 = function[1]
 
         self.assertIsNotNone(SV10)
         self.assertEqual(SV10[0].get(), 10)
-        self.assertEqual(SV10[1].get(), u"sample1, numeric SVID, U4")
+        self.assertEqual(SV10[1].get(), "sample1, numeric SVID, U4")
         self.assertEqual(SV10[2].get(), "meters")
 
     def testStatusVariableNameListInvalid(self):
@@ -521,8 +521,8 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV = function[0]
 
         self.assertIsNotNone(SV)
-        self.assertEqual(SV[0].get(), u"asdfg")
-        self.assertEqual(SV[1].get(), u"")
+        self.assertEqual(SV[0].get(), "asdfg")
+        self.assertEqual(SV[1].get(), "")
         self.assertEqual(SV[2].get(), "")
 
     def sendSVRequest(self, svs=[]):
@@ -547,7 +547,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV10 = next((x for x in function if x.get() == 123), None)
         self.assertIsNotNone(SV10)
 
-        SV2 = next((x for x in function if x.get() == u"sample sv"), None)
+        SV2 = next((x for x in function if x.get() == "sample sv"), None)
         self.assertIsNotNone(SV2)
 
     def testStatusVariableLimited(self):
@@ -559,7 +559,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV2 = function[0]
 
         self.assertIsNotNone(SV2)
-        self.assertEqual(SV2.get(), u"sample sv")
+        self.assertEqual(SV2.get(), "sample sv")
 
         SV10 = function[1]
 
@@ -575,7 +575,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         SV2 = function[0]
 
         self.assertIsNotNone(SV2)
-        self.assertEqual(SV2.get(), u"sample sv")
+        self.assertEqual(SV2.get(), "sample sv")
 
         SV10 = function[1]
 
@@ -1295,7 +1295,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         EC2 = next((x for x in function if x[0].get() == "EC2"), None)
 
         self.assertIsNotNone(EC2)
-        self.assertEqual(EC2[1].get(), u"sample2, text ECID, String")
+        self.assertEqual(EC2[1].get(), "sample2, text ECID, String")
         self.assertEqual(EC2[2].get(), "")
         self.assertEqual(EC2[3].get(), "")
         self.assertEqual(EC2[4].get(), "")
@@ -1304,7 +1304,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         EC20 = next((x for x in function if x[0].get() == 20), None)
 
         self.assertIsNotNone(EC20)
-        self.assertEqual(EC20[1].get(), u"sample1, numeric ECID, I4")
+        self.assertEqual(EC20[1].get(), "sample1, numeric ECID, I4")
         self.assertEqual(EC20[2].get(), 0)
         self.assertEqual(EC20[3].get(), 500)
         self.assertEqual(EC20[4].get(), 50)
@@ -1319,8 +1319,8 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         EC2 = function[0]
 
         self.assertIsNotNone(EC2)
-        self.assertEqual(EC2[0].get(), u"EC2")
-        self.assertEqual(EC2[1].get(), u"sample2, text ECID, String")
+        self.assertEqual(EC2[0].get(), "EC2")
+        self.assertEqual(EC2[1].get(), "sample2, text ECID, String")
         self.assertEqual(EC2[2].get(), "")
         self.assertEqual(EC2[3].get(), "")
         self.assertEqual(EC2[4].get(), "")
@@ -1330,7 +1330,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertIsNotNone(EC20)
         self.assertEqual(EC20[0].get(), 20)
-        self.assertEqual(EC20[1].get(), u"sample1, numeric ECID, I4")
+        self.assertEqual(EC20[1].get(), "sample1, numeric ECID, I4")
         self.assertEqual(EC20[2].get(), 0)
         self.assertEqual(EC20[3].get(), 500)
         self.assertEqual(EC20[4].get(), 50)
@@ -1345,8 +1345,8 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         EC2 = function[0]
 
         self.assertIsNotNone(EC2)
-        self.assertEqual(EC2[0].get(), u"asdfg")
-        self.assertEqual(EC2[1].get(), u"")
+        self.assertEqual(EC2[0].get(), "asdfg")
+        self.assertEqual(EC2[1].get(), "")
         self.assertEqual(EC2[2].get(), "")
         self.assertEqual(EC2[3].get(), "")
         self.assertEqual(EC2[4].get(), "")
@@ -1361,7 +1361,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         EC20 = next((x for x in function if x.get() == 321), None)
         self.assertIsNotNone(EC20)
 
-        EC2 = next((x for x in function if x.get() == u"sample ec"), None)
+        EC2 = next((x for x in function if x.get() == "sample ec"), None)
         self.assertIsNotNone(EC2)
 
     def testEquipmentConstantGetLimited(self):
@@ -1376,7 +1376,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         EC2 = function[1]
         self.assertIsNotNone(EC2)
-        self.assertEqual(EC2.get(), u"sample ec")
+        self.assertEqual(EC2.get(), "sample ec")
 
     def testEquipmentConstantGetCallback(self):
         self.setupTestEquipmentConstants(True)
@@ -1390,7 +1390,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         EC2 = function[1]
         self.assertIsNotNone(EC2)
-        self.assertEqual(EC2.get(), u"sample ec")
+        self.assertEqual(EC2.get(), "sample ec")
 
     def testEquipmentConstantGetInvalid(self):
         self.setupTestEquipmentConstants()

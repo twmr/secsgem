@@ -105,7 +105,7 @@ class HsmsTestServerSettings(secsgem.common.Settings):
     """Test class settings."""
 
     @classmethod
-    def _attributes(cls) -> typing.List[secsgem.common.settings.Setting]:
+    def _attributes(cls) -> list[secsgem.common.settings.Setting]:
         """Get the available settings for the class."""
         return super()._attributes() + [
             secsgem.common.settings.Setting("server", None, "Server for connection"),
