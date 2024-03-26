@@ -202,7 +202,7 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
         """
         self.logger.info("Get value of status variable %s", sv_id)
 
-        return self.request_svs([sv_id])[0]
+        return self.request_svs([sv_id]).data[0]
 
     def list_ecs(self, ecs=None):
         """Get list of available Equipment Constants.
@@ -297,9 +297,4 @@ class SecsHandler:  # pylint: disable=too-many-instance-attributes,too-many-publ
             class for function
 
         """
-        klass = self.streams_functions.function(stream, function)
-
-        if klass is None:
-            raise KeyError(f"Undefined function requested: S{stream:02d}F{function:02d}")
-
-        return klass
+        return self.streams_functions.function(stream, function)
