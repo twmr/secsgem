@@ -265,7 +265,16 @@ class GemHostHandler(GemHandler):
         function = typing.cast(SecsS06F11, self.streams_functions.decode(message))
 
         for report in function.RPT:
-            report_dvs = self.report_subscriptions[report.RPTID.get()]
+            # It might happen that a report is emitted by the equipment before it is
+            # registered by the host via `subscribe_collection_event`.
+            try:
+                report_dvs = self.report_subscriptions[report.RPTID.get()]
+            except KeyError:
+                rptid = report.RPTID.get()
+                self._logger.error(
+                    "Discarded report from equipment, because report with %s is not registered on host.", rptid
+                )
+                continue
             report_values = report.V.get()
 
             values = [
