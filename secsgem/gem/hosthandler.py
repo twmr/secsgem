@@ -268,10 +268,9 @@ class GemHostHandler(GemHandler):
             report_dvs = self.report_subscriptions[report.RPTID.get()]
             report_values = report.V.get()
 
-            values = []
-
-            for index, data_value_id in enumerate(report_dvs):
-                values.append({"dvid": data_value_id, "value": report_values[index]})
+            values = [
+                {"dvid": data_value_id, "value": report_values[index]} for index, data_value_id in enumerate(report_dvs)
+            ]
 
             data = {
                 "ceid": function.CEID,
