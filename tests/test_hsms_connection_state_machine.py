@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Tests for HSMS connection state machine"""
+
 from __future__ import annotations
 
 import pytest
@@ -49,14 +50,14 @@ class TestHsmsConnectionStateMachine:
                 "connected_not_selected",
                 "",
                 True,
-                "Invalid source state for transition 'connect': CONNECTED_NOT_SELECTED (expected NOT_CONNECTED)"
+                "Invalid source state for transition 'connect': CONNECTED_NOT_SELECTED (expected NOT_CONNECTED)",
             ),
             (
                 "connect",
                 "connected_selected",
                 "",
                 True,
-                "Invalid source state for transition 'connect': CONNECTED_SELECTED (expected NOT_CONNECTED)"
+                "Invalid source state for transition 'connect': CONNECTED_SELECTED (expected NOT_CONNECTED)",
             ),
             (
                 "disconnect",
@@ -66,7 +67,7 @@ class TestHsmsConnectionStateMachine:
                 (
                     "Invalid source state for transition 'disconnect': "
                     "NOT_CONNECTED (expected CONNECTED_NOT_SELECTED/CONNECTED_SELECTED)"
-                )
+                ),
             ),
             ("disconnect", "connected_not_selected", "not_connected", False, ""),
             ("disconnect", "connected_selected", "not_connected", False, ""),
@@ -75,7 +76,7 @@ class TestHsmsConnectionStateMachine:
                 "not_connected",
                 "",
                 True,
-                "Invalid source state for transition 'select': NOT_CONNECTED (expected CONNECTED_NOT_SELECTED)"
+                "Invalid source state for transition 'select': NOT_CONNECTED (expected CONNECTED_NOT_SELECTED)",
             ),
             ("select", "connected_not_selected", "connected_selected", False, ""),
             (
@@ -83,32 +84,27 @@ class TestHsmsConnectionStateMachine:
                 "connected_selected",
                 "",
                 True,
-                "Invalid source state for transition 'select': CONNECTED_SELECTED (expected CONNECTED_NOT_SELECTED)"
+                "Invalid source state for transition 'select': CONNECTED_SELECTED (expected CONNECTED_NOT_SELECTED)",
             ),
             (
                 "deselect",
                 "not_connected",
                 "",
                 True,
-                "Invalid source state for transition 'deselect': NOT_CONNECTED (expected CONNECTED_SELECTED)"
+                "Invalid source state for transition 'deselect': NOT_CONNECTED (expected CONNECTED_SELECTED)",
             ),
             (
                 "deselect",
                 "connected_not_selected",
                 "",
                 True,
-                "Invalid source state for transition 'deselect': CONNECTED_NOT_SELECTED (expected CONNECTED_SELECTED)"
+                "Invalid source state for transition 'deselect': CONNECTED_NOT_SELECTED (expected CONNECTED_SELECTED)",
             ),
             ("deselect", "connected_selected", "connected_not_selected", False, ""),
-        ]
+        ],
     )
     def test_state_transitions(  # pylint: disable=too-many-arguments
-        self,
-        transition: str,
-        source: str,
-        expected_destination: str,
-        will_except: bool,
-        exception_text: str
+        self, transition: str, source: str, expected_destination: str, will_except: bool, exception_text: str
     ):
         """Test the exception and exception message for invalid transition name."""
         csm = secsgem.hsms.connection_state_machine.ConnectionStateMachine()

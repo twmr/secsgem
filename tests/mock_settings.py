@@ -14,11 +14,13 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Mock class for settings to simulate communication or protocol."""
+
 from __future__ import annotations
 
 import secsgem.common
 import secsgem.hsms
 from secsgem.secs.functions import StreamsFunctions
+
 
 class MockSettings(secsgem.common.Settings):
     """Mock settings class."""
@@ -27,17 +29,14 @@ class MockSettings(secsgem.common.Settings):
         self,
         protocol_class: type[secsgem.common.Protocol],
         connection_class: type[secsgem.common.Connection] | None = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         super().__init__(**kwargs)
 
         self._data.update(kwargs)
 
         object.__setattr__(self, "protocol", protocol_class(self, StreamsFunctions()))
-        object.__setattr__(
-            self,
-            "connection", None if connection_class is None else connection_class(self)
-        )
+        object.__setattr__(self, "connection", None if connection_class is None else connection_class(self))
 
     @classmethod
     def _attributes(cls) -> list[secsgem.common.Setting]:

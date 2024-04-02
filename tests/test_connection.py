@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Contains class for connection test."""
+
 from __future__ import annotations
 
 import datetime
@@ -57,7 +58,11 @@ class HsmsTestConnection(secsgem.common.Connection):
 
     def simulate_connect(self):
         # send connection enabled event
-        if self._delegate and hasattr(self._delegate, 'on_connection_established') and callable(getattr(self._delegate, 'on_connection_established')):
+        if (
+            self._delegate
+            and hasattr(self._delegate, "on_connection_established")
+            and callable(getattr(self._delegate, "on_connection_established"))
+        ):
             self._delegate.on_connection_established(self)
 
         self._connected = True
@@ -66,7 +71,11 @@ class HsmsTestConnection(secsgem.common.Connection):
         self.disconnect()
 
     def simulate_packet(self, message):
-        if self._delegate and hasattr(self._delegate, 'on_connection_message_received') and callable(getattr(self._delegate, 'on_connection_message_received')):
+        if (
+            self._delegate
+            and hasattr(self._delegate, "on_connection_message_received")
+            and callable(getattr(self._delegate, "on_connection_message_received"))
+        ):
             self._delegate.on_connection_message_received(self, message)
 
     def enable(self):
@@ -91,11 +100,19 @@ class HsmsTestConnection(secsgem.common.Connection):
     def disconnect(self):
         if self._connected:
             # notify listeners of disconnection
-            if self._delegate and hasattr(self._delegate, 'on_connection_before_closed') and callable(getattr(self._delegate, 'on_connection_before_closed')):
+            if (
+                self._delegate
+                and hasattr(self._delegate, "on_connection_before_closed")
+                and callable(getattr(self._delegate, "on_connection_before_closed"))
+            ):
                 self._delegate.on_connection_before_closed(self)
 
             # notify listeners of disconnection
-            if self._delegate and hasattr(self._delegate, 'on_connection_closed') and callable(getattr(self._delegate, 'on_connection_closed')):
+            if (
+                self._delegate
+                and hasattr(self._delegate, "on_connection_closed")
+                and callable(getattr(self._delegate, "on_connection_closed"))
+            ):
                 self._delegate.on_connection_closed(self)
 
         self._connected = False
@@ -112,7 +129,7 @@ class HsmsTestServerSettings(secsgem.common.Settings):
             secsgem.common.settings.Setting("connect_mode", secsgem.hsms.HsmsConnectMode.ACTIVE, "Hsms connect mode"),
             secsgem.common.settings.Setting("address", "127.0.0.1", "Remote (active) or local (passive) IP address"),
             secsgem.common.settings.Setting("port", 5000, "TCP port of remote host"),
-            secsgem.common.settings.Setting("session_id", 0, "session / device ID to use for connection")
+            secsgem.common.settings.Setting("session_id", 0, "session / device ID to use for connection"),
         ]
 
     def create_protocol(self, streams_functions) -> HsmsProtocol:
@@ -217,4 +234,7 @@ class HsmsTestServer:
         return self.connection.get_next_system_counter()
 
     def generate_stream_function_packet(self, system_id, packet, session_id=0):
-        return secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsStreamFunctionHeader(system_id, packet.stream, packet.function, True, session_id), packet.encode())
+        return secsgem.hsms.HsmsMessage(
+            secsgem.hsms.HsmsStreamFunctionHeader(system_id, packet.stream, packet.function, True, session_id),
+            packet.encode(),
+        )

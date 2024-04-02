@@ -22,7 +22,11 @@ import secsgem.secs.data_items
 
 
 def find_subclasses(module):
-    return [cls for name, cls in inspect.getmembers(module) if inspect.isclass(cls) and not cls.__name__.startswith("Base") and not cls.__name__ == "DataItemMeta"]
+    return [
+        cls
+        for name, cls in inspect.getmembers(module)
+        if inspect.isclass(cls) and not cls.__name__.startswith("Base") and not cls.__name__ == "DataItemMeta"
+    ]
 
 
 class TestDataItems:

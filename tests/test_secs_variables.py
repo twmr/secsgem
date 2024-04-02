@@ -27,7 +27,7 @@ from secsgem.secs.data_items import MDLN, OBJACK, SOFTREV, SVID
 
 def printable_value(value):
     if isinstance(value, bytes):
-        return value.decode('unicode_escape')
+        return value.decode("unicode_escape")
     elif isinstance(value, str):
         return value
     else:
@@ -40,16 +40,16 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # two bytes
-        self.assertEqual(secsvar.encode_item_header(0), b"\xB1\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFF), b"\xB1\xFF")
+        self.assertEqual(secsvar.encode_item_header(0), b"\xb1\x00")
+        self.assertEqual(secsvar.encode_item_header(0xFF), b"\xb1\xff")
 
         # three bytes
-        self.assertEqual(secsvar.encode_item_header(0x100), b"\xB2\x01\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFFFF), b"\xB2\xFF\xFF")
+        self.assertEqual(secsvar.encode_item_header(0x100), b"\xb2\x01\x00")
+        self.assertEqual(secsvar.encode_item_header(0xFFFF), b"\xb2\xff\xff")
 
         # four bytes
-        self.assertEqual(secsvar.encode_item_header(0x10000), b"\xB3\x01\x00\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFFFFFF), b"\xB3\xFF\xFF\xFF")
+        self.assertEqual(secsvar.encode_item_header(0x10000), b"\xb3\x01\x00\x00")
+        self.assertEqual(secsvar.encode_item_header(0xFFFFFF), b"\xb3\xff\xff\xff")
 
     def testEncodeItemHeaderTooShort(self):
         # dummy object, just to have format code set
@@ -72,16 +72,16 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # two bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xB1\x00")[2], 0)
-        self.assertEqual(secsvar.decode_item_header(b"\xB1\xFF")[2], 0xFF)
+        self.assertEqual(secsvar.decode_item_header(b"\xb1\x00")[2], 0)
+        self.assertEqual(secsvar.decode_item_header(b"\xb1\xff")[2], 0xFF)
 
         # three bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xB2\x01\x00")[2], 0x100)
-        self.assertEqual(secsvar.decode_item_header(b"\xB2\xFF\xFF")[2], 0xFFFF)
+        self.assertEqual(secsvar.decode_item_header(b"\xb2\x01\x00")[2], 0x100)
+        self.assertEqual(secsvar.decode_item_header(b"\xb2\xff\xff")[2], 0xFFFF)
 
         # four bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xB3\x01\x00\x00")[2], 0x10000)
-        self.assertEqual(secsvar.decode_item_header(b"\xB3\xFF\xFF\xFF")[2], 0xFFFFFF)
+        self.assertEqual(secsvar.decode_item_header(b"\xb3\x01\x00\x00")[2], 0x10000)
+        self.assertEqual(secsvar.decode_item_header(b"\xb3\xff\xff\xff")[2], 0xFFFFFF)
 
     def testDecodeItemHeaderEmpty(self):
         # dummy object, just to have format code set
@@ -95,7 +95,7 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         with self.assertRaises(IndexError):
-            secsvar.decode_item_header(b"\xB1\x00", 10)
+            secsvar.decode_item_header(b"\xb1\x00", 10)
 
     def testDecodeItemHeaderIllegalData(self):
         # dummy object, just to have format code set
@@ -190,7 +190,7 @@ class TestSecsVarDynamic(unittest.TestCase):
     def testEncodeU4(self):
         secsvar = Dynamic([U4], 1337)
 
-        self.assertEqual(secsvar.encode(), b"\xB1\x04\x00\x00\x059")
+        self.assertEqual(secsvar.encode(), b"\xb1\x04\x00\x00\x059")
 
     def testDecodeValueTooLong(self):
         secsvar = Dynamic([String], count=5)
@@ -208,13 +208,13 @@ class TestSecsVarDynamic(unittest.TestCase):
         secsvar = Dynamic([String], count=5)
 
         with self.assertRaises(ValueError):
-            secsvar.decode(b"\xB1\x04\x00\x00\x059")
+            secsvar.decode(b"\xb1\x04\x00\x00\x059")
 
     def testDecodeItemHeaderIllegalPosition(self):
         secsvar = Dynamic([U4], 1337)
 
         with self.assertRaises(IndexError):
-            secsvar.decode(b"\xB1\x00", 10)
+            secsvar.decode(b"\xb1\x00", 10)
 
     def testDecodeItemHeaderIllegalData(self):
         # dummy object, just to have format code set
@@ -227,7 +227,7 @@ class TestSecsVarDynamic(unittest.TestCase):
     def testDecodeWithAllTypesAllowed(self):
         secsvar = Dynamic([])
 
-        secsvar.decode(b"\xB1\x04\x00\x00\x059")
+        secsvar.decode(b"\xb1\x04\x00\x00\x059")
 
         self.assertEqual(secsvar[0], 1337)
 
@@ -701,7 +701,7 @@ class TestSecsVarList(unittest.TestCase):
 
         self.assertEqual(secsvar.MDLN, "MDLN1")
         self.assertEqual(secsvar.SOFTREV, "SOFTREV1")
-        
+
 
 class TestSecsVarArray(unittest.TestCase):
     def testConstructor(self):
@@ -857,7 +857,7 @@ class TestSecsVarBinary(unittest.TestCase):
 
     def testGettingUninitialized(self):
         secsvar = Binary()
-        
+
         self.assertEqual(secsvar.get(), b"")
 
     def testEncodeEmpty(self):
@@ -946,7 +946,7 @@ class TestSecsVarBoolean(unittest.TestCase):
 
     def testGettingUninitialized(self):
         secsvar = Boolean()
-        
+
         self.assertEqual(secsvar.get(), [])
 
     def testEncodeEmpty(self):
@@ -1107,6 +1107,7 @@ class TestSecsVarString(unittest.TestCase):
 
         self.assertEqual(secsvar.get(), "asdfg")
 
+
 class TestSecsVarJIS8(unittest.TestCase):
     def testConstructorWrongLengthString(self):
         secsvar = JIS8(count=5)
@@ -1254,17 +1255,17 @@ class TestSecsVarI8(unittest.TestCase):
 
     def testGettingUninitialized(self):
         secsvar = I8()
-        
+
         self.assertEqual(secsvar.get(), [])
 
     def testEncode(self):
         secsvar = I8(1337)
-        
+
         self.assertEqual(secsvar.encode(), b"a\x08\x00\x00\x00\x00\x00\x00\x059")
 
     def testWrongLengthDecode(self):
         secsvar = I8(0)
-        
+
         with self.assertRaises(ValueError):
             secsvar.decode(b"a\x08\x00\x00\x00\x00\x00\x00")
 
@@ -1281,7 +1282,10 @@ class TestSecsVarI8(unittest.TestCase):
     def testEncodeMulti(self):
         secsvar = I8([123, 234, -345])
 
-        self.assertEqual(secsvar.encode(), b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7")
+        self.assertEqual(
+            secsvar.encode(),
+            b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7",
+        )
 
     def testDecodeEmpty(self):
         secsvar = I8()
@@ -1300,7 +1304,9 @@ class TestSecsVarI8(unittest.TestCase):
     def testDecodeMulti(self):
         secsvar = I8()
 
-        secsvar.decode(b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7")
+        secsvar.decode(
+            b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7"
+        )
 
         self.assertEqual(secsvar.get(), [123, 234, -345])
 
@@ -1526,7 +1532,9 @@ class TestSecsVarF8(unittest.TestCase):
     def testEncodeMulti(self):
         secsvar = F8([123, 234, -345])
 
-        self.assertEqual(secsvar.encode(), b"\x81\x18@^\xc0\x00\x00\x00\x00\x00@m@\x00\x00\x00\x00\x00\xc0u\x90\x00\x00\x00\x00\x00")
+        self.assertEqual(
+            secsvar.encode(), b"\x81\x18@^\xc0\x00\x00\x00\x00\x00@m@\x00\x00\x00\x00\x00\xc0u\x90\x00\x00\x00\x00\x00"
+        )
 
     def testDecodeEmpty(self):
         secsvar = F8()
@@ -1646,7 +1654,10 @@ class TestSecsVarU8(unittest.TestCase):
     def testEncodeMulti(self):
         secsvar = U8([123, 234, 345])
 
-        self.assertEqual(secsvar.encode(), b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y")
+        self.assertEqual(
+            secsvar.encode(),
+            b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y",
+        )
 
     def testDecodeEmpty(self):
         secsvar = U8()
@@ -1665,7 +1676,9 @@ class TestSecsVarU8(unittest.TestCase):
     def testDecodeMulti(self):
         secsvar = U8()
 
-        secsvar.decode(b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y")
+        secsvar.decode(
+            b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y"
+        )
 
         self.assertEqual(secsvar.get(), [123, 234, 345])
 
@@ -1706,7 +1719,7 @@ class TestSecsVarU1(unittest.TestCase):
     def testEncodeMulti(self):
         secsvar = U1([12, 23, 34])
 
-        self.assertEqual(secsvar.encode(), b"\xa5\x03\x0c\x17\"")
+        self.assertEqual(secsvar.encode(), b'\xa5\x03\x0c\x17"')
 
     def testDecodeEmpty(self):
         secsvar = U1()
@@ -1725,7 +1738,7 @@ class TestSecsVarU1(unittest.TestCase):
     def testDecodeMulti(self):
         secsvar = U1()
 
-        secsvar.decode(b"\xa5\x03\x0c\x17\"")
+        secsvar.decode(b'\xa5\x03\x0c\x17"')
 
         self.assertEqual(secsvar.get(), [12, 23, 34])
 
@@ -1861,7 +1874,13 @@ class GoodBadLists:
         else:
             secsvar = self._type()
 
-        print(self._type.__name__, "testing assignment of good", type(value["VALUE"]).__name__, "value", printable_value(value["VALUE"]))
+        print(
+            self._type.__name__,
+            "testing assignment of good",
+            type(value["VALUE"]).__name__,
+            "value",
+            printable_value(value["VALUE"]),
+        )
 
         secsvar.set(value["VALUE"])
         assert secsvar.get() == value["RESULT"]
@@ -1872,7 +1891,13 @@ class GoodBadLists:
         else:
             secsvar = self._type()
 
-        print(self._type.__name__, "testing assignment of bad", type(value["VALUE"]).__name__, "value", printable_value(value["VALUE"]))
+        print(
+            self._type.__name__,
+            "testing assignment of bad",
+            type(value["VALUE"]).__name__,
+            "value",
+            printable_value(value["VALUE"]),
+        )
         with pytest.raises((ValueError, TypeError)):
             secsvar.set(value["VALUE"])
         print(self._type.__name__, "unexpected bad assignment", secsvar.get())
@@ -1883,7 +1908,13 @@ class GoodBadLists:
         else:
             secsvar = self._type()
 
-        print(self._type.__name__, "testing isSupported for good", type(value["VALUE"]).__name__, "value", printable_value(value["VALUE"]))
+        print(
+            self._type.__name__,
+            "testing isSupported for good",
+            type(value["VALUE"]).__name__,
+            "value",
+            printable_value(value["VALUE"]),
+        )
 
         assert secsvar.supports_value(value["VALUE"])
 
@@ -1893,7 +1924,13 @@ class GoodBadLists:
         else:
             secsvar = self._type()
 
-        print(self._type.__name__, "testing isSupported for bad", type(value["VALUE"]).__name__, "value", printable_value(value["VALUE"]))
+        print(
+            self._type.__name__,
+            "testing isSupported for bad",
+            type(value["VALUE"]).__name__,
+            "value",
+            printable_value(value["VALUE"]),
+        )
 
         assert secsvar.supports_value(value["VALUE"]) is False
 
@@ -1901,14 +1938,14 @@ class GoodBadLists:
 class TestSecsVarBinaryValues(GoodBadLists):
     _type = Binary
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
+    # float
     _goodFloatValues = {}
     _badFloatValues = [
         {"VALUE": 1.0},
@@ -1916,7 +1953,7 @@ class TestSecsVarBinaryValues(GoodBadLists):
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
@@ -1927,7 +1964,7 @@ class TestSecsVarBinaryValues(GoodBadLists):
         {"VALUE": 265},
     ]
 
-    #long
+    # long
     _goodLongValues = [
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
@@ -1938,49 +1975,49 @@ class TestSecsVarBinaryValues(GoodBadLists):
         {"VALUE": 265},
     ]
 
-    #complex
+    # complex
     _goodComplexValues = {}
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
         {"VALUE": "TEST1", "RESULT": b"TEST1"},
-        {"VALUE": b"1234QWERasdf.-+ \n\r\t\1 \127 \xB1", "RESULT": b"1234QWERasdf.-+ \n\r\t\1 \127 \xB1"},
+        {"VALUE": b"1234QWERasdf.-+ \n\r\t\1 \127 \xb1", "RESULT": b"1234QWERasdf.-+ \n\r\t\1 \127 \xb1"},
         {"VALUE": "TEST1", "RESULT": b"TEST1", "LENGTH": 5},
     ]
     _badStringValues = [
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
         {"VALUE": "TEST1", "RESULT": b"TEST1"},
         {"VALUE": "1234QWERasdf.-+ \n\r\t\1 \127", "RESULT": b"1234QWERasdf.-+ \n\r\t\1 \127"},
         {"VALUE": "TEST1", "RESULT": b"TEST1", "LENGTH": 5},
     ]
     _badUnicodeValues = [
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1", "RESULT": b"TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [False, True, False, False], "RESULT": b"\x00\x01\x00\x00"},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": b"\x00\x01\x05\x20\x10\xFF"},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": b"\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": b"\x00\x01\x05\x20\x10\xff"},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": b"\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badListValues = [
         {"VALUE": [1, -1, 256, 5]},
         {"VALUE": ["Test", "ASDF"]},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5}
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": b"\x00\x01\x05\x20\x10\xFF"},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": b"\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": b"\x00\x01\x05\x20\x10\xff"},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": b"\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badTupleValues = [
         {"VALUE": (1, -1, 256, 5)},
@@ -1988,17 +2025,39 @@ class TestSecsVarBinaryValues(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": b"\x00\x01\x05\x20\x10\xFF"},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": b"\x00\x01\x05\x20\x10\xFF", "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": b"\x00\x01\x05\x20\x10\xff"},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": b"\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2020,14 +2079,14 @@ class TestSecsVarBinaryValues(GoodBadLists):
 class TestSecsVarBooleanValues(GoodBadLists):
     _type = Boolean
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": True},
         {"VALUE": False, "RESULT": False},
     ]
     _badBoolValues = []
 
-    #float
+    # float
     _goodFloatValues = {}
     _badFloatValues = [
         {"VALUE": 1.0},
@@ -2035,7 +2094,7 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
         {"VALUE": 0, "RESULT": False},
         {"VALUE": 1, "RESULT": True},
@@ -2046,7 +2105,7 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": 265},
     ]
 
-    #long
+    # long
     _goodLongValues = [
         {"VALUE": 0, "RESULT": False},
         {"VALUE": 1, "RESULT": True},
@@ -2057,13 +2116,13 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": 265},
     ]
 
-    #complex
+    # complex
     _goodComplexValues = {}
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
         {"VALUE": "YES", "RESULT": True},
         {"VALUE": "tRuE", "RESULT": True},
@@ -2075,7 +2134,7 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
         {"VALUE": "YES", "RESULT": True},
         {"VALUE": "tRuE", "RESULT": True},
@@ -2084,11 +2143,11 @@ class TestSecsVarBooleanValues(GoodBadLists):
     ]
     _badUnicodeValues = [
         {"VALUE": "TEST1"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [True, False, True], "RESULT": [True, False, True]},
         {"VALUE": [True, False, True], "RESULT": [True, False, True], "LENGTH": 3},
@@ -2101,10 +2160,10 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": [1, -1, 256, 5]},
         {"VALUE": ["Test", "ASDF"]},
         {"VALUE": [True, False, True], "LENGTH": 2},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5}
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (True, False, True), "RESULT": [True, False, True]},
     ]
@@ -2116,20 +2175,42 @@ class TestSecsVarBooleanValues(GoodBadLists):
         {"VALUE": (True, False, True), "LENGTH": 2},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
         {"VALUE": bytearray(b"\x00\x01\x00\x01"), "RESULT": [False, True, False, True]},
         {"VALUE": bytearray(b"\x00\x01\x00\x01"), "RESULT": [False, True, False, True], "LENGTH": 4},
     ]
     _badByteArrayValues = [
         {"VALUE": bytearray(b"\x00\x01\x00\x01"), "LENGTH": 3},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF")},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 6},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff")},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2151,14 +2232,14 @@ class TestSecsVarBooleanValues(GoodBadLists):
 class TestSecsVarStringValues(GoodBadLists):
     _type = String
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": "True"},
         {"VALUE": False, "RESULT": "False"},
     ]
     _badBoolValues = []
 
-    #float
+    # float
     _goodFloatValues = [
         {"VALUE": 1.0, "RESULT": "1.0"},
         {"VALUE": 100000000.123, "RESULT": "100000000.123"},
@@ -2168,7 +2249,7 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": 100000000.123, "LENGTH": 1},
     ]
 
-    #int
+    # int
     _goodIntValues = [
         {"VALUE": -1, "RESULT": "-1"},
         {"VALUE": 0, "RESULT": "0"},
@@ -2180,7 +2261,7 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": 265, "LENGTH": 1},
     ]
 
-    #long
+    # long
     _goodLongValues = [
         {"VALUE": -1, "RESULT": "-1"},
         {"VALUE": 0, "RESULT": "0"},
@@ -2192,14 +2273,13 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": 265, "LENGTH": 1},
     ]
 
-    #complex
+    # complex
     _goodComplexValues = [
-        {"VALUE": 1J, "RESULT": "1j"},
+        {"VALUE": 1j, "RESULT": "1j"},
     ]
-    _badComplexValues = [
-    ]
+    _badComplexValues = []
 
-    #str
+    # str
     _goodStringValues = [
         {"VALUE": "YES", "RESULT": "YES"},
         {"VALUE": "tRuE", "RESULT": "tRuE"},
@@ -2210,25 +2290,25 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
         {"VALUE": "YES", "RESULT": "YES"},
         {"VALUE": "tRuE", "RESULT": "tRuE"},
         {"VALUE": "No", "RESULT": "No"},
         {"VALUE": "False", "RESULT": "False"},
-        {"VALUE": "JOS\xc9", "RESULT": "JOS\xc9"}, # CP1252
+        {"VALUE": "JOS\xc9", "RESULT": "JOS\xc9"},  # CP1252
     ]
     _badUnicodeValues = [
-        {"VALUE": 'ABRA\u0103 JOS\xc9'},
+        {"VALUE": "ABRA\u0103 JOS\xc9"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [False, True, False, False], "RESULT": "\x00\x01\x00\x00"},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7F"},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7f"},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "RESULT": "\x00\x01\x05\x20\x10\x7f", "LENGTH": 6},
+        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": "\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badListValues = [
         {"VALUE": [1, -1, 256, 5]},
@@ -2237,11 +2317,11 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7F"},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH": 6},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7f"},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "RESULT": "\x00\x01\x05\x20\x10\x7f", "LENGTH": 6},
+        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": "\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badTupleValues = [
         {"VALUE": (1, -1, 256, 5)},
@@ -2250,18 +2330,40 @@ class TestSecsVarStringValues(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": "\x00\x01\x05\x20\x10\x7F"},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": "\x00\x01\x05\x20\x10\x7F", "LENGTH" : 6},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": "\x00\x01\x05\x20\x10\xFF", "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "RESULT": "\x00\x01\x05\x20\x10\x7f"},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "RESULT": "\x00\x01\x05\x20\x10\x7f", "LENGTH": 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": "\x00\x01\x05\x20\x10\xff", "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2283,65 +2385,63 @@ class TestSecsVarStringValues(GoodBadLists):
 class TestSecsVarI8Values(GoodBadLists):
     _type = I8
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": -9223372036854775808, "RESULT":-9223372036854775808},
+        {"VALUE": -9223372036854775808, "RESULT": -9223372036854775808},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 9223372036854775807, "RESULT": 9223372036854775807}
+        {"VALUE": 9223372036854775807, "RESULT": 9223372036854775807},
     ]
     _badIntValues = [
         {"VALUE": -9223372036854775809},
         {"VALUE": 9223372036854775808},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": -9223372036854775808, "RESULT":-9223372036854775808},
+        {"VALUE": -9223372036854775808, "RESULT": -9223372036854775808},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 9223372036854775807, "RESULT": 9223372036854775807}
+        {"VALUE": 9223372036854775807, "RESULT": 9223372036854775807},
     ]
     _badLongValues = [
         {"VALUE": -9223372036854775809},
         {"VALUE": 9223372036854775808},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "-9223372036854775808", "RESULT":-9223372036854775808},
+        {"VALUE": "-9223372036854775808", "RESULT": -9223372036854775808},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "9223372036854775807", "RESULT": 9223372036854775807}
+        {"VALUE": "9223372036854775807", "RESULT": 9223372036854775807},
     ]
     _badStringValues = [
         {"VALUE": "-9223372036854775809"},
@@ -2350,31 +2450,45 @@ class TestSecsVarI8Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-9223372036854775808", "RESULT":-9223372036854775808},
+        {"VALUE": "-9223372036854775808", "RESULT": -9223372036854775808},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "9223372036854775807", "RESULT": 9223372036854775807}
+        {"VALUE": "9223372036854775807", "RESULT": 9223372036854775807},
     ]
     _badUnicodeValues = [
         {"VALUE": "-9223372036854775809"},
         {"VALUE": "9223372036854775808"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
-        {"VALUE": [-9223372036854775808, 1, 2, 9223372036854775807], "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807]},
-        {"VALUE": ["-9223372036854775808", 1, "2", "9223372036854775807"], "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807]},
-        {"VALUE": ["-9223372036854775808", 1, "2", "9223372036854775807"], "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807], "LENGTH": 4},
+        {
+            "VALUE": [-9223372036854775808, 1, 2, 9223372036854775807],
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+        },
+        {
+            "VALUE": ["-9223372036854775808", 1, "2", "9223372036854775807"],
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+        },
+        {
+            "VALUE": ["-9223372036854775808", 1, "2", "9223372036854775807"],
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+            "LENGTH": 4,
+        },
         {"VALUE": [False, True, False, False], "RESULT": [0, 1, 0, 0]},
         {"VALUE": [-10, -100], "RESULT": [-10, -100]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badListValues = [
         {"VALUE": [-9223372036854775809, 1, 2, 9223372036854775807]},
@@ -2383,16 +2497,30 @@ class TestSecsVarI8Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
-        {"VALUE": (-9223372036854775808, 1, 2, 9223372036854775807), "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807]},
-        {"VALUE": ("-9223372036854775808", 1, "2", "9223372036854775807"), "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807]},
-        {"VALUE": ("-9223372036854775808", 1, "2", "9223372036854775807"), "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807], "LENGTH": 4},
+        {
+            "VALUE": (-9223372036854775808, 1, 2, 9223372036854775807),
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+        },
+        {
+            "VALUE": ("-9223372036854775808", 1, "2", "9223372036854775807"),
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+        },
+        {
+            "VALUE": ("-9223372036854775808", 1, "2", "9223372036854775807"),
+            "RESULT": [-9223372036854775808, 1, 2, 9223372036854775807],
+            "LENGTH": 4,
+        },
         {"VALUE": (False, True, False, False), "RESULT": [0, 1, 0, 0]},
         {"VALUE": (-10, -100), "RESULT": [-10, -100]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF),
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badTupleValues = [
         {"VALUE": (-9223372036854775809, 1, 2, 9223372036854775807)},
@@ -2401,17 +2529,39 @@ class TestSecsVarI8Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2433,62 +2583,60 @@ class TestSecsVarI8Values(GoodBadLists):
 class TestSecsVarI1Values(GoodBadLists):
     _type = I1
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": -128, "RESULT":-128},
+        {"VALUE": -128, "RESULT": -128},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
-        {"VALUE": 127, "RESULT": 127}
+        {"VALUE": 127, "RESULT": 127},
     ]
     _badIntValues = [
         {"VALUE": -129},
         {"VALUE": 128},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": -128, "RESULT":-128},
+        {"VALUE": -128, "RESULT": -128},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
-        {"VALUE": 127, "RESULT": 127}
+        {"VALUE": 127, "RESULT": 127},
     ]
     _badLongValues = [
         {"VALUE": -129},
         {"VALUE": 128},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "-128", "RESULT":-128},
+        {"VALUE": "-128", "RESULT": -128},
         {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "127", "RESULT": 127}
+        {"VALUE": "127", "RESULT": 127},
     ]
     _badStringValues = [
         {"VALUE": "-129"},
@@ -2497,21 +2645,21 @@ class TestSecsVarI1Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-128", "RESULT":-128},
+        {"VALUE": "-128", "RESULT": -128},
         {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "127", "RESULT": 127}
+        {"VALUE": "127", "RESULT": 127},
     ]
     _badUnicodeValues = [
         {"VALUE": "-129"},
         {"VALUE": "128"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [-128, 1, 2, 127], "RESULT": [-128, 1, 2, 127]},
         {"VALUE": ["-128", 1, "2", "127"], "RESULT": [-128, 1, 2, 127]},
@@ -2528,7 +2676,7 @@ class TestSecsVarI1Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (-128, 1, 2, 127), "RESULT": [-128, 1, 2, 127]},
         {"VALUE": ("-128", 1, "2", "127"), "RESULT": [-128, 1, 2, 127]},
@@ -2545,18 +2693,42 @@ class TestSecsVarI1Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0x7F), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0x7F], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"),},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7F"), "LENGTH" : 5},
+        {
+            "VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"),
+        },
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\x7f"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2578,64 +2750,62 @@ class TestSecsVarI1Values(GoodBadLists):
 class TestSecsVarI2Values(GoodBadLists):
     _type = I2
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": -32768, "RESULT":-32768},
+        {"VALUE": -32768, "RESULT": -32768},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 32767, "RESULT": 32767}
+        {"VALUE": 32767, "RESULT": 32767},
     ]
     _badIntValues = [
         {"VALUE": -32769},
         {"VALUE": 32768},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": -32768, "RESULT":-32768},
+        {"VALUE": -32768, "RESULT": -32768},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 32767, "RESULT": 32767}
+        {"VALUE": 32767, "RESULT": 32767},
     ]
     _badLongValues = [
         {"VALUE": -32769},
         {"VALUE": 32768},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "-32768", "RESULT":-32768},
+        {"VALUE": "-32768", "RESULT": -32768},
         {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "32767", "RESULT": 32767}
+        {"VALUE": "32767", "RESULT": 32767},
     ]
     _badStringValues = [
         {"VALUE": "-32769"},
@@ -2644,21 +2814,21 @@ class TestSecsVarI2Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-32768", "RESULT":-32768},
+        {"VALUE": "-32768", "RESULT": -32768},
         {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "32767", "RESULT": 32767}
+        {"VALUE": "32767", "RESULT": 32767},
     ]
     _badUnicodeValues = [
         {"VALUE": "-32769"},
         {"VALUE": "32768"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [-32768, 1, 2, 32767], "RESULT": [-32768, 1, 2, 32767]},
         {"VALUE": ["-32768", 1, "2", "32767"], "RESULT": [-32768, 1, 2, 32767]},
@@ -2675,7 +2845,7 @@ class TestSecsVarI2Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (-32768, 1, 2, 32767), "RESULT": [-32768, 1, 2, 32767]},
         {"VALUE": ("-32768", 1, "2", "32767"), "RESULT": [-32768, 1, 2, 32767]},
@@ -2692,17 +2862,39 @@ class TestSecsVarI2Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2724,65 +2916,63 @@ class TestSecsVarI2Values(GoodBadLists):
 class TestSecsVarI4Values(GoodBadLists):
     _type = I4
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": -2147483648, "RESULT":-2147483648},
+        {"VALUE": -2147483648, "RESULT": -2147483648},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 2147483647, "RESULT": 2147483647}
+        {"VALUE": 2147483647, "RESULT": 2147483647},
     ]
     _badIntValues = [
         {"VALUE": -2147483649},
         {"VALUE": 2147483648},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": -2147483648, "RESULT":-2147483648},
+        {"VALUE": -2147483648, "RESULT": -2147483648},
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 2147483647, "RESULT": 2147483647}
+        {"VALUE": 2147483647, "RESULT": 2147483647},
     ]
     _badLongValues = [
         {"VALUE": -2147483649},
         {"VALUE": 2147483648},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "-2147483648", "RESULT":-2147483648},
+        {"VALUE": "-2147483648", "RESULT": -2147483648},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "2147483647", "RESULT": 2147483647}
+        {"VALUE": "2147483647", "RESULT": 2147483647},
     ]
     _badStringValues = [
         {"VALUE": "-2147483649"},
@@ -2791,22 +2981,22 @@ class TestSecsVarI4Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-2147483648", "RESULT":-2147483648},
+        {"VALUE": "-2147483648", "RESULT": -2147483648},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "2147483647", "RESULT": 2147483647}
+        {"VALUE": "2147483647", "RESULT": 2147483647},
     ]
     _badUnicodeValues = [
         {"VALUE": "-2147483649"},
         {"VALUE": "2147483648"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [-2147483648, 1, 2, 2147483647], "RESULT": [-2147483648, 1, 2, 2147483647]},
         {"VALUE": ["-2147483648", 1, "2", "2147483647"], "RESULT": [-2147483648, 1, 2, 2147483647]},
@@ -2823,7 +3013,7 @@ class TestSecsVarI4Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (-2147483648, 1, 2, 2147483647), "RESULT": [-2147483648, 1, 2, 2147483647]},
         {"VALUE": ("-2147483648", 1, "2", "2147483647"), "RESULT": [-2147483648, 1, 2, 2147483647]},
@@ -2840,17 +3030,39 @@ class TestSecsVarI4Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -2872,25 +3084,24 @@ class TestSecsVarI4Values(GoodBadLists):
 class TestSecsVarF8Values(GoodBadLists):
     _type = F8
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
+    # float
     _goodFloatValues = [
-        {"VALUE": -1.79769e+308 + 1, "RESULT":-1.79769e+308 + 1},
+        {"VALUE": -1.79769e308 + 1, "RESULT": -1.79769e308 + 1},
         {"VALUE": 1.0, "RESULT": 1.0},
         {"VALUE": 100000000.123, "RESULT": 100000000.123},
         {"VALUE": -1.0, "RESULT": -1.0},
-        {"VALUE": 1.79769e+308 - 1, "RESULT": 1.79769e+308 - 1}
+        {"VALUE": 1.79769e308 - 1, "RESULT": 1.79769e308 - 1},
     ]
-    _badFloatValues = [
-    ]
+    _badFloatValues = []
 
-    #int
+    # int
     _goodIntValues = [
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
@@ -2898,10 +3109,9 @@ class TestSecsVarF8Values(GoodBadLists):
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
     ]
-    _badIntValues = [
-    ]
+    _badIntValues = []
 
-    #long
+    # long
     _goodLongValues = [
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
@@ -2909,17 +3119,15 @@ class TestSecsVarF8Values(GoodBadLists):
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
     ]
-    _badLongValues = [
-    ]
+    _badLongValues = []
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
@@ -2929,56 +3137,86 @@ class TestSecsVarF8Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-1.79769e+308", "RESULT":-1.79769e+308},
+        {"VALUE": "-1.79769e+308", "RESULT": -1.79769e308},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "1.79769e+308", "RESULT": 1.79769e+308}
+        {"VALUE": "1.79769e+308", "RESULT": 1.79769e308},
     ]
     _badUnicodeValues = [
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [False, True, False, False], "RESULT": [0, 1, 0, 0]},
         {"VALUE": [-10, -100], "RESULT": [-10, -100]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badListValues = [
         {"VALUE": ["Test", "ASDF"]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (False, True, False, False), "RESULT": [0, 1, 0, 0]},
         {"VALUE": (-10, -100), "RESULT": [-10, -100]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF),
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badTupleValues = [
         {"VALUE": ("Test", "ASDF")},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -3000,25 +3238,24 @@ class TestSecsVarF8Values(GoodBadLists):
 class TestSecsVarF4Values(GoodBadLists):
     _type = F4
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
+    # float
     _goodFloatValues = [
-        {"VALUE": -3.40282e+38 + 1, "RESULT":-3.40282e+38 + 1},
+        {"VALUE": -3.40282e38 + 1, "RESULT": -3.40282e38 + 1},
         {"VALUE": 1.0, "RESULT": 1.0},
         {"VALUE": 100000000.123, "RESULT": 100000000.123},
         {"VALUE": -1.0, "RESULT": -1.0},
-        {"VALUE": 3.40282e+38 - 1, "RESULT": 3.40282e+38 - 1}
+        {"VALUE": 3.40282e38 - 1, "RESULT": 3.40282e38 - 1},
     ]
-    _badFloatValues = [
-    ]
+    _badFloatValues = []
 
-    #int
+    # int
     _goodIntValues = [
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
@@ -3026,10 +3263,9 @@ class TestSecsVarF4Values(GoodBadLists):
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
     ]
-    _badIntValues = [
-    ]
+    _badIntValues = []
 
-    #long
+    # long
     _goodLongValues = [
         {"VALUE": -1, "RESULT": -1},
         {"VALUE": 0, "RESULT": 0},
@@ -3037,17 +3273,15 @@ class TestSecsVarF4Values(GoodBadLists):
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
     ]
-    _badLongValues = [
-    ]
+    _badLongValues = []
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
@@ -3057,56 +3291,86 @@ class TestSecsVarF4Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "-3.40282e+38", "RESULT":-3.40282e+38},
+        {"VALUE": "-3.40282e+38", "RESULT": -3.40282e38},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "3.40282e+38", "RESULT": 3.40282e+38}
+        {"VALUE": "3.40282e+38", "RESULT": 3.40282e38},
     ]
     _badUnicodeValues = [
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [False, True, False, False], "RESULT": [0, 1, 0, 0]},
         {"VALUE": [-10, -100], "RESULT": [-10, -100]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badListValues = [
         {"VALUE": ["Test", "ASDF"]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (False, True, False, False), "RESULT": [0, 1, 0, 0]},
         {"VALUE": (-10, -100), "RESULT": [-10, -100]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF),
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badTupleValues = [
         {"VALUE": ("Test", "ASDF")},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -3128,61 +3392,59 @@ class TestSecsVarF4Values(GoodBadLists):
 class TestSecsVarU8Values(GoodBadLists):
     _type = U8
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 18446744073709551615, "RESULT": 18446744073709551615}
+        {"VALUE": 18446744073709551615, "RESULT": 18446744073709551615},
     ]
     _badIntValues = [
         {"VALUE": -1},
         {"VALUE": 18446744073709551616},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 18446744073709551615, "RESULT": 18446744073709551615}
+        {"VALUE": 18446744073709551615, "RESULT": 18446744073709551615},
     ]
     _badLongValues = [
         {"VALUE": -1},
         {"VALUE": 18446744073709551616},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "18446744073709551615", "RESULT": 18446744073709551615}
+        {"VALUE": "18446744073709551615", "RESULT": 18446744073709551615},
     ]
     _badStringValues = [
         {"VALUE": "-1"},
@@ -3191,22 +3453,22 @@ class TestSecsVarU8Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "18446744073709551615", "RESULT": 18446744073709551615}
+        {"VALUE": "18446744073709551615", "RESULT": 18446744073709551615},
     ]
     _badUnicodeValues = [
         {"VALUE": "-1"},
         {"VALUE": "18446744073709551616"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [0, 1, 2, 18446744073709551615], "RESULT": [0, 1, 2, 18446744073709551615]},
         {"VALUE": ["0", 1, "2", "18446744073709551615"], "RESULT": [0, 1, 2, 18446744073709551615]},
@@ -3214,7 +3476,11 @@ class TestSecsVarU8Values(GoodBadLists):
         {"VALUE": [False, True, False, False], "RESULT": [0, 1, 0, 0]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badListValues = [
         {"VALUE": [-1, 1, 2, 18446744073709551615]},
@@ -3223,7 +3489,7 @@ class TestSecsVarU8Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (0, 1, 2, 18446744073709551615), "RESULT": [0, 1, 2, 18446744073709551615]},
         {"VALUE": ("0", 1, "2", "18446744073709551615"), "RESULT": [0, 1, 2, 18446744073709551615]},
@@ -3231,7 +3497,11 @@ class TestSecsVarU8Values(GoodBadLists):
         {"VALUE": (False, True, False, False), "RESULT": [0, 1, 0, 0]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF),
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badTupleValues = [
         {"VALUE": (-1, 1, 2, 18446744073709551615)},
@@ -3240,17 +3510,39 @@ class TestSecsVarU8Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -3272,59 +3564,53 @@ class TestSecsVarU8Values(GoodBadLists):
 class TestSecsVarU1Values(GoodBadLists):
     _type = U1
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
-        {"VALUE": 255, "RESULT": 255}
+        {"VALUE": 255, "RESULT": 255},
     ]
     _badIntValues = [
         {"VALUE": -1},
         {"VALUE": 256},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
-        {"VALUE": 255, "RESULT": 255}
+        {"VALUE": 255, "RESULT": 255},
     ]
     _badLongValues = [
         {"VALUE": -1},
         {"VALUE": 256},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
-    _goodStringValues = [
-        {"VALUE": "0", "RESULT":0},
-        {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "255", "RESULT": 255}
-    ]
+    # str
+    _goodStringValues = [{"VALUE": "0", "RESULT": 0}, {"VALUE": "1", "RESULT": 1}, {"VALUE": "255", "RESULT": 255}]
     _badStringValues = [
         {"VALUE": "-1"},
         {"VALUE": "256"},
@@ -3332,21 +3618,17 @@ class TestSecsVarU1Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
-    _goodUnicodeValues = [
-        {"VALUE": "0", "RESULT":0},
-        {"VALUE": "1", "RESULT": 1},
-        {"VALUE": "255", "RESULT": 255}
-    ]
+    # unicode
+    _goodUnicodeValues = [{"VALUE": "0", "RESULT": 0}, {"VALUE": "1", "RESULT": 1}, {"VALUE": "255", "RESULT": 255}]
     _badUnicodeValues = [
         {"VALUE": "-1"},
         {"VALUE": "256"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [0, 1, 2, 255], "RESULT": [0, 1, 2, 255]},
         {"VALUE": ["0", 1, "2", "255"], "RESULT": [0, 1, 2, 255]},
@@ -3362,7 +3644,7 @@ class TestSecsVarU1Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (0, 1, 2, 255), "RESULT": [0, 1, 2, 255]},
         {"VALUE": ("0", 1, "2", "255"), "RESULT": [0, 1, 2, 255]},
@@ -3378,17 +3660,39 @@ class TestSecsVarU1Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -3410,61 +3714,59 @@ class TestSecsVarU1Values(GoodBadLists):
 class TestSecsVarU2Values(GoodBadLists):
     _type = U2
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 65535, "RESULT": 65535}
+        {"VALUE": 65535, "RESULT": 65535},
     ]
     _badIntValues = [
         {"VALUE": -1},
         {"VALUE": 65536},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 65535, "RESULT": 65535}
+        {"VALUE": 65535, "RESULT": 65535},
     ]
     _badLongValues = [
         {"VALUE": -1},
         {"VALUE": 65536},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "65535", "RESULT": 65535}
+        {"VALUE": "65535", "RESULT": 65535},
     ]
     _badStringValues = [
         {"VALUE": "-1"},
@@ -3473,22 +3775,22 @@ class TestSecsVarU2Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "65535", "RESULT": 65535}
+        {"VALUE": "65535", "RESULT": 65535},
     ]
     _badUnicodeValues = [
         {"VALUE": "-1"},
         {"VALUE": "65536"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [0, 1, 2, 65535], "RESULT": [0, 1, 2, 65535]},
         {"VALUE": ["0", 1, "2", "65535"], "RESULT": [0, 1, 2, 65535]},
@@ -3504,7 +3806,7 @@ class TestSecsVarU2Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (0, 1, 2, 65535), "RESULT": [0, 1, 2, 65535]},
         {"VALUE": ("0", 1, "2", "65535"), "RESULT": [0, 1, 2, 65535]},
@@ -3520,17 +3822,39 @@ class TestSecsVarU2Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):
@@ -3552,61 +3876,59 @@ class TestSecsVarU2Values(GoodBadLists):
 class TestSecsVarU4Values(GoodBadLists):
     _type = U4
 
-    #bool
+    # bool
     _goodBoolValues = [
         {"VALUE": True, "RESULT": 1},
         {"VALUE": False, "RESULT": 0},
     ]
     _badBoolValues = []
 
-    #float
-    _goodFloatValues = [
-    ]
+    # float
+    _goodFloatValues = []
     _badFloatValues = [
         {"VALUE": 1.0},
         {"VALUE": 100000000.123},
         {"VALUE": -1.0},
     ]
 
-    #int
+    # int
     _goodIntValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 4294967295, "RESULT": 4294967295}
+        {"VALUE": 4294967295, "RESULT": 4294967295},
     ]
     _badIntValues = [
         {"VALUE": -1},
         {"VALUE": 4294967296},
     ]
 
-    #long
+    # long
     _goodLongValues = [
-        {"VALUE": 0, "RESULT":0},
+        {"VALUE": 0, "RESULT": 0},
         {"VALUE": 1, "RESULT": 1},
         {"VALUE": 2, "RESULT": 2},
         {"VALUE": 265, "RESULT": 265},
-        {"VALUE": 4294967295, "RESULT": 4294967295}
+        {"VALUE": 4294967295, "RESULT": 4294967295},
     ]
     _badLongValues = [
         {"VALUE": -1},
         {"VALUE": 4294967296},
     ]
 
-    #complex
-    _goodComplexValues = [
-    ]
+    # complex
+    _goodComplexValues = []
     _badComplexValues = [
-        {"VALUE": 1J},
+        {"VALUE": 1j},
     ]
 
-    #str
+    # str
     _goodStringValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "4294967295", "RESULT": 4294967295}
+        {"VALUE": "4294967295", "RESULT": 4294967295},
     ]
     _badStringValues = [
         {"VALUE": "-1"},
@@ -3615,22 +3937,22 @@ class TestSecsVarU4Values(GoodBadLists):
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #unicode
+    # unicode
     _goodUnicodeValues = [
-        {"VALUE": "0", "RESULT":0},
+        {"VALUE": "0", "RESULT": 0},
         {"VALUE": "1", "RESULT": 1},
         {"VALUE": "65535", "RESULT": 65535},
-        {"VALUE": "4294967295", "RESULT": 4294967295}
+        {"VALUE": "4294967295", "RESULT": 4294967295},
     ]
     _badUnicodeValues = [
         {"VALUE": "-1"},
         {"VALUE": "4294967296"},
-        {"VALUE": 'ABRA\xc3O JOS\xc9'},
+        {"VALUE": "ABRA\xc3O JOS\xc9"},
         {"VALUE": "TEST1"},
         {"VALUE": "TEST1", "LENGTH": 4},
     ]
 
-    #list
+    # list
     _goodListValues = [
         {"VALUE": [0, 1, 2, 4294967295], "RESULT": [0, 1, 2, 4294967295]},
         {"VALUE": ["0", 1, "2", "4294967295"], "RESULT": [0, 1, 2, 4294967295]},
@@ -3638,7 +3960,11 @@ class TestSecsVarU4Values(GoodBadLists):
         {"VALUE": [False, True, False, False], "RESULT": [0, 1, 0, 0]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badListValues = [
         {"VALUE": [-1, 1, 2, 4294967295]},
@@ -3647,7 +3973,7 @@ class TestSecsVarU4Values(GoodBadLists):
         {"VALUE": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 5},
     ]
 
-    #tuple
+    # tuple
     _goodTupleValues = [
         {"VALUE": (0, 1, 2, 4294967295), "RESULT": [0, 1, 2, 4294967295]},
         {"VALUE": ("0", 1, "2", "4294967295"), "RESULT": [0, 1, 2, 4294967295]},
@@ -3655,7 +3981,11 @@ class TestSecsVarU4Values(GoodBadLists):
         {"VALUE": (False, True, False, False), "RESULT": [0, 1, 0, 0]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
-        {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF], "LENGTH": 6},
+        {
+            "VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF),
+            "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFFFFFFFF],
+            "LENGTH": 6,
+        },
     ]
     _badTupleValues = [
         {"VALUE": (-1, 1, 2, 4294967295)},
@@ -3664,17 +3994,39 @@ class TestSecsVarU4Values(GoodBadLists):
         {"VALUE": (0x0, 0x1, 0x5, 0x20, 0x10, 0xFF), "LENGTH": 5},
     ]
 
-    #bytearray
+    # bytearray
     _goodByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH" : 6},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF]},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "RESULT": [0x0, 0x1, 0x5, 0x20, 0x10, 0xFF], "LENGTH": 6},
     ]
     _badByteArrayValues = [
-        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xFF"), "LENGTH" : 5},
+        {"VALUE": bytearray(b"\x00\x01\x05\x20\x10\xff"), "LENGTH": 5},
     ]
 
-    goodValues = [_goodBoolValues, _goodFloatValues, _goodIntValues, _goodLongValues, _goodComplexValues, _goodStringValues, _goodUnicodeValues, _goodListValues, _goodTupleValues, _goodByteArrayValues]
-    badValues = [_badBoolValues, _badFloatValues, _badIntValues, _badLongValues, _badComplexValues, _badStringValues, _badUnicodeValues, _badListValues, _badTupleValues, _badByteArrayValues]
+    goodValues = [
+        _goodBoolValues,
+        _goodFloatValues,
+        _goodIntValues,
+        _goodLongValues,
+        _goodComplexValues,
+        _goodStringValues,
+        _goodUnicodeValues,
+        _goodListValues,
+        _goodTupleValues,
+        _goodByteArrayValues,
+    ]
+    badValues = [
+        _badBoolValues,
+        _badFloatValues,
+        _badIntValues,
+        _badLongValues,
+        _badComplexValues,
+        _badStringValues,
+        _badUnicodeValues,
+        _badListValues,
+        _badTupleValues,
+        _badByteArrayValues,
+    ]
 
     @pytest.mark.parametrize("value", [item for sublist in goodValues for item in sublist])
     def test_good_assignment(self, value):

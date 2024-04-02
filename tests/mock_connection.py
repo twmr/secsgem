@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Mock class for connection."""
+
 from __future__ import annotations
 
 import datetime
@@ -30,7 +31,6 @@ class MockHsmsConnection(secsgem.common.Connection):
 
         self._packets = []
         self._fail_send = False
-
 
     def enable(self):
         """Enable the connection.

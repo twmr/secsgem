@@ -31,7 +31,9 @@ class TestSecsHandler(unittest.TestCase):
         settings = MockSettings(MockProtocol)
         client = secsgem.secs.SecsHandler(settings)
 
-        packet = settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(["MDLN", "SOFTREV"]), 0)
+        packet = settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F02(["MDLN", "SOFTREV"]), 0
+        )
 
         function = client.streams_functions.decode(packet)
 
@@ -106,9 +108,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.client.register_stream_function(1, 1, self.handleS01F01)
 
-        #send s01e01
+        # send s01e01
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -120,9 +124,12 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testStreamFunctionSending(self):
         self.settings.protocol.simulate_connect()
 
-        #send s01e01
-        clientCommandThread = threading.Thread(target=self.client.send_and_waitfor_response, args=(secsgem.secs.functions.SecsS01F01(),), \
-            name="TestSecsHandlerPassive_testStreamFunctionSending")
+        # send s01e01
+        clientCommandThread = threading.Thread(
+            target=self.client.send_and_waitfor_response,
+            args=(secsgem.secs.functions.SecsS01F01(),),
+            name="TestSecsHandlerPassive_testStreamFunctionSending",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -133,7 +140,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F02(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -141,9 +152,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testStreamFunctionReceivingUnhandledFunction(self):
         self.settings.protocol.simulate_connect()
 
-        #send s01e01
+        # send s01e01
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -159,9 +172,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.client.register_stream_function(1, 1, f)
 
-        #send s01e01
+        # send s01e01
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F01(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -173,7 +188,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testDisableCeids(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.disable_ceids, name="TestSecsHandlerPassive_testDisableCeids")
+        clientCommandThread = threading.Thread(
+            target=self.client.disable_ceids, name="TestSecsHandlerPassive_testDisableCeids"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -189,7 +206,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(function["CEED"], False)
         self.assertEqual(function["CEID"].get(), [])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F38(secsgem.secs.data_items.ERACK.ACCEPTED), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F38(secsgem.secs.data_items.ERACK.ACCEPTED), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -198,7 +217,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testDisableCeidReports(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.disable_ceid_reports, name="TestSecsHandlerPassive_testDisableCeidReports")
+        clientCommandThread = threading.Thread(
+            target=self.client.disable_ceid_reports, name="TestSecsHandlerPassive_testDisableCeidReports"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -214,7 +235,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(function["DATAID"], 0)
         self.assertEqual(function["DATA"].get(), [])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F34(secsgem.secs.data_items.DRACK.ACK), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F34(secsgem.secs.data_items.DRACK.ACK), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -223,7 +246,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testListSVsAll(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.list_svs, name="TestSecsHandlerPassive_testListSVsAll")
+        clientCommandThread = threading.Thread(
+            target=self.client.list_svs, name="TestSecsHandlerPassive_testListSVsAll"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -238,7 +263,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -247,7 +274,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testListSVsSpecific(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.list_svs, args=([1], ), name="TestSecsHandlerPassive_testListSVsSpecific")
+        clientCommandThread = threading.Thread(
+            target=self.client.list_svs, args=([1],), name="TestSecsHandlerPassive_testListSVsSpecific"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -262,7 +291,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -271,7 +302,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testRequestSVs(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.request_svs, args=([1], ), name="TestSecsHandlerPassive_testRequestSVs")
+        clientCommandThread = threading.Thread(
+            target=self.client.request_svs, args=([1],), name="TestSecsHandlerPassive_testRequestSVs"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -286,7 +319,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F04([1337]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F04([1337]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -295,7 +330,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testRequestSV(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.request_sv, args=(1, ), name="TestSecsHandlerPassive_testRequestSV")
+        clientCommandThread = threading.Thread(
+            target=self.client.request_sv, args=(1,), name="TestSecsHandlerPassive_testRequestSV"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -310,7 +347,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F04([1337]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F04([1337]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -319,7 +358,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testListECsAll(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.list_ecs, name="TestSecsHandlerPassive_testListECsAll")
+        clientCommandThread = threading.Thread(
+            target=self.client.list_ecs, name="TestSecsHandlerPassive_testListECsAll"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -334,8 +375,21 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F30([{"ECID": 1, "ECNAME": "EC1", \
-            "ECMIN": secsgem.secs.variables.U1(0), "ECMAX": secsgem.secs.variables.U1(100), "ECDEF": secsgem.secs.variables.U1(50), "UNITS": "mm"}]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F30(
+                [
+                    {
+                        "ECID": 1,
+                        "ECNAME": "EC1",
+                        "ECMIN": secsgem.secs.variables.U1(0),
+                        "ECMAX": secsgem.secs.variables.U1(100),
+                        "ECDEF": secsgem.secs.variables.U1(50),
+                        "UNITS": "mm",
+                    }
+                ]
+            ),
+            packet.header.system,
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -344,7 +398,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testListECsSpecific(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.list_ecs, args=([1], ), name="TestSecsHandlerPassive_testListECsSpecific")
+        clientCommandThread = threading.Thread(
+            target=self.client.list_ecs, args=([1],), name="TestSecsHandlerPassive_testListECsSpecific"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -359,8 +415,21 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F30([{"ECID": 1, "ECNAME": "EC1", \
-            "ECMIN": secsgem.secs.variables.U1(0), "ECMAX": secsgem.secs.variables.U1(100), "ECDEF": secsgem.secs.variables.U1(50), "UNITS": "mm"}]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F30(
+                [
+                    {
+                        "ECID": 1,
+                        "ECNAME": "EC1",
+                        "ECMIN": secsgem.secs.variables.U1(0),
+                        "ECMAX": secsgem.secs.variables.U1(100),
+                        "ECDEF": secsgem.secs.variables.U1(50),
+                        "UNITS": "mm",
+                    }
+                ]
+            ),
+            packet.header.system,
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -369,7 +438,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testRequestECs(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.request_ecs, args=([1], ), name="TestSecsHandlerPassive_testRequestECs")
+        clientCommandThread = threading.Thread(
+            target=self.client.request_ecs, args=([1],), name="TestSecsHandlerPassive_testRequestECs"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -384,7 +455,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F14([1337]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F14([1337]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -393,7 +466,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testRequestEC(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.request_ec, args=(1, ), name="TestSecsHandlerPassive_testRequestEC")
+        clientCommandThread = threading.Thread(
+            target=self.client.request_ec, args=(1,), name="TestSecsHandlerPassive_testRequestEC"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -408,7 +483,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         self.assertEqual(function.get(), [1])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F14([1337]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F14([1337]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -417,7 +494,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testSetECs(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.set_ecs, args=([[1, "1337"]], ), name="TestSecsHandlerPassive_testSetECs")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_ecs, args=([[1, "1337"]],), name="TestSecsHandlerPassive_testSetECs"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -430,9 +509,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [{'ECID': 1, 'ECV': '1337'}])
+        self.assertEqual(function.get(), [{"ECID": 1, "ECV": "1337"}])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -441,7 +522,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testSetEC(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.set_ec, args=(1, 1337), name="TestSecsHandlerPassive_testSetEC")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_ec, args=(1, 1337), name="TestSecsHandlerPassive_testSetEC"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -454,9 +537,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [{'ECV': 1337, 'ECID': 1}])
+        self.assertEqual(function.get(), [{"ECV": 1337, "ECID": 1}])
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -465,8 +550,11 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testSendEquipmentTerminal(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.send_equipment_terminal, args=(0, "Hello World"), \
-            name="TestSecsHandlerPassive_testSendEquipmentTerminal")
+        clientCommandThread = threading.Thread(
+            target=self.client.send_equipment_terminal,
+            args=(0, "Hello World"),
+            name="TestSecsHandlerPassive_testSendEquipmentTerminal",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -482,7 +570,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(function.TID.get(), 0)
         self.assertEqual(function.TEXT.get(), "Hello World")
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS10F04(secsgem.secs.data_items.ACKC10.ACCEPTED), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS10F04(secsgem.secs.data_items.ACKC10.ACCEPTED), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
@@ -491,7 +581,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
     def testAreYouThere(self):
         self.settings.protocol.simulate_connect()
 
-        clientCommandThread = threading.Thread(target=self.client.are_you_there, name="TestSecsHandlerPassive_testAreYouThere")
+        clientCommandThread = threading.Thread(
+            target=self.client.are_you_there, name="TestSecsHandlerPassive_testAreYouThere"
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -502,7 +594,9 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.assertEqual(packet.header.stream, 1)
         self.assertEqual(packet.header.function, 1)
 
-        packet = self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02([]), packet.header.system)
+        packet = self.settings.protocol.create_message_for_function(
+            secsgem.secs.functions.SecsS01F02([]), packet.header.system
+        )
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)

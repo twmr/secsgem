@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Mock class for protocol."""
+
 from __future__ import annotations
 
 import datetime
@@ -29,6 +30,7 @@ if typing.TYPE_CHECKING:
 
 class MockHeader(secsgem.common.Header):
     """Mock header."""
+
     def encode(self) -> bytes:
         """Encode header to message.
 
@@ -66,6 +68,7 @@ class MockHeader(secsgem.common.Header):
             "function": self._function,
         }
 
+
 class MockBlock(secsgem.common.Block[MockHeader]):
     """Mock block class."""
 
@@ -83,7 +86,7 @@ class MockMessage(secsgem.common.Message[MockBlock]):
             data: data part used for streams and functions (SType 0)
 
         """
-        #self._blocks: list[MockBlock] = self._split_blocks(data, header)
+        # self._blocks: list[MockBlock] = self._split_blocks(data, header)
         self._header = header
         self._function = data
 
@@ -131,9 +134,7 @@ class MockProtocol(secsgem.common.Protocol[secsgem.common.Message, secsgem.commo
 
     def serialize_data(self) -> dict[str, typing.Any]:
         """Get protocol serialized data for debugging."""
-        return {
-            "mock": True
-        }
+        return {"mock": True}
 
     def _on_connection_message_received(self, source: object, message: secsgem.common.Message):
         """Message received by connection.
@@ -146,9 +147,9 @@ class MockProtocol(secsgem.common.Protocol[secsgem.common.Message, secsgem.commo
         raise NotImplementedError("MockProtocol._on_connection_message_received missing implementation")
 
     def _create_message_for_function(
-            self,
-            function: secsgem.secs.SecsStreamFunction,
-            system_id: int,
+        self,
+        function: secsgem.secs.SecsStreamFunction,
+        system_id: int,
     ) -> secsgem.common.Message:
         """Create a protocol specific message for a function.
 
@@ -160,15 +161,15 @@ class MockProtocol(secsgem.common.Protocol[secsgem.common.Message, secsgem.commo
             created message
 
         """
-        return MockMessage(MockHeader(system_id, 0, function.stream, function.function, function.is_reply_required), function)
+        return MockMessage(
+            MockHeader(system_id, 0, function.stream, function.function, function.is_reply_required), function
+        )
 
     create_message_for_function = _create_message_for_function
 
     def _get_log_extra(self) -> dict[str, typing.Any]:
         """Get extra fields for logging."""
-        return {
-            "mock": True
-        }
+        return {"mock": True}
 
     def enable(self):
         """Enable the connection."""

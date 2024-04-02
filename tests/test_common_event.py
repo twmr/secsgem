@@ -136,5 +136,3 @@ class TestEventProducer(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             producer.targets = test
-
-

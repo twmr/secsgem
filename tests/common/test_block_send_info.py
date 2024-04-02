@@ -14,6 +14,7 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 """Tests for the block_send_info module."""
+
 from __future__ import annotations
 
 from secsgem.common import BlockSendInfo

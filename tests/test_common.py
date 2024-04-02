@@ -30,4 +30,3 @@ class TestTopLevelFunctions(unittest.TestCase):
     def test_function_name(self):
         self.assertEqual(secsgem.common.function_name(secsgem.common.is_windows), "is_windows")
         self.assertEqual(secsgem.common.function_name(self.test_is_windows), "TestTopLevelFunctions.test_is_windows")
-

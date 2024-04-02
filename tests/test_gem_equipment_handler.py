@@ -34,7 +34,9 @@ from mock_settings import MockSettings
 
 class TestDataValue(unittest.TestCase):
     def testConstructorWithInt(self):
-        dv = secsgem.gem.DataValue(123, "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        dv = secsgem.gem.DataValue(
+            123, "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2
+        )
 
         self.assertEqual(dv.dvid, 123)
         self.assertEqual(dv.name, "TestDataValue")
@@ -44,7 +46,9 @@ class TestDataValue(unittest.TestCase):
         self.assertEqual(dv.param2, 2)
 
     def testConstructorWithStr(self):
-        dv = secsgem.gem.DataValue("DV123", "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        dv = secsgem.gem.DataValue(
+            "DV123", "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2
+        )
 
         self.assertEqual(dv.dvid, "DV123")
         self.assertEqual(dv.name, "TestDataValue")
@@ -56,7 +60,9 @@ class TestDataValue(unittest.TestCase):
 
 class TestStatusVariable(unittest.TestCase):
     def testConstructorWithInt(self):
-        sv = secsgem.gem.StatusVariable(123, "TestStatusVariable", "mm", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        sv = secsgem.gem.StatusVariable(
+            123, "TestStatusVariable", "mm", secsgem.secs.variables.String, False, param1="param1", param2=2
+        )
 
         self.assertEqual(sv.svid, 123)
         self.assertEqual(sv.name, "TestStatusVariable")
@@ -67,7 +73,9 @@ class TestStatusVariable(unittest.TestCase):
         self.assertEqual(sv.param2, 2)
 
     def testConstructorWithStr(self):
-        sv = secsgem.gem.StatusVariable("SV123", "TestStatusVariable", "mm", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        sv = secsgem.gem.StatusVariable(
+            "SV123", "TestStatusVariable", "mm", secsgem.secs.variables.String, False, param1="param1", param2=2
+        )
 
         self.assertEqual(sv.svid, "SV123")
         self.assertEqual(sv.name, "TestStatusVariable")
@@ -130,7 +138,9 @@ class TestCollectionEventReport(unittest.TestCase):
 
 class TestEquipmentConstant(unittest.TestCase):
     def testConstructorWithInt(self):
-        ec = secsgem.gem.EquipmentConstant(123, "TestEquipmentConstant", 0, 100, 50, "mm", secsgem.secs.variables.U4, False, param1="param1", param2=2)
+        ec = secsgem.gem.EquipmentConstant(
+            123, "TestEquipmentConstant", 0, 100, 50, "mm", secsgem.secs.variables.U4, False, param1="param1", param2=2
+        )
 
         self.assertEqual(ec.ecid, 123)
         self.assertEqual(ec.name, "TestEquipmentConstant")
@@ -144,7 +154,18 @@ class TestEquipmentConstant(unittest.TestCase):
         self.assertEqual(ec.param2, 2)
 
     def testConstructorWithStr(self):
-        ec = secsgem.gem.EquipmentConstant("EC123", "TestEquipmentConstant", 0, 100, 50, "mm", secsgem.secs.variables.U4, False, param1="param1", param2=2)
+        ec = secsgem.gem.EquipmentConstant(
+            "EC123",
+            "TestEquipmentConstant",
+            0,
+            100,
+            50,
+            "mm",
+            secsgem.secs.variables.U4,
+            False,
+            param1="param1",
+            param2=2,
+        )
 
         self.assertEqual(ec.ecid, "EC123")
         self.assertEqual(ec.name, "TestEquipmentConstant")
@@ -160,26 +181,46 @@ class TestEquipmentConstant(unittest.TestCase):
 
 class TestAlarm(unittest.TestCase):
     def testConstructorWithInt(self):
-        alarm = secsgem.gem.Alarm(123, "TestAlarm", "TestAlarmText", secsgem.secs.data_items.ALCD.PERSONAL_SAFETY |
-                                  secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY, 100025, 200025, param1="param1", param2=2)
+        alarm = secsgem.gem.Alarm(
+            123,
+            "TestAlarm",
+            "TestAlarmText",
+            secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY,
+            100025,
+            200025,
+            param1="param1",
+            param2=2,
+        )
 
         self.assertEqual(alarm.alid, 123)
         self.assertEqual(alarm.name, "TestAlarm")
         self.assertEqual(alarm.text, "TestAlarmText")
-        self.assertEqual(alarm.code, secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            alarm.code, secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(alarm.ce_on, 100025)
         self.assertEqual(alarm.ce_off, 200025)
         self.assertEqual(alarm.param1, "param1")
         self.assertEqual(alarm.param2, 2)
 
     def testConstructorWithStr(self):
-        alarm = secsgem.gem.Alarm("AL123", "TestAlarm", "TestAlarmText", secsgem.secs.data_items.ALCD.PERSONAL_SAFETY |
-                                  secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY, 100025, 200025, param1="param1", param2=2)
+        alarm = secsgem.gem.Alarm(
+            "AL123",
+            "TestAlarm",
+            "TestAlarmText",
+            secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY,
+            100025,
+            200025,
+            param1="param1",
+            param2=2,
+        )
 
         self.assertEqual(alarm.alid, "AL123")
         self.assertEqual(alarm.name, "TestAlarm")
         self.assertEqual(alarm.text, "TestAlarmText")
-        self.assertEqual(alarm.code, secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            alarm.code, secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(alarm.ce_on, 100025)
         self.assertEqual(alarm.ce_off, 200025)
         self.assertEqual(alarm.param1, "param1")
@@ -219,7 +260,7 @@ class TestGemEquipmentHandler(unittest.TestCase):
         settings = MockSettings(MockProtocol)
         client = secsgem.gem.GemEquipmentHandler(settings, initial_control_state="EQUIPMENT_OFFLINE")
 
-        self.assertEqual(client.control_state.current,  secsgem.gem.control_state_machine.ControlState.EQUIPMENT_OFFLINE)
+        self.assertEqual(client.control_state.current, secsgem.gem.control_state_machine.ControlState.EQUIPMENT_OFFLINE)
 
     def testControlInitialStateHostOffline(self):
         settings = MockSettings(MockProtocol)
@@ -237,7 +278,9 @@ class TestGemEquipmentHandler(unittest.TestCase):
 
     def testControlInitialStateOnlineLocal(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.gem.GemEquipmentHandler(settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL")
+        client = secsgem.gem.GemEquipmentHandler(
+            settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL"
+        )
 
         self.assertEqual(client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_LOCAL)
 
@@ -253,7 +296,9 @@ class TestGemEquipmentHandler(unittest.TestCase):
 
     def testControlLocalToRemote(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.gem.GemEquipmentHandler(settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL")
+        client = secsgem.gem.GemEquipmentHandler(
+            settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL"
+        )
 
         self.assertEqual(client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_LOCAL)
 
@@ -263,7 +308,9 @@ class TestGemEquipmentHandler(unittest.TestCase):
 
     def testControlOnlineToOffline(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.gem.GemEquipmentHandler(settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL")
+        client = secsgem.gem.GemEquipmentHandler(
+            settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL"
+        )
 
         self.assertEqual(client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_LOCAL)
 
@@ -273,7 +320,9 @@ class TestGemEquipmentHandler(unittest.TestCase):
 
     def testSVcontrol_stateOnlineLocal(self):
         settings = MockSettings(MockProtocol)
-        client = secsgem.gem.GemEquipmentHandler(settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL")
+        client = secsgem.gem.GemEquipmentHandler(
+            settings, initial_control_state="ONLINE", initial_online_control_state="LOCAL"
+        )
 
         self.assertEqual(client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_LOCAL)
         self.assertEqual(client._get_control_state_id(), 4)
@@ -310,34 +359,54 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=13)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F14([0]), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F14([0]), packet.header.system
+            )
+        )
 
     def testControlConnect(self):
         self.establishCommunication()
 
-        clientCommandThread = threading.Thread(target=self.client.control_switch_online, name="TestGemEquipmentHandlerPassiveControlState_testControlConnect")
+        clientCommandThread = threading.Thread(
+            target=self.client.control_switch_online,
+            name="TestGemEquipmentHandlerPassiveControlState_testControlConnect",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F02(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
     def testControlConnectDenied(self):
         self.establishCommunication()
 
-        clientCommandThread = threading.Thread(target=self.client.control_switch_online, name="TestGemEquipmentHandlerPassiveControlState_testControlConnectDenied")
+        clientCommandThread = threading.Thread(
+            target=self.client.control_switch_online,
+            name="TestGemEquipmentHandlerPassiveControlState_testControlConnectDenied",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F00(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F00(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -347,21 +416,32 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
     def testControlRequestOffline(self):
         self.establishCommunication()
 
-        clientCommandThread = threading.Thread(target=self.client.control_switch_online, name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOffline")
+        clientCommandThread = threading.Thread(
+            target=self.client.control_switch_online,
+            name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOffline",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F02(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F15(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F15(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -379,21 +459,32 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
     def testControlRequestOnline(self):
         self.establishCommunication()
 
-        clientCommandThread = threading.Thread(target=self.client.control_switch_online, name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOnline")
+        clientCommandThread = threading.Thread(
+            target=self.client.control_switch_online,
+            name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOnline",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F02(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
         system_id = 1
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F15(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F15(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -405,7 +496,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.HOST_OFFLINE)
 
         system_id = 1
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F17(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F17(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -418,26 +511,39 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertEqual(function.get(), 0)
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
     def testControlRequestOnlineWhileOnline(self):
         self.establishCommunication()
 
-        clientCommandThread = threading.Thread(target=self.client.control_switch_online, name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOnline")
+        clientCommandThread = threading.Thread(
+            target=self.client.control_switch_online,
+            name="TestGemEquipmentHandlerPassiveControlState_testControlRequestOnline",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F02(), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS01F02(), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
         system_id = 1
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F17(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F17(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -450,20 +556,30 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertEqual(function.get(), 2)
 
-        self.assertEqual(self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE)
+        self.assertEqual(
+            self.client.control_state.current, secsgem.gem.control_state_machine.ControlState.ONLINE_REMOTE
+        )
 
     def setupTestStatusVariables(self, use_callback=False):
-        self.client.status_variables.update({
-            10: secsgem.gem.StatusVariable(10, "sample1, numeric SVID, U4", "meters", secsgem.secs.variables.U4, use_callback),
-            "SV2": secsgem.gem.StatusVariable("SV2", "sample2, text SVID, String", "chars", secsgem.secs.variables.String, use_callback),
-        })
+        self.client.status_variables.update(
+            {
+                10: secsgem.gem.StatusVariable(
+                    10, "sample1, numeric SVID, U4", "meters", secsgem.secs.variables.U4, use_callback
+                ),
+                "SV2": secsgem.gem.StatusVariable(
+                    "SV2", "sample2, text SVID, String", "chars", secsgem.secs.variables.String, use_callback
+                ),
+            }
+        )
 
         self.client.status_variables[10].value = 123
         self.client.status_variables["SV2"].value = "sample sv"
 
     def sendSVNamelistRequest(self, svs=[]):
         system_id = 1
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F11(svs), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F11(svs), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -527,7 +643,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendSVRequest(self, svs=[]):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F03(svs), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F03(svs), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -599,7 +717,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         delta = datetime.timedelta(seconds=5)
 
         # timeformat 0
-        function = self.sendECUpdate([{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(0)}])
+        function = self.sendECUpdate(
+            [{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(0)}]
+        )
 
         function = self.sendSVRequest([secsgem.gem.StatusVariableId.CLOCK.value])
 
@@ -613,7 +733,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertTrue(now - delta < equ_datetime < now + delta)
 
         # timeformat 1
-        function = self.sendECUpdate([{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(1)}])
+        function = self.sendECUpdate(
+            [{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(1)}]
+        )
 
         function = self.sendSVRequest([secsgem.gem.StatusVariableId.CLOCK.value])
 
@@ -627,7 +749,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertTrue(now - delta < equ_datetime < now + delta)
 
         # timeformat 2
-        function = self.sendECUpdate([{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(2)}])
+        function = self.sendECUpdate(
+            [{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.U4(2)}]
+        )
 
         function = self.sendSVRequest([secsgem.gem.StatusVariableId.CLOCK.value])
 
@@ -674,13 +798,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         function = self.sendAlarmEnable()
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testStatusVariablePredefinedAlarmsSet")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testStatusVariablePredefinedAlarmsSet",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -688,13 +820,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendSVRequest([secsgem.gem.StatusVariableId.ALARMS_SET.value])
         self.assertEqual(function[0].get(), [25])
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testStatusVariablePredefinedAlarmsSet")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testStatusVariablePredefinedAlarmsSet",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -703,36 +843,62 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function[0].get(), [])
 
     def setupTestDataValues(self, use_callbacks=False):
-        self.client.data_values.update({
-            30: secsgem.gem.DataValue(30, "sample1, numeric DV, U4", secsgem.secs.variables.U4, use_callbacks),
-        })
+        self.client.data_values.update(
+            {
+                30: secsgem.gem.DataValue(30, "sample1, numeric DV, U4", secsgem.secs.variables.U4, use_callbacks),
+            }
+        )
 
         self.client.data_values[30].value = 31337
 
     def setupTestCollectionEvents(self):
-        self.client.collection_events.update({
-            50: secsgem.gem.CollectionEvent(50, "test collection event", [30]),
-        })
+        self.client.collection_events.update(
+            {
+                50: secsgem.gem.CollectionEvent(50, "test collection event", [30]),
+            }
+        )
 
     def setupTestAlarms(self):
-        self.client.collection_events.update({
-            100025: secsgem.gem.CollectionEvent(100025, "test alarm on", []),
-            200025: secsgem.gem.CollectionEvent(200025, "test alarm off", []),
-            100030: secsgem.gem.CollectionEvent(100030, "test alarm 2 on", []),
-            200030: secsgem.gem.CollectionEvent(200030, "test alarm 2 off", []),
-        })
-        self.client.alarms.update({
-            25: secsgem.gem.Alarm(25, "test alarm", "test text", secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY, 100025, 200025),
-            30: secsgem.gem.Alarm(30, "test alarm 2", "test text 2", secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY, 100030, 200030),
-        })
+        self.client.collection_events.update(
+            {
+                100025: secsgem.gem.CollectionEvent(100025, "test alarm on", []),
+                200025: secsgem.gem.CollectionEvent(200025, "test alarm off", []),
+                100030: secsgem.gem.CollectionEvent(100030, "test alarm 2 on", []),
+                200030: secsgem.gem.CollectionEvent(200030, "test alarm 2 off", []),
+            }
+        )
+        self.client.alarms.update(
+            {
+                25: secsgem.gem.Alarm(
+                    25,
+                    "test alarm",
+                    "test text",
+                    secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY,
+                    100025,
+                    200025,
+                ),
+                30: secsgem.gem.Alarm(
+                    30,
+                    "test alarm 2",
+                    "test text 2",
+                    secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY,
+                    100030,
+                    200030,
+                ),
+            }
+        )
 
     def setupTestRemoteCommands(self):
-        self.client.collection_events.update({
-            5001: secsgem.gem.CollectionEvent(5001, "TEST_RCMD complete", []),
-        })
-        self.client.remote_commands.update({
-            "TEST_RCMD": secsgem.gem.RemoteCommand("TEST_RCMD", "test rcmd", ["TEST_PARAMETER"], 5001),
-        })
+        self.client.collection_events.update(
+            {
+                5001: secsgem.gem.CollectionEvent(5001, "TEST_RCMD complete", []),
+            }
+        )
+        self.client.remote_commands.update(
+            {
+                "TEST_RCMD": secsgem.gem.RemoteCommand("TEST_RCMD", "test rcmd", ["TEST_PARAMETER"], 5001),
+            }
+        )
 
     def sendCEDefineReport(self, dataid=100, rptid=1000, vid=[30], empty_data=False):
         if not empty_data:
@@ -741,7 +907,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
             data = {"DATAID": dataid, "DATA": []}
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F33(data), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F33(data), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -759,7 +927,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
             data = {"DATAID": dataid, "DATA": []}
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F35(data), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F35(data), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -772,7 +942,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendCEEnableReport(self, enable=True, ceid=[50]):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F37({"CEED": enable, "CEID": ceid}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F37({"CEED": enable, "CEID": ceid}), system_id
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -785,8 +959,17 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendAlarmEnable(self, enable=True, alid=25):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F03(
-            {"ALED": secsgem.secs.data_items.ALED.ENABLE if enable else secsgem.secs.data_items.ALED.DISABLE, "ALID": alid}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F03(
+                    {
+                        "ALED": secsgem.secs.data_items.ALED.ENABLE if enable else secsgem.secs.data_items.ALED.DISABLE,
+                        "ALID": alid,
+                    }
+                ),
+                system_id,
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -799,7 +982,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendCERequestReport(self, ceid=50):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F15(ceid), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F15(ceid), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1215,13 +1400,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendCELinkReport()
         function = self.sendCEEnableReport()
 
-        clientCommandThread = threading.Thread(target=self.client.trigger_collection_events, args=([50],), name="TestGemEquipmentHandlerPassiveControlState_testCollectionEventTrigger")
+        clientCommandThread = threading.Thread(
+            target=self.client.trigger_collection_events,
+            args=([50],),
+            name="TestGemEquipmentHandlerPassiveControlState_testCollectionEventTrigger",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1239,17 +1432,32 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.RPT[0].V[0].get(), 31337)
 
     def setupTestEquipmentConstants(self, use_callback=False):
-        self.client.equipment_constants.update({
-            20: secsgem.gem.EquipmentConstant(20, "sample1, numeric ECID, I4", 0, 500, 50, "degrees", secsgem.secs.variables.I4, use_callback),
-            "EC2": secsgem.gem.EquipmentConstant("EC2", "sample2, text ECID, String", None, None, "", "chars", secsgem.secs.variables.String, use_callback),
-        })
+        self.client.equipment_constants.update(
+            {
+                20: secsgem.gem.EquipmentConstant(
+                    20, "sample1, numeric ECID, I4", 0, 500, 50, "degrees", secsgem.secs.variables.I4, use_callback
+                ),
+                "EC2": secsgem.gem.EquipmentConstant(
+                    "EC2",
+                    "sample2, text ECID, String",
+                    None,
+                    None,
+                    "",
+                    "chars",
+                    secsgem.secs.variables.String,
+                    use_callback,
+                ),
+            }
+        )
 
         self.client.equipment_constants[20].value = 321
         self.client.equipment_constants["EC2"].value = "sample ec"
 
     def sendECNamelistRequest(self, ecid=[]):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F29(ecid), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F29(ecid), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1262,7 +1470,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendECRequest(self, ecid=[]):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F13(ecid), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F13(ecid), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1275,7 +1485,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
     def sendECUpdate(self, data):
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F15(data), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F15(data), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1406,7 +1618,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.setupTestEquipmentConstants()
         self.establishCommunication()
 
-        function = self.sendECUpdate([{"ECID": 20, "ECV": secsgem.secs.variables.I4(123)}, {"ECID": "EC2", "ECV": "ce elpmas"}])
+        function = self.sendECUpdate(
+            [{"ECID": 20, "ECV": secsgem.secs.variables.I4(123)}, {"ECID": "EC2", "ECV": "ce elpmas"}]
+        )
 
         self.assertEqual(function.get(), 0)
 
@@ -1437,7 +1651,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.setupTestEquipmentConstants(True)
         self.establishCommunication()
 
-        function = self.sendECUpdate([{"ECID": 20, "ECV": secsgem.secs.variables.I4(123)}, {"ECID": "EC2", "ECV": "ce elpmas"}])
+        function = self.sendECUpdate(
+            [{"ECID": 20, "ECV": secsgem.secs.variables.I4(123)}, {"ECID": "EC2", "ECV": "ce elpmas"}]
+        )
 
         self.assertEqual(function.get(), 0)
 
@@ -1453,7 +1669,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 1)
 
     def testEquipmentConstantPredefinedEstablishCommunicationTimeout(self):
-        self.client.equipment_constants[secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value].value = 10
+        self.client.equipment_constants[
+            secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value
+        ].value = 10
 
         self.establishCommunication()
 
@@ -1463,11 +1681,23 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertIsNotNone(EC)
         self.assertEqual(EC.get(), 10)
 
-        function = self.sendECUpdate([{"ECID": secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value, "ECV": secsgem.secs.variables.I4(20)}])
+        function = self.sendECUpdate(
+            [
+                {
+                    "ECID": secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value,
+                    "ECV": secsgem.secs.variables.I4(20),
+                }
+            ]
+        )
 
         self.assertEqual(function.get(), 0)
 
-        self.assertEqual(self.client.equipment_constants[secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value].value, 20)
+        self.assertEqual(
+            self.client.equipment_constants[
+                secsgem.gem.EquipmentConstantId.ESTABLISH_COMMUNICATIONS_TIMEOUT.value
+            ].value,
+            20,
+        )
 
     def testEquipmentConstantPredefinedTimeFormat(self):
         self.client.equipment_constants[secsgem.gem.EquipmentConstantId.TIME_FORMAT.value].value = 1
@@ -1480,7 +1710,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertIsNotNone(EC)
         self.assertEqual(EC.get(), 1)
 
-        function = self.sendECUpdate([{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.I4(0)}])
+        function = self.sendECUpdate(
+            [{"ECID": secsgem.gem.EquipmentConstantId.TIME_FORMAT.value, "ECV": secsgem.secs.variables.I4(0)}]
+        )
 
         self.assertEqual(function.get(), 0)
 
@@ -1535,7 +1767,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOn")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOn",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1548,11 +1784,20 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.ALCD.get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY | secsgem.secs.data_items.ALCD.ALARM_SET)
+        self.assertEqual(
+            function.ALCD.get(),
+            secsgem.secs.data_items.ALCD.PERSONAL_SAFETY
+            | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+            | secsgem.secs.data_items.ALCD.ALARM_SET,
+        )
         self.assertEqual(function.ALID.get(), 25)
         self.assertEqual(function.ALTX.get(), "test text")
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1567,20 +1812,32 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOff")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOff",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
         self.assertTrue(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOff")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOff",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1593,11 +1850,18 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.ALCD.get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            function.ALCD.get(),
+            secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY,
+        )
         self.assertEqual(function.ALID.get(), 25)
         self.assertEqual(function.ALTX.get(), "test text")
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1610,7 +1874,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnDisabled")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnDisabled",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1625,7 +1893,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffDisabled")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffDisabled",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1634,7 +1906,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertTrue(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffDisabled")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffDisabled",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1651,20 +1927,32 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOn")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOn",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
         self.assertTrue(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOn")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOn",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1681,7 +1969,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOff")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOff",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1705,17 +1997,29 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1735,13 +2039,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOnCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1763,30 +2075,50 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
 
         self.assertTrue(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOffCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1806,7 +2138,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmDisabledTriggerOffCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmDisabledTriggerOffCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1815,13 +2151,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertTrue(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOn")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerOn",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1836,13 +2180,21 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         self.assertFalse(self.client.alarms[25].set)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOnCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOnCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS05F02(secsgem.secs.data_items.ACKC5.ACCEPTED), packet.header.system
+            )
+        )
 
         clientCommandThread.join(1)
         self.assertFalse(clientCommandThread.is_alive())
@@ -1856,7 +2208,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendCEEnableReport(ceid=[100025])
         self.assertEqual(function.get(), 0)
 
-        clientCommandThread = threading.Thread(target=self.client.set_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOnCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.set_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOnCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1880,7 +2236,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendCEEnableReport(ceid=[100025])
         self.assertEqual(function.get(), 0)
 
-        clientCommandThread = threading.Thread(target=self.client.clear_alarm, args=(25,), name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOffCollectionEvent")
+        clientCommandThread = threading.Thread(
+            target=self.client.clear_alarm,
+            args=(25,),
+            name="TestGemEquipmentHandlerPassiveControlState_testAlarmTriggerAlreadyOffCollectionEvent",
+        )
         clientCommandThread.daemon = True  # make thread killable on program termination
         clientCommandThread.start()
 
@@ -1912,7 +2272,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.establishCommunication()
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F05(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F05(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1928,13 +2290,17 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         AL25 = next((x for x in function if x[1].get() == 25), None)
 
         self.assertIsNotNone(AL25)
-        self.assertEqual(AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(AL25[2].get(), "test text")
 
         AL30 = next((x for x in function if x[1].get() == 30), None)
 
         self.assertIsNotNone(AL30)
-        self.assertEqual(AL30[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            AL30[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(AL30[2].get(), "test text 2")
 
     def testAlarmListSingle(self):
@@ -1942,7 +2308,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.establishCommunication()
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F05([25]), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F05([25]), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1958,7 +2326,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         AL25 = function[0]
 
         self.assertIsNotNone(AL25)
-        self.assertEqual(AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(AL25[1].get(), 25)
         self.assertEqual(AL25[2].get(), "test text")
 
@@ -1969,7 +2339,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendAlarmEnable()
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F07(), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS05F07(), system_id)
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -1985,7 +2357,9 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         AL25 = function[0]
 
         self.assertIsNotNone(AL25)
-        self.assertEqual(AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY)
+        self.assertEqual(
+            AL25[0].get(), secsgem.secs.data_items.ALCD.PERSONAL_SAFETY | secsgem.secs.data_items.ALCD.EQUIPMENT_SAFETY
+        )
         self.assertEqual(AL25[1].get(), 25)
         self.assertEqual(AL25[2].get(), "test text")
 
@@ -2005,8 +2379,14 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.client.callbacks.rcmd_TEST_RCMD = f
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({
-                                    "RCMD": "TEST_RCMD", "PARAMS": [{"CPNAME": "TEST_PARAMETER", "CPVAL": ""}]}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41(
+                    {"RCMD": "TEST_RCMD", "PARAMS": [{"CPNAME": "TEST_PARAMETER", "CPVAL": ""}]}
+                ),
+                system_id,
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2022,7 +2402,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         self.assertIsNotNone(packet)
         self.assertEqual(packet.header.session_id, 0x0)
@@ -2040,7 +2424,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.establishCommunication()
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({"RCMD": "UNKNOWN_RCMD", "PARAMS": []}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41({"RCMD": "UNKNOWN_RCMD", "PARAMS": []}), system_id
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2059,7 +2447,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.establishCommunication()
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({"RCMD": "TEST_RCMD", "PARAMS": []}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41({"RCMD": "TEST_RCMD", "PARAMS": []}), system_id
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2082,8 +2474,14 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.client.callbacks.rcmd_TEST_RCMD = f
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({
-                                    "RCMD": "TEST_RCMD", "PARAMS": [{"CPNAME": "INVALID_PARAMETER", "CPVAL": ""}]}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41(
+                    {"RCMD": "TEST_RCMD", "PARAMS": [{"CPNAME": "INVALID_PARAMETER", "CPVAL": ""}]}
+                ),
+                system_id,
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2111,7 +2509,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 0)
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({"RCMD": "START", "PARAMS": []}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41({"RCMD": "START", "PARAMS": []}), system_id
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2127,7 +2529,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         self.assertIsNotNone(packet)
         self.assertEqual(packet.header.session_id, 0x0)
@@ -2151,7 +2557,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 0)
 
         system_id = self.settings.protocol.get_next_system_counter()
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS02F41({"RCMD": "STOP", "PARAMS": []}), system_id))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS02F41({"RCMD": "STOP", "PARAMS": []}), system_id
+            )
+        )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
@@ -2167,7 +2577,11 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(stream=6)
 
-        self.settings.protocol.simulate_message(self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS06F12(0), packet.header.system))
+        self.settings.protocol.simulate_message(
+            self.settings.protocol.create_message_for_function(
+                secsgem.secs.functions.SecsS06F12(0), packet.header.system
+            )
+        )
 
         self.assertIsNotNone(packet)
         self.assertEqual(packet.header.session_id, 0x0)
