@@ -25,7 +25,7 @@ def find_subclasses(module):
     return [
         cls
         for name, cls in inspect.getmembers(module)
-        if inspect.isclass(cls) and not cls.__name__.startswith("Base") and not cls.__name__ == "DataItemMeta"
+        if inspect.isclass(cls) and not cls.__name__.startswith("Base") and cls.__name__ != "DataItemMeta"
     ]
 
 

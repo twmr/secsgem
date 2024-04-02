@@ -17,10 +17,10 @@
 import threading
 import unittest
 
-import secsgem.hsms
-
 from mock_connection import MockHsmsConnection
 from mock_settings import MockHsmsSettings
+
+import secsgem.hsms
 
 
 class TestHsmsProtocolHandlerPassive(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
     def testSystemCounterWrapping(self):
         self.client._system_counter = (2**32) - 1
 
-        self.assertEqual(self.client.get_next_system_counter(), 0)
+        assert self.client.get_next_system_counter() == 0
 
     def testLinktestTimer(self):
         self.client.disable()
@@ -52,9 +52,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(s_type=0x05)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x05)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 5
+        assert packet.header.session_id == 65535
 
         self.settings.connection.simulate_message(
             secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsLinktestRspHeader(packet.header.system), b"")
@@ -62,9 +62,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(s_type=0x05)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x05)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 5
+        assert packet.header.session_id == 65535
 
     def testSelect(self):
         self.settings.connection.simulate_connect()
@@ -76,9 +76,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x02)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 2
+        assert packet.header.session_id == 65535
 
     def testSelectWhileDisconnecting(self):
         self.settings.connection.simulate_connect()
@@ -93,9 +93,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x07)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 7
+        assert packet.header.session_id == 65535
 
     def testDeselect(self):
         self.settings.connection.simulate_connect()
@@ -107,9 +107,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x02)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 2
+        assert packet.header.session_id == 65535
 
         system_id = self.settings.protocol.get_next_system_counter()
         self.settings.connection.simulate_message(
@@ -118,9 +118,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x04)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 4
+        assert packet.header.session_id == 65535
 
     def testDeselectWhileDisconnecting(self):
         self.settings.connection.simulate_connect()
@@ -132,9 +132,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x02)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 2
+        assert packet.header.session_id == 65535
 
         # set the connection to disconnecting by brute force
         self.client._connection._disconnecting = True
@@ -146,9 +146,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x07)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 7
+        assert packet.header.session_id == 65535
 
     def testLinktest(self):
         self.settings.connection.simulate_connect()
@@ -163,9 +163,9 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x07)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 7
+        assert packet.header.session_id == 65535
 
     def testLinktestWhileDisconnecting(self):
         self.settings.connection.simulate_connect()
@@ -177,14 +177,13 @@ class TestHsmsProtocolHandlerPassive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x06)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 6
+        assert packet.header.session_id == 65535
 
     def testRepr(self):
         self.settings.connection.simulate_connect()
-
-        print(self.client)
+        repr(self.client)
 
 
 class TestHsmsProtocolActive(unittest.TestCase):
@@ -212,9 +211,9 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(s_type=0x01)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x01)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 1
+        assert packet.header.session_id == 65535
 
         self.settings.connection.simulate_message(
             secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsSelectRspHeader(packet.header.system), b"")
@@ -230,9 +229,9 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(s_type=0x01)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x01)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 1
+        assert packet.header.session_id == 65535
 
         self.settings.connection.simulate_message(
             secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsSelectRspHeader(packet.header.system), b"")
@@ -246,16 +245,16 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(s_type=0x03)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x03)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 3
+        assert packet.header.session_id == 65535
 
         self.settings.connection.simulate_message(
             secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsDeselectRspHeader(packet.header.system), b"")
         )
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testDeselectWhileDisconnecting(self):
         self.settings.connection.simulate_connect()
@@ -267,9 +266,9 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x02)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 2
+        assert packet.header.session_id == 65535
 
         # set the connection to disconnecting by brute force
         self.client._connection._disconnecting = True
@@ -281,9 +280,9 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x07)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 7
+        assert packet.header.session_id == 65535
 
     def testLinktest(self):
         self.settings.connection.simulate_connect()
@@ -298,9 +297,9 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x07)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 7
+        assert packet.header.session_id == 65535
 
     def testLinktestWhileDisconnecting(self):
         self.settings.connection.simulate_connect()
@@ -312,23 +311,22 @@ class TestHsmsProtocolActive(unittest.TestCase):
 
         packet = self.settings.connection.expect_block(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x06)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 6
+        assert packet.header.session_id == 65535
 
     def testRepr(self):
         self.settings.connection.simulate_connect()
-
-        print(self.client)
+        repr(self.client)
 
     def testSecsPacketWithoutSecsDecode(self):
         self.settings.connection.simulate_connect()
 
         packet = self.settings.connection.expect_block(s_type=0x01)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.s_type.value, 0x01)
-        self.assertEqual(packet.header.session_id, 0xFFFF)
+        assert packet is not None
+        assert packet.header.s_type.value == 1
+        assert packet.header.session_id == 65535
 
         self.settings.connection.simulate_message(
             secsgem.hsms.HsmsMessage(secsgem.hsms.HsmsSelectRspHeader(packet.header.system), b"")
@@ -339,60 +337,58 @@ class TestHsmsProtocolActive(unittest.TestCase):
             self.generate_stream_function_packet(system_id, secsgem.secs.functions.SecsS01F01())
         )
 
-        print(self.client)
-
     def testPacketSendingFailed(self):
         self.settings.connection.simulate_connect()
 
         self.settings.connection.fail_next_send()
 
-        self.assertEqual(self.client.send_and_waitfor_response(secsgem.secs.functions.SecsS01F01()), None)
+        assert self.client.send_and_waitfor_response(secsgem.secs.functions.SecsS01F01()) is None
 
     def testSelectReqSendingFailed(self):
         self.settings.connection.simulate_connect()
 
         self.settings.connection.fail_next_send()
 
-        self.assertEqual(self.client.send_select_req(), None)
+        assert self.client.send_select_req() is None
 
     def testLinktestReqSendingFailed(self):
         self.settings.connection.simulate_connect()
 
         self.settings.connection.fail_next_send()
 
-        self.assertEqual(self.client.send_linktest_req(), None)
+        assert self.client.send_linktest_req() is None
 
     def testDeselectReqSendingFailed(self):
         self.settings.connection.simulate_connect()
 
         self.settings.connection.fail_next_send()
 
-        self.assertEqual(self.client.send_deselect_req(), None)
+        assert self.client.send_deselect_req() is None
 
     def testPacketSendingTimeout(self):
         self.settings.connection.simulate_connect()
 
         self.client._settings.timeouts.t3 = 0.1
 
-        self.assertEqual(self.client.send_and_waitfor_response(secsgem.secs.functions.SecsS01F01()), None)
+        assert self.client.send_and_waitfor_response(secsgem.secs.functions.SecsS01F01()) is None
 
     def testSelectReqSendingTimeout(self):
         self.settings.connection.simulate_connect()
 
         self.client._settings.timeouts.t6 = 0.1
 
-        self.assertEqual(self.client.send_select_req(), None)
+        assert self.client.send_select_req() is None
 
     def testLinktestReqSendingTimeout(self):
         self.settings.connection.simulate_connect()
 
         self.client._settings.timeouts.t6 = 0.1
 
-        self.assertEqual(self.client.send_linktest_req(), None)
+        assert self.client.send_linktest_req() is None
 
     def testDeelectReqSendingTimeout(self):
         self.settings.connection.simulate_connect()
 
         self.client._settings.timeouts.t6 = 0.1
 
-        self.assertEqual(self.client.send_deselect_req(), None)
+        assert self.client.send_deselect_req() is None

@@ -23,7 +23,6 @@ import typing
 import secsgem.common
 import secsgem.secs
 
-
 if typing.TYPE_CHECKING:
     from .mock_settings import MockSettings
 

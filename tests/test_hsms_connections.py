@@ -14,16 +14,16 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 
-import unittest
 import errno
+import unittest
 
 import secsgem.common
 
 
 class TestTopLevelFunctions(unittest.TestCase):
     def testIsErrorcodeEwouldBlock(self):
-        self.assertFalse(secsgem.common.is_errorcode_ewouldblock(0))
-        self.assertFalse(secsgem.common.is_errorcode_ewouldblock(errno.EPERM))
-        self.assertFalse(secsgem.common.is_errorcode_ewouldblock(errno.EBADF))
-        self.assertTrue(secsgem.common.is_errorcode_ewouldblock(errno.EAGAIN))
-        self.assertTrue(secsgem.common.is_errorcode_ewouldblock(errno.EWOULDBLOCK))
+        assert not secsgem.common.is_errorcode_ewouldblock(0)
+        assert not secsgem.common.is_errorcode_ewouldblock(errno.EPERM)
+        assert not secsgem.common.is_errorcode_ewouldblock(errno.EBADF)
+        assert secsgem.common.is_errorcode_ewouldblock(errno.EAGAIN)
+        assert secsgem.common.is_errorcode_ewouldblock(errno.EWOULDBLOCK)

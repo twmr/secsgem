@@ -89,6 +89,7 @@ class MockHsmsConnection(secsgem.common.Connection):
             return False
 
         self._packets.append(secsgem.hsms.HsmsBlock.decode(data))
+        return None
 
     def fail_next_send(self):
         self._fail_send = True

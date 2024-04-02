@@ -38,7 +38,7 @@ class testSecsFunctionNoData:
 
         function = self.cls()
 
-        self.assertEqual(b"", function.encode())
+        assert function.encode() == b""
 
     def testDecoder(self):
         if self.cls is None:
@@ -58,7 +58,7 @@ class testSecsFunctionSingleVariable:
 
         function = self.cls(self.value1)
 
-        self.assertEqual(function.get(), self.value1)
+        assert function.get() == self.value1
 
     # test constructor
     def testMultipleInstances(self):
@@ -71,8 +71,8 @@ class testSecsFunctionSingleVariable:
         function1.set(self.value1)
         function2.set(self.value2)
 
-        self.assertEqual(function1.get(), self.value1)
-        self.assertEqual(function2.get(), self.value2)
+        assert function1.get() == self.value1
+        assert function2.get() == self.value2
 
     # test en-/decoding
     def testEncoder(self):
@@ -81,7 +81,7 @@ class testSecsFunctionSingleVariable:
 
         function = self.cls(self.value1)
 
-        self.assertEqual(self.encoded1, function.encode())
+        assert self.encoded1 == function.encode()
 
     def testDecoder(self):
         if self.cls is None:
@@ -90,7 +90,7 @@ class testSecsFunctionSingleVariable:
         function = self.cls()
         function.decode(self.encoded1)
 
-        self.assertEqual(self.value1, function.get())
+        assert self.value1 == function.get()
 
 
 class testS00E00(unittest.TestCase, testSecsFunctionNoData):
@@ -221,57 +221,57 @@ class testFunctionBase(unittest.TestCase):
     def testGetitemOnArray(self):
         item = SecsS01F03(["test1", "test2"])
 
-        self.assertEqual(item[0].get(), "test1")
+        assert item[0].get() == "test1"
 
     def testSetitemOnArray(self):
         item = SecsS01F03(["test1", "test2"])
 
         item[0] = "test3"
 
-        self.assertEqual(item[0].get(), "test3")
+        assert item[0].get() == "test3"
 
     def testLenOnArray(self):
         item = SecsS01F03(["test1", "test2"])
 
-        self.assertEqual(len(item), 2)
+        assert len(item) == 2
 
     def testAppendOnArray(self):
         item = SecsS01F03(["test1", "test2"])
 
         item.append("test3")
 
-        self.assertEqual(item[2].get(), "test3")
+        assert item[2].get() == "test3"
 
     def testGetitemOnUninitializedNonArray(self):
         item = SecsS01F16()
 
-        self.assertEqual(item[0], 0)
+        assert item[0] == 0
 
-        with self.assertRaises(IndexError):
-            self.assertEqual(item[1], 0)
+        with pytest.raises(IndexError):
+            assert item[1] == 0
 
     def testSetitemOnUninitializedNonArray(self):
         item = SecsS01F16()
 
         item[0] = 11
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             item[1] = 11
 
     def testGetitemOnNonArray(self):
         item = SecsS01F16(10)
 
-        self.assertEqual(item[0], 10)
+        assert item[0] == 10
 
-        with self.assertRaises(IndexError):
-            self.assertEqual(item[1], 10)
+        with pytest.raises(IndexError):
+            assert item[1] == 10
 
     def testSetitemOnNonArray(self):
         item = SecsS01F16(10)
 
         item[0] = 11
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             item[1] = 11
 
     def testLenOnNonArray(self):
@@ -282,19 +282,19 @@ class testFunctionBase(unittest.TestCase):
     def testAppendOnNonArray(self):
         item = SecsS01F16(10)
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             item.append(20)
 
     def testGetAttrOnNonList(self):
         item = SecsS01F16(10)
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             item.Item1
 
     def testSetAttrOnNonList(self):
         item = SecsS01F16(10)
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             item.Item1 = 11
 
     def test_repr(self):
@@ -322,11 +322,11 @@ def generate_function_list():
     return [(function.function, function) for function in secs_streams_functions]
 
 
-@pytest.mark.parametrize("stream,cls", generate_stream_list())
+@pytest.mark.parametrize(("stream", "cls"), generate_stream_list())
 def test_stream_number(stream, cls):
     assert stream == cls._stream
 
 
-@pytest.mark.parametrize("function,cls", generate_function_list())
+@pytest.mark.parametrize(("function", "cls"), generate_function_list())
 def test_function_number(function, cls):
     assert function == cls._function

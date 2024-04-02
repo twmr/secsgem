@@ -14,16 +14,21 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 
+import logging
 import unittest.mock
 
+import pytest
+
 import secsgem.common
+
+log = logging.getLogger(__name__)
 
 
 class TestEventProducer(unittest.TestCase):
     def testConstructor(self):
         producer = secsgem.common.EventProducer()
 
-        self.assertEqual(producer._events, {})
+        assert producer._events == {}
 
     def testAddEvent(self):
         f = unittest.mock.Mock()
@@ -32,7 +37,7 @@ class TestEventProducer(unittest.TestCase):
 
         producer.test += f
 
-        self.assertIn("test", producer)
+        assert "test" in producer
 
     def testRemoveEvent(self):
         f = unittest.mock.Mock()
@@ -41,11 +46,11 @@ class TestEventProducer(unittest.TestCase):
 
         producer.test += f
 
-        self.assertIn("test", producer)
+        assert "test" in producer
 
         producer.test -= f
 
-        self.assertNotIn("test", producer)
+        assert "test" not in producer
 
     def testEventRepr(self):
         f = unittest.mock.Mock()
@@ -54,8 +59,8 @@ class TestEventProducer(unittest.TestCase):
 
         producer.test += f
 
-        print(producer.test)
-        print(producer)
+        log.info(producer.test)
+        log.info(producer)
 
     def testJoinProducers(self):
         f1 = unittest.mock.Mock()
@@ -69,7 +74,7 @@ class TestEventProducer(unittest.TestCase):
 
         producer1 += producer2
 
-        self.assertIn("test2", producer1)
+        assert "test2" in producer1
 
     def testAddTarget(self):
         c = unittest.mock.Mock()
@@ -78,7 +83,7 @@ class TestEventProducer(unittest.TestCase):
 
         producer.targets += c
 
-        self.assertIn(c, producer.targets)
+        assert c in producer.targets
 
     def testRemoveTarget(self):
         c = unittest.mock.Mock()
@@ -87,11 +92,11 @@ class TestEventProducer(unittest.TestCase):
 
         producer.targets += c
 
-        self.assertIn(c, producer.targets)
+        assert c in producer.targets
 
         producer.targets -= c
 
-        self.assertNotIn(c, producer.targets)
+        assert c not in producer.targets
 
     def testJoinProducersTargets(self):
         c1 = unittest.mock.Mock()
@@ -105,7 +110,7 @@ class TestEventProducer(unittest.TestCase):
 
         producer1 += producer2
 
-        self.assertIn(c2, producer1.targets)
+        assert c2 in producer1.targets
 
     def testFire(self):
         f1 = unittest.mock.Mock()
@@ -134,5 +139,5 @@ class TestEventProducer(unittest.TestCase):
 
         producer = secsgem.common.EventProducer()
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             producer.targets = test

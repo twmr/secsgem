@@ -17,13 +17,13 @@
 import threading
 import unittest
 
-import secsgem.hsms
-import secsgem.secs
-import secsgem.gem.communication_state_machine
-import secsgem.gem
-
 from mock_protocol import MockProtocol
 from mock_settings import MockSettings
+
+import secsgem.gem
+import secsgem.gem.communication_state_machine
+import secsgem.hsms
+import secsgem.secs
 
 
 class GemHandlerPassiveGroup:
@@ -53,34 +53,36 @@ class GemHandlerPassiveGroup:
         raise Exception("Not implemented")
 
     def testConstructor(self):
-        self.assertIsNotNone(self.client)
+        assert self.client is not None
 
-        print(self.client)  # cover repr and serialize_data
+        repr(self.client)
 
     def testEnableDisable(self):
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.NOT_COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.NOT_COMMUNICATING
         )
 
         self.client.disable()
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.DISABLED
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.DISABLED
         )
 
         self.client.enable()
 
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.NOT_COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.NOT_COMMUNICATING
         )
 
     def testConnection(self):
         self.settings.protocol.simulate_connect()
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
         )
 
     def establishCommunication(self):
@@ -98,19 +100,21 @@ class GemHandlerPassiveGroup:
     def testReceivingS01F13(self):
         self.settings.protocol.simulate_connect()
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
         )
 
         message = self.settings.protocol.expect_message(function=13)
 
-        self.assertIsNot(message, None)
-        self.assertEqual(message.header.session_id, 0x0)
-        self.assertEqual(message.header.stream, 0x01)
-        self.assertEqual(message.header.function, 0x0D)
+        assert message is not None
+        assert message.header.session_id == 0
+        assert message.header.stream == 1
+        assert message.header.function == 13
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
         )
 
         self.settings.protocol.simulate_message(
@@ -119,27 +123,29 @@ class GemHandlerPassiveGroup:
             )
         )
 
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING
         )
 
     def testSendingS01F13(self):
         self.settings.protocol.simulate_connect()
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
         )
 
         s01f13ReceivedPacket = self.settings.protocol.expect_message(function=13)
 
-        self.assertIsNot(s01f13ReceivedPacket, None)
-        self.assertEqual(s01f13ReceivedPacket.header.session_id, 0x0)
-        self.assertEqual(s01f13ReceivedPacket.header.stream, 0x01)
-        self.assertEqual(s01f13ReceivedPacket.header.function, 0x0D)
+        assert s01f13ReceivedPacket is not None
+        assert s01f13ReceivedPacket.header.session_id == 0
+        assert s01f13ReceivedPacket.header.stream == 1
+        assert s01f13ReceivedPacket.header.function == 13
 
-        self.assertEqual(
-            self.client.communication_state.current, secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.WAIT_CRA
         )
 
         system_id = 1
@@ -147,21 +153,21 @@ class GemHandlerPassiveGroup:
             self.settings.protocol.create_message_for_function(secsgem.secs.functions.SecsS01F13(), system_id)
         )
 
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING
         )
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 0x01)
-        self.assertEqual(packet.header.function, 0x0E)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 14
 
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING
         )
 
         self.settings.protocol.simulate_message(
@@ -170,9 +176,9 @@ class GemHandlerPassiveGroup:
             )
         )
 
-        self.assertEqual(
-            self.client.communication_state.current,
-            secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING,
+        assert (
+            self.client.communication_state.current
+            == secsgem.gem.communication_state_machine.CommunicationState.COMMUNICATING
         )
 
     def testAreYouThereHandler(self):
@@ -185,10 +191,10 @@ class GemHandlerPassiveGroup:
 
         message = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(message, None)
-        self.assertEqual(message.header.session_id, 0x0)
-        self.assertEqual(message.header.stream, 1)
-        self.assertEqual(message.header.function, 2)
+        assert message is not None
+        assert message.header.session_id == 0
+        assert message.header.stream == 1
+        assert message.header.function == 2
 
     def testEstablishCommunicationHandler(self):
         self.establishCommunication()
@@ -200,15 +206,15 @@ class GemHandlerPassiveGroup:
 
         message = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(message, None)
-        self.assertEqual(message.header.session_id, 0x0)
-        self.assertEqual(message.header.stream, 1)
-        self.assertEqual(message.header.function, 14)
+        assert message is not None
+        assert message.header.session_id == 0
+        assert message.header.stream == 1
+        assert message.header.function == 14
 
     def testWaitForCommunicatingAlreadyCommunicating(self):
         self.establishCommunication()
 
-        self.assertTrue(self.client.waitfor_communicating())
+        assert self.client.waitfor_communicating()
 
     def testWaitForCommunicating(self):
         clientCommandThread = threading.Thread(
@@ -220,7 +226,7 @@ class GemHandlerPassiveGroup:
         self.establishCommunication()
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testSendProcessProgram(self):
         self.establishCommunication()
@@ -243,17 +249,17 @@ class GemHandlerPassiveGroup:
         )
 
         clientCommandThread.join(10)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
-        self.assertIsNotNone(message)
-        self.assertEqual(message.header.session_id, 0x0)
-        self.assertEqual(message.header.stream, 7)
-        self.assertEqual(message.header.function, 3)
+        assert message is not None
+        assert message.header.session_id == 0
+        assert message.header.stream == 7
+        assert message.header.function == 3
 
         function = message.data
 
-        self.assertEqual(function.PPID.get(), ppid)
-        self.assertEqual(function.PPBODY.get(), ppbody)
+        assert function.PPID.get() == ppid
+        assert function.PPBODY.get() == ppbody
 
     def testRequestProcessProgram(self):
         self.establishCommunication()
@@ -276,23 +282,23 @@ class GemHandlerPassiveGroup:
         )
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
-        self.assertIsNotNone(message)
-        self.assertEqual(message.header.session_id, 0x0)
-        self.assertEqual(message.header.stream, 7)
-        self.assertEqual(message.header.function, 5)
+        assert message is not None
+        assert message.header.session_id == 0
+        assert message.header.stream == 7
+        assert message.header.function == 5
 
         function = message.data
 
-        self.assertEqual(function.get(), ppid)
+        assert function.get() == ppid
 
 
 class TestGemHandlerPassive(unittest.TestCase, GemHandlerPassiveGroup):
     __testClass = secsgem.gem.GemHandler
 
     def setUp(self):
-        self.assertIsNotNone(self.__testClass)
+        assert self.__testClass is not None
 
         self.settings = MockSettings(MockProtocol)
 

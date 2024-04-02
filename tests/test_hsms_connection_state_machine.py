@@ -13,7 +13,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #####################################################################
-"""Tests for HSMS connection state machine"""
+"""Tests for HSMS connection state machine."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ class TestHsmsConnectionStateMachine:
     """Tests for HSMS connection state machine."""
 
     def test_initial_state(self):
-        """Test the initial state is NOT_CONNECTED"""
+        """Test the initial state is NOT_CONNECTED."""
         csm = secsgem.hsms.connection_state_machine.ConnectionStateMachine()
 
         assert csm.current == secsgem.hsms.connection_state_machine.ConnectionState.NOT_CONNECTED
@@ -42,7 +42,7 @@ class TestHsmsConnectionStateMachine:
         assert str(exc.value) == "Invalid transition: invalid"
 
     @pytest.mark.parametrize(
-        "transition, source, expected_destination, will_except, exception_text",
+        ("transition", "source", "expected_destination", "will_except", "exception_text"),
         [
             ("connect", "not_connected", "connected_not_selected", False, ""),
             (

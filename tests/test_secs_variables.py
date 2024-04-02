@@ -14,15 +14,17 @@
 # GNU Lesser General Public License for more details.
 #####################################################################
 
-import sys
 
+import logging
 import unittest
 
 import pytest
 
+from secsgem.secs.data_items import MDLN, OBJACK, SOFTREV, SVID
 from secsgem.secs.variables import *
 from secsgem.secs.variables.functions import generate, get_format
-from secsgem.secs.data_items import MDLN, OBJACK, SOFTREV, SVID
+
+log = logging.getLogger(__name__)
 
 
 def printable_value(value):
@@ -40,23 +42,23 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # two bytes
-        self.assertEqual(secsvar.encode_item_header(0), b"\xb1\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFF), b"\xb1\xff")
+        assert secsvar.encode_item_header(0) == b"\xb1\x00"
+        assert secsvar.encode_item_header(255) == b"\xb1\xff"
 
         # three bytes
-        self.assertEqual(secsvar.encode_item_header(0x100), b"\xb2\x01\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFFFF), b"\xb2\xff\xff")
+        assert secsvar.encode_item_header(256) == b"\xb2\x01\x00"
+        assert secsvar.encode_item_header(65535) == b"\xb2\xff\xff"
 
         # four bytes
-        self.assertEqual(secsvar.encode_item_header(0x10000), b"\xb3\x01\x00\x00")
-        self.assertEqual(secsvar.encode_item_header(0xFFFFFF), b"\xb3\xff\xff\xff")
+        assert secsvar.encode_item_header(65536) == b"\xb3\x01\x00\x00"
+        assert secsvar.encode_item_header(16777215) == b"\xb3\xff\xff\xff"
 
     def testEncodeItemHeaderTooShort(self):
         # dummy object, just to have format code set
         secsvar = U4(1337)
 
         # negative value
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.encode_item_header(-1)
 
     def testEncodeItemHeaderTooLong(self):
@@ -64,7 +66,7 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # more than three length bytes worth a value
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.encode_item_header(0x1000000)
 
     def testDecodeItemHeader(self):
@@ -72,29 +74,29 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # two bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xb1\x00")[2], 0)
-        self.assertEqual(secsvar.decode_item_header(b"\xb1\xff")[2], 0xFF)
+        assert secsvar.decode_item_header(b"\xb1\x00")[2] == 0
+        assert secsvar.decode_item_header(b"\xb1\xff")[2] == 255
 
         # three bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xb2\x01\x00")[2], 0x100)
-        self.assertEqual(secsvar.decode_item_header(b"\xb2\xff\xff")[2], 0xFFFF)
+        assert secsvar.decode_item_header(b"\xb2\x01\x00")[2] == 256
+        assert secsvar.decode_item_header(b"\xb2\xff\xff")[2] == 65535
 
         # four bytes
-        self.assertEqual(secsvar.decode_item_header(b"\xb3\x01\x00\x00")[2], 0x10000)
-        self.assertEqual(secsvar.decode_item_header(b"\xb3\xff\xff\xff")[2], 0xFFFFFF)
+        assert secsvar.decode_item_header(b"\xb3\x01\x00\x00")[2] == 65536
+        assert secsvar.decode_item_header(b"\xb3\xff\xff\xff")[2] == 16777215
 
     def testDecodeItemHeaderEmpty(self):
         # dummy object, just to have format code set
         secsvar = U4(1337)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode_item_header(b"")
 
     def testDecodeItemHeaderIllegalPosition(self):
         # dummy object, just to have format code set
         secsvar = U4(1337)
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar.decode_item_header(b"\xb1\x00", 10)
 
     def testDecodeItemHeaderIllegalData(self):
@@ -102,34 +104,34 @@ class TestSecsVar(unittest.TestCase):
         secsvar = U4(1337)
 
         # two bytes
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode_item_header(b"somerandomdata")
 
     def testGenerateWithNonSecsVarClass(self):
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             generate(int)
 
     def testGenerateWithNonClass(self):
         dummy = 10
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             generate(dummy)
 
     def testSetNotImplemented(self):
         secsvar = Base()
 
-        with self.assertRaises(NotImplementedError):
+        with pytest.raises(NotImplementedError):
             secsvar.set(b"test")
 
     def testGetFormatWithNone(self):
-        self.assertEqual(get_format(None), None)
+        assert get_format(None) is None
 
     def testGetFormatWithNonSecsVarClass(self):
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             get_format(int)
 
     def testGetFormatWithNonClass(self):
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             get_format(10)
 
 
@@ -139,22 +141,22 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.set(10)
 
-        self.assertEqual(10, secsvar.get())
+        assert secsvar.get() == 10
 
     def testConstructorWrongType(self):
         secsvar = Dynamic([U4])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(b"testString")
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(String(b"testString"))
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             Dynamic([U4], b"testString")
 
     def testConstructorWrongLengthString(self):
         secsvar = Dynamic([String], count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(b"testString")
 
     def testConstructorLen(self):
@@ -162,21 +164,21 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.set(b"asdfg")
 
-        self.assertEqual(5, len(secsvar))
+        assert len(secsvar) == 5
 
     def testConstructorSetGetU4(self):
         secsvar = Dynamic([U4])
 
         secsvar.set(10)
 
-        self.assertEqual(10, secsvar.get())
+        assert secsvar.get() == 10
 
     def testConstructorSetGetString(self):
         secsvar = Dynamic([String])
 
         secsvar.set("testString")
 
-        self.assertEqual("testString", secsvar.get())
+        assert secsvar.get() == "testString"
 
     def testHash(self):
         secsvar = Dynamic([String], value="test")
@@ -185,35 +187,35 @@ class TestSecsVarDynamic(unittest.TestCase):
     def testEncodeString(self):
         secsvar = Dynamic([String], "testString")
 
-        self.assertEqual(secsvar.encode(), b"A\ntestString")
+        assert secsvar.encode() == b"A\ntestString"
 
     def testEncodeU4(self):
         secsvar = Dynamic([U4], 1337)
 
-        self.assertEqual(secsvar.encode(), b"\xb1\x04\x00\x00\x059")
+        assert secsvar.encode() == b"\xb1\x04\x00\x00\x059"
 
     def testDecodeValueTooLong(self):
         secsvar = Dynamic([String], count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode(b"A\ntestString")
 
     def testDecodeEmptyValue(self):
         secsvar = Dynamic([String], count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode(b"")
 
     def testDecodeWrongType(self):
         secsvar = Dynamic([String], count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode(b"\xb1\x04\x00\x00\x059")
 
     def testDecodeItemHeaderIllegalPosition(self):
         secsvar = Dynamic([U4], 1337)
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar.decode(b"\xb1\x00", 10)
 
     def testDecodeItemHeaderIllegalData(self):
@@ -221,7 +223,7 @@ class TestSecsVarDynamic(unittest.TestCase):
         secsvar = Dynamic([U4], 1337)
 
         # two bytes
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode(b"somerandomdata")
 
     def testDecodeWithAllTypesAllowed(self):
@@ -229,7 +231,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(b"\xb1\x04\x00\x00\x059")
 
-        self.assertEqual(secsvar[0], 1337)
+        assert secsvar[0] == 1337
 
     def testDecodeArray(self):
         secsvar = Dynamic([Array])
@@ -239,8 +241,8 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar[0], 1337)
-        self.assertEqual(secsvar[1], 1338)
+        assert secsvar[0] == 1337
+        assert secsvar[1] == 1338
 
     def testDecodeBinary(self):
         value = b"testBinary"
@@ -250,7 +252,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeBoolean(self):
         value = True
@@ -260,7 +262,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeString(self):
         value = "testString"
@@ -270,7 +272,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeI8(self):
         value = 1337
@@ -280,7 +282,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeI1(self):
         value = 13
@@ -290,7 +292,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeI2(self):
         value = 1337
@@ -300,7 +302,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeI4(self):
         value = 1337
@@ -310,7 +312,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeF8(self):
         value = 1337.1
@@ -320,7 +322,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeF4(self):
         value = 1337.0
@@ -330,7 +332,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeU8(self):
         value = 1337
@@ -340,7 +342,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeU1(self):
         value = 13
@@ -350,7 +352,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeU2(self):
         value = 1337
@@ -360,7 +362,7 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testDecodeU4(self):
         value = 1337
@@ -370,25 +372,25 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.decode(encodevar.encode())
 
-        self.assertEqual(secsvar.get(), value)
+        assert secsvar.get() == value
 
     def testListOfSameType(self):
         secsvar = Dynamic([U1, U2, U4, U8])
 
         secsvar.set([1, 2, 3, 4, 65536])
 
-        self.assertEqual(secsvar.get(), [1, 2, 3, 4, 65536])
+        assert secsvar.get() == [1, 2, 3, 4, 65536]
 
     def testListItemsOverMax(self):
         secsvar = Dynamic([U1])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set([1, 2, 3, 4, 65536])
 
     def testListItemsOverMaxDiffType(self):
         secsvar = Dynamic([U1])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set([1, 2, 3, 4, "65536"])
 
     def testListItemsDiffType(self):
@@ -396,65 +398,65 @@ class TestSecsVarDynamic(unittest.TestCase):
 
         secsvar.set([1, 2, 3, 4, "65536"])
 
-        self.assertEqual(secsvar.get(), [1, 2, 3, 4, 65536])
+        assert secsvar.get() == [1, 2, 3, 4, 65536]
 
     def testGetNoneValue(self):
         secsvar = Dynamic([U1, U2, U4, U8])
 
-        self.assertEqual(secsvar.get(), None)
+        assert secsvar.get() is None
 
     def testEqualitySecsVarDynamic(self):
         secsvar = Dynamic([U1], 1)
         secsvar1 = Dynamic([U1], 1)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = Dynamic([U1], 1)
         secsvar1 = U1(1)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = Dynamic([U1], 1)
         secsvar1 = 1
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityList(self):
         secsvar = Dynamic([U1], 1)
         secsvar1 = [1]
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testGetItem(self):
         secsvar = Dynamic([U1], 1)
 
-        self.assertEqual(secsvar[0], 1)
+        assert secsvar[0] == 1
 
     def testSetItem(self):
         secsvar = Dynamic([U1], 1)
 
         secsvar[0] = 2
 
-        self.assertEqual(secsvar[0], 2)
+        assert secsvar[0] == 2
 
     def testAllTypesAllowed(self):
         secsvar = Dynamic([], 1)
 
-        self.assertEqual(secsvar[0], 1)
+        assert secsvar[0] == 1
 
     def testSetDerivedItem(self):
         secsvar = Dynamic([U1, U2, U4, U8, I1, I2, I4, I8, String])
 
         secsvar.set(SVID(10))
 
-        self.assertEqual(secsvar, 10)
+        assert secsvar == 10
 
     def testSetDerivedUnsupportedItem(self):
         secsvar = Dynamic([U1, U2, U4, U8, I1, I2, I4, I8])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(SVID("asdfg"))
 
 
@@ -462,12 +464,12 @@ class TestSecsVarList(unittest.TestCase):
     def testConstructor(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        self.assertEqual(secsvar.MDLN.get(), "MDLN")
-        self.assertEqual(secsvar["MDLN"].get(), "MDLN")
-        self.assertEqual(secsvar[0].get(), "MDLN")
-        self.assertEqual(secsvar.SOFTREV.get(), "SOFTREV")
-        self.assertEqual(secsvar["SOFTREV"].get(), "SOFTREV")
-        self.assertEqual(secsvar[1].get(), "SOFTREV")
+        assert secsvar.MDLN.get() == "MDLN"
+        assert secsvar["MDLN"].get() == "MDLN"
+        assert secsvar[0].get() == "MDLN"
+        assert secsvar.SOFTREV.get() == "SOFTREV"
+        assert secsvar["SOFTREV"].get() == "SOFTREV"
+        assert secsvar[1].get() == "SOFTREV"
 
     def testConstructorWithoutDefaults(self):
         secsvar = List([MDLN, SOFTREV])
@@ -475,16 +477,16 @@ class TestSecsVarList(unittest.TestCase):
         secsvar.MDLN.set("MDLN")
         secsvar.SOFTREV.set("SOFTREV")
 
-        self.assertEqual(secsvar.MDLN.get(), "MDLN")
-        self.assertEqual(secsvar["MDLN"].get(), "MDLN")
-        self.assertEqual(secsvar[0].get(), "MDLN")
-        self.assertEqual(secsvar.SOFTREV.get(), "SOFTREV")
-        self.assertEqual(secsvar["SOFTREV"].get(), "SOFTREV")
-        self.assertEqual(secsvar[1].get(), "SOFTREV")
+        assert secsvar.MDLN.get() == "MDLN"
+        assert secsvar["MDLN"].get() == "MDLN"
+        assert secsvar[0].get() == "MDLN"
+        assert secsvar.SOFTREV.get() == "SOFTREV"
+        assert secsvar["SOFTREV"].get() == "SOFTREV"
+        assert secsvar[1].get() == "SOFTREV"
 
     def testConstructorIllegalValue(self):
-        with self.assertRaises(ValueError):
-            secsvar = List([OBJACK, SOFTREV], ["MDLN", "SOFTREV"])
+        with pytest.raises(ValueError):
+            List([OBJACK, SOFTREV], ["MDLN", "SOFTREV"])
 
     def testHash(self):
         secsvar = List([MDLN, SOFTREV])
@@ -495,14 +497,14 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar.MDLN = String("NLDM")
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
     def testAttributeSetterIllegalSecsVar(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar.OBJACK = String("NLDM")
 
     def testAttributeSetterMatchingValue(self):
@@ -510,26 +512,26 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar.MDLN = "NLDM"
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
     def testAttributeSetterIllegalValue(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.OBJACK = "NLDM"
 
     def testAttributeGetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             secsvar.ASDF
 
     def testAttributeSetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(AttributeError):
+        with pytest.raises(AttributeError):
             secsvar.ASDF = String("NLDM")
 
     def testItemSetterMatchingSecsVar(self):
@@ -537,18 +539,18 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar["MDLN"] = String("NLDM")
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
-        self.assertEqual(secsvar.MDLN, String("NLDM"))
-        self.assertEqual(secsvar["MDLN"], String("NLDM"))
-        self.assertEqual(secsvar[0], String("NLDM"))
+        assert String("NLDM") == secsvar.MDLN
+        assert secsvar["MDLN"] == String("NLDM")
+        assert secsvar[0] == String("NLDM")
 
     def testItemSetterIllegalSecsVar(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar["OBJACK"] = String("NLDM")
 
     def testItemSetterMatchingValue(self):
@@ -556,26 +558,26 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar["MDLN"] = "NLDM"
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
     def testItemSetterIllegalValue(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar["OBJACK"] = "NLDM"
 
     def testItemGetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(KeyError):
+        with pytest.raises(KeyError):
             secsvar["ASDF"]
 
     def testItemSetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(KeyError):
+        with pytest.raises(KeyError):
             secsvar["ASDF"] = String("NLDM")
 
     def testIndexSetterMatchingSecsVar(self):
@@ -583,14 +585,14 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar[0] = String("NLDM")
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
     def testIndexSetterIllegalSecsVar(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar[0] = String("NLDM")
 
     def testIndexSetterMatchingValue(self):
@@ -598,59 +600,59 @@ class TestSecsVarList(unittest.TestCase):
 
         secsvar[0] = "NLDM"
 
-        self.assertEqual(secsvar.MDLN.get(), "NLDM")
-        self.assertEqual(secsvar["MDLN"].get(), "NLDM")
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar.MDLN.get() == "NLDM"
+        assert secsvar["MDLN"].get() == "NLDM"
+        assert secsvar[0].get() == "NLDM"
 
     def testIndexSetterIllegalValue(self):
         secsvar = List([OBJACK, SOFTREV], [0, "SOFTREV"])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar[0] = "NLDM"
 
     def testIndexGetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar[3]
 
     def testIndexSetterUnknown(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar[3] = String("NLDM")
 
     def testIteration(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"])
 
         for key in secsvar:
-            self.assertIn(key, ["MDLN", "SOFTREV"])
-            self.assertIn(secsvar[key].get(), ["MDLN1", "SOFTREV1"])
+            assert key in ["MDLN", "SOFTREV"]
+            assert secsvar[key].get() in ["MDLN1", "SOFTREV1"]
 
     def testIteratorsIterator(self):
         # does not need to be tested, but raises coverage
         iter(iter(List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"])))
 
     def testRepr(self):
-        print(List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"]))
+        repr(List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"]))
 
     def testEmptyRepr(self):
-        print(List([]))
+        repr(List([]))
 
     def testLen(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"])
 
-        self.assertEqual(len(secsvar), 2)
+        assert len(secsvar) == 2
 
     def testNoneDataFormat(self):
-        secsvar = List(None)
+        List(None)
 
     def testUnknownDataFormat(self):
-        with self.assertRaises(TypeError):
-            secsvar = List([None])
+        with pytest.raises(TypeError):
+            List([None])
 
     def testGetNameFromFormatWithIllegalType(self):
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             List.get_name_from_format(None)
 
     def testSettingListToSmall(self):
@@ -666,13 +668,13 @@ class TestSecsVarList(unittest.TestCase):
     def testSettingListToBig(self):
         secsvar = List([MDLN, SOFTREV])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(["MDLN", "SOFTREV", "MDLN2"])
 
     def testSettingInvalidValue(self):
         secsvar = List([MDLN, SOFTREV])
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar.set("MDLN")
 
     def testGettingList(self):
@@ -680,13 +682,13 @@ class TestSecsVarList(unittest.TestCase):
 
         var = secsvar.get()
 
-        self.assertEqual(var["MDLN"], "MDLN1")
-        self.assertEqual(var["SOFTREV"], "SOFTREV1")
+        assert var["MDLN"] == "MDLN1"
+        assert var["SOFTREV"] == "SOFTREV1"
 
     def testEncode(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"])
 
-        self.assertEqual(secsvar.encode(), b"\x01\x02A\x05MDLN1A\x08SOFTREV1")
+        assert secsvar.encode() == b"\x01\x02A\x05MDLN1A\x08SOFTREV1"
 
     def testDecode(self):
         secsvar = List([MDLN, SOFTREV], ["MDLN1", "SOFTREV1"])
@@ -694,25 +696,25 @@ class TestSecsVarList(unittest.TestCase):
         secsvar.MDLN = ""
         secsvar.SOFTREV = ""
 
-        self.assertEqual(secsvar.MDLN, "")
-        self.assertEqual(secsvar.SOFTREV, "")
+        assert secsvar.MDLN == ""
+        assert secsvar.SOFTREV == ""
 
         secsvar.decode(b"\x01\x02A\x05MDLN1A\x08SOFTREV1")
 
-        self.assertEqual(secsvar.MDLN, "MDLN1")
-        self.assertEqual(secsvar.SOFTREV, "SOFTREV1")
+        assert secsvar.MDLN == "MDLN1"
+        assert secsvar.SOFTREV == "SOFTREV1"
 
 
 class TestSecsVarArray(unittest.TestCase):
     def testConstructor(self):
         secsvar = Array(MDLN, ["MDLN1", "MDLN2"])
 
-        self.assertEqual(secsvar[0], "MDLN1")
-        self.assertEqual(secsvar[1], "MDLN2")
+        assert secsvar[0] == "MDLN1"
+        assert secsvar[1] == "MDLN2"
 
     def testConstructorIllegalValue(self):
-        with self.assertRaises(ValueError):
-            secsvar = Array(OBJACK, ["MDLN1", "MDLN2"])
+        with pytest.raises(ValueError):
+            Array(OBJACK, ["MDLN1", "MDLN2"])
 
     def testHash(self):
         secsvar = Array(MDLN)
@@ -723,12 +725,12 @@ class TestSecsVarArray(unittest.TestCase):
 
         secsvar[0] = String("NLDM")
 
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar[0].get() == "NLDM"
 
     def testItemSetterIllegalSecsVar(self):
         secsvar = Array(OBJACK, [0, 1])
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar[0] = String("NLDM")
 
     def testItemSetterMatchingValue(self):
@@ -736,31 +738,31 @@ class TestSecsVarArray(unittest.TestCase):
 
         secsvar[0] = "NLDM"
 
-        self.assertEqual(secsvar[0].get(), "NLDM")
+        assert secsvar[0].get() == "NLDM"
 
     def testItemSetterIllegalValue(self):
         secsvar = Array(OBJACK, [0, 1])
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar[0] = "NLDM"
 
     def testItemGetterUnknown(self):
         secsvar = Array(MDLN, ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar[3]
 
     def testItemSetterUnknown(self):
         secsvar = Array(MDLN, ["MDLN", "SOFTREV"])
 
-        with self.assertRaises(IndexError):
+        with pytest.raises(IndexError):
             secsvar[3] = String("NLDM")
 
     def testIteration(self):
         secsvar = Array(MDLN, ["MDLN1", "MDLN2"])
 
         for value in secsvar:
-            self.assertIn(value, ["MDLN1", "MDLN2"])
+            assert value in ["MDLN1", "MDLN2"]
 
     def testIteratorsIterator(self):
         # does not need to be tested, but raises coverage
@@ -769,7 +771,7 @@ class TestSecsVarArray(unittest.TestCase):
     def testSettingListToSmall(self):
         secsvar = Array(MDLN, count=2)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(["MDLN"])
 
     def testSettingListMatchingLength(self):
@@ -780,13 +782,13 @@ class TestSecsVarArray(unittest.TestCase):
     def testSettingListToBig(self):
         secsvar = Array(MDLN, count=2)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(["MDLN", "SOFTREV", "MDLN2"])
 
     def testSettingInvalidValue(self):
         secsvar = Array(MDLN, count=2)
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar.set("MDLN")
 
     def testGettingList(self):
@@ -794,13 +796,13 @@ class TestSecsVarArray(unittest.TestCase):
 
         var = secsvar.get()
 
-        self.assertEqual(var[0], "MDLN1")
-        self.assertEqual(var[1], "SOFTREV1")
+        assert var[0] == "MDLN1"
+        assert var[1] == "SOFTREV1"
 
     def testEncode(self):
         secsvar = Array(MDLN, ["MDLN1", "SOFTREV1"])
 
-        self.assertEqual(secsvar.encode(), b"\x01\x02A\x05MDLN1A\x08SOFTREV1")
+        assert secsvar.encode() == b"\x01\x02A\x05MDLN1A\x08SOFTREV1"
 
     def testDecode(self):
         secsvar = Array(MDLN, ["MDLN1", "SOFTREV1"])
@@ -808,14 +810,14 @@ class TestSecsVarArray(unittest.TestCase):
         secsvar[0] = ""
         secsvar[1] = ""
 
-        self.assertEqual(secsvar[0], "")
-        self.assertEqual(secsvar[1], "")
+        assert secsvar[0] == ""
+        assert secsvar[1] == ""
 
         secsvar.decode(b"\x01\x02A\x05MDLN1A\x08SOFTREV1")
 
-        self.assertEqual(secsvar[0], "MDLN1")
-        self.assertEqual(secsvar[1], "SOFTREV1")
-        self.assertEqual(len(secsvar), 2)
+        assert secsvar[0] == "MDLN1"
+        assert secsvar[1] == "SOFTREV1"
+        assert len(secsvar) == 2
 
 
 class TestSecsVarBinary(unittest.TestCase):
@@ -827,28 +829,28 @@ class TestSecsVarBinary(unittest.TestCase):
         secsvar = Binary(13)
         secsvar1 = Dynamic([Binary], 13)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = Binary(13)
         secsvar1 = Binary(13)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = Binary(13)
         secsvar1 = b"\x0d"
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testRepr(self):
-        print(Binary(13))
+        repr(Binary(13))
 
     def testEmptyRepr(self):
-        print(Binary([]))
+        repr(Binary([]))
 
     def testNoneRepr(self):
-        print(Binary(None))
+        repr(Binary(None))
 
     def testSettingNone(self):
         secsvar = Binary()
@@ -858,43 +860,43 @@ class TestSecsVarBinary(unittest.TestCase):
     def testGettingUninitialized(self):
         secsvar = Binary()
 
-        self.assertEqual(secsvar.get(), b"")
+        assert secsvar.get() == b""
 
     def testEncodeEmpty(self):
         secsvar = Binary("")
 
-        self.assertEqual(secsvar.encode(), b"!\x00")
+        assert secsvar.encode() == b"!\x00"
 
     def testEncodeSingle(self):
         secsvar = Binary(13)
 
-        self.assertEqual(secsvar.encode(), b"!\x01\r")
+        assert secsvar.encode() == b"!\x01\r"
 
     def testEncodeMulti(self):
         secsvar = Binary(b"\x01\x0b\x19")
 
-        self.assertEqual(secsvar.encode(), b"!\x03\x01\x0b\x19")
+        assert secsvar.encode() == b"!\x03\x01\x0b\x19"
 
     def testDecodeEmpty(self):
         secsvar = Binary()
 
         secsvar.decode(b"!\x00")
 
-        self.assertEqual(secsvar.get(), b"")
+        assert secsvar.get() == b""
 
     def testDecodeSingle(self):
         secsvar = Binary()
 
         secsvar.decode(b"!\x01\r")
 
-        self.assertEqual(secsvar.get(), 13)
+        assert secsvar.get() == 13
 
     def testDecodeMulti(self):
         secsvar = Binary()
 
         secsvar.decode(b"!\x03\x01\x0b\x19")
 
-        self.assertEqual(secsvar.get(), b"\x01\x0b\x19")
+        assert secsvar.get() == b"\x01\x0b\x19"
 
 
 class TestSecsVarBoolean(unittest.TestCase):
@@ -906,102 +908,102 @@ class TestSecsVarBoolean(unittest.TestCase):
         secsvar = Boolean(True)
         secsvar1 = Dynamic([Boolean], True)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = Boolean(True)
         secsvar1 = Boolean(True)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = Boolean(True)
         secsvar1 = True
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityList(self):
         secsvar = Boolean([True, False, True])
         secsvar1 = [True, False, True]
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testRepr(self):
-        print(Boolean(True))
+        repr(Boolean(True))
 
     def testEmptyRepr(self):
-        print(Boolean([]))
+        repr(Boolean(None))
 
     def testGettingItem(self):
         secsvar = Boolean([True, False, True])
 
-        self.assertEqual(secsvar[0], True)
+        assert secsvar[0] is True
 
     def testSettingItem(self):
         secsvar = Boolean([True, False, True])
 
         secsvar[0] = False
 
-        self.assertEqual(secsvar[0], False)
+        assert secsvar[0] is False
 
     def testGettingUninitialized(self):
         secsvar = Boolean()
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testEncodeEmpty(self):
         secsvar = Boolean([])
 
-        self.assertEqual(secsvar.encode(), b"%\x00")
+        assert secsvar.encode() == b"%\x00"
 
     def testEncodeSingle(self):
         secsvar = Boolean(True)
 
-        self.assertEqual(secsvar.encode(), b"%\x01\x01")
+        assert secsvar.encode() == b"%\x01\x01"
 
     def testEncodeMulti(self):
         secsvar = Boolean([True, True, False])
 
-        self.assertEqual(secsvar.encode(), b"%\x03\x01\x01\x00")
+        assert secsvar.encode() == b"%\x03\x01\x01\x00"
 
     def testDecodeEmpty(self):
         secsvar = Boolean()
 
         secsvar.decode(b"%\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = Boolean()
 
         secsvar.decode(b"%\x01\x01")
 
-        self.assertEqual(secsvar.get(), True)
+        assert secsvar.get() is True
 
     def testDecodeMulti(self):
         secsvar = Boolean()
 
         secsvar.decode(b"%\x03\x01\x01\x00")
 
-        self.assertEqual(secsvar.get(), [True, True, False])
+        assert secsvar.get() == [True, True, False]
 
     def testLen(self):
         secsvar = Boolean([True, False, True])
 
-        self.assertEqual(len(secsvar), 3)
+        assert len(secsvar) == 3
 
 
 class TestSecsVarString(unittest.TestCase):
     def testConstructorWrongLengthString(self):
         secsvar = String(count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set("testString")
 
     def testConstructorConvertsNoneToEmptyString(self):
         secsvar = String(None)
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testHash(self):
         secsvar = String("Test")
@@ -1010,115 +1012,115 @@ class TestSecsVarString(unittest.TestCase):
     def testSetNoneNotAllowed(self):
         secsvar = String(count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(None)
 
     def testSetWithIllegalType(self):
         secsvar = String()
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar.set(Boolean(True))
 
     def testEncodeString(self):
         secsvar = String("testString")
 
-        self.assertEqual(secsvar.encode(), b"A\ntestString")
+        assert secsvar.encode() == b"A\ntestString"
 
     def testDecodeString(self):
         secsvar = String()
 
         secsvar.decode(b"A\ntestString")
 
-        self.assertEqual(secsvar.get(), "testString")
+        assert secsvar.get() == "testString"
 
     def testDecodeStringNonPrinting(self):
         secsvar = String()
 
         secsvar.decode(b"A\ntestStrin\xc2")
 
-        self.assertEqual(secsvar.get(), "testStrin\xc2")
+        assert secsvar.get() == "testStrinÂ"
 
     def testEncodeEmptyString(self):
         secsvar = String("")
 
-        self.assertEqual(secsvar.encode(), b"A\0")
+        assert secsvar.encode() == b"A\x00"
 
     def testDecodeEmptyString(self):
         secsvar = String()
 
         secsvar.decode(b"A\0")
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testEqualitySecsVarDynamic(self):
         secsvar = String("TEST123")
         secsvar1 = Dynamic([String], "TEST123")
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = String("TEST123")
         secsvar1 = String("TEST123")
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = String("TEST123")
         secsvar1 = "TEST123"
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testRepr(self):
-        print(String("TEST123\1\2\3TEST123\1\2\3"))
+        repr(String("TEST123\1\2\3TEST123\1\2\3"))
 
     def testEncodeEmpty(self):
         secsvar = String("")
 
-        self.assertEqual(secsvar.encode(), b"A\x00")
+        assert secsvar.encode() == b"A\x00"
 
     def testEncodeSingle(self):
         secsvar = String("a")
 
-        self.assertEqual(secsvar.encode(), b"A\x01a")
+        assert secsvar.encode() == b"A\x01a"
 
     def testEncodeMulti(self):
         secsvar = String("asdfg")
 
-        self.assertEqual(secsvar.encode(), b"A\x05asdfg")
+        assert secsvar.encode() == b"A\x05asdfg"
 
     def testDecodeEmpty(self):
         secsvar = String()
 
         secsvar.decode(b"A\x00")
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testDecodeSingle(self):
         secsvar = String()
 
         secsvar.decode(b"A\x01a")
 
-        self.assertEqual(secsvar.get(), "a")
+        assert secsvar.get() == "a"
 
     def testDecodeMulti(self):
         secsvar = String()
 
         secsvar.decode(b"A\x05asdfg")
 
-        self.assertEqual(secsvar.get(), "asdfg")
+        assert secsvar.get() == "asdfg"
 
 
 class TestSecsVarJIS8(unittest.TestCase):
     def testConstructorWrongLengthString(self):
         secsvar = JIS8(count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set("testString")
 
     def testConstructorConvertsNoneToEmptyString(self):
         secsvar = JIS8(None)
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testHash(self):
         secsvar = JIS8("Test")
@@ -1127,95 +1129,95 @@ class TestSecsVarJIS8(unittest.TestCase):
     def testSetNoneNotAllowed(self):
         secsvar = JIS8(count=5)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.set(None)
 
     def testSetWithIllegalType(self):
         secsvar = JIS8()
 
-        with self.assertRaises(TypeError):
+        with pytest.raises(TypeError):
             secsvar.set(Boolean(True))
 
     def testEncodeString(self):
         secsvar = JIS8("testString¥")
 
-        self.assertEqual(secsvar.encode(), b"E\x0btestString\\")
+        assert secsvar.encode() == b"E\x0btestString\\"
 
     def testDecodeString(self):
         secsvar = JIS8()
 
         secsvar.decode(b"E\ntestString")
 
-        self.assertEqual(secsvar.get(), "testString")
+        assert secsvar.get() == "testString"
 
     def testEncodeEmptyString(self):
         secsvar = JIS8("")
 
-        self.assertEqual(secsvar.encode(), b"E\0")
+        assert secsvar.encode() == b"E\x00"
 
     def testDecodeEmptyString(self):
         secsvar = JIS8()
 
         secsvar.decode(b"E\0")
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testEqualitySecsVarDynamic(self):
         secsvar = JIS8("TEST123")
         secsvar1 = Dynamic([JIS8], "TEST123")
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = JIS8("TEST123")
         secsvar1 = JIS8("TEST123")
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = JIS8("TEST123")
         secsvar1 = "TEST123"
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testRepr(self):
-        print(JIS8("TEST123\1\2\3TEST123\1\2\3"))
+        repr(JIS8("TEST123\1\2\3TEST123\1\2\3"))
 
     def testEncodeEmpty(self):
         secsvar = JIS8("")
 
-        self.assertEqual(secsvar.encode(), b"E\x00")
+        assert secsvar.encode() == b"E\x00"
 
     def testEncodeSingle(self):
         secsvar = JIS8("a")
 
-        self.assertEqual(secsvar.encode(), b"E\x01a")
+        assert secsvar.encode() == b"E\x01a"
 
     def testEncodeMulti(self):
         secsvar = JIS8("asdfg")
 
-        self.assertEqual(secsvar.encode(), b"E\x05asdfg")
+        assert secsvar.encode() == b"E\x05asdfg"
 
     def testDecodeEmpty(self):
         secsvar = JIS8()
 
         secsvar.decode(b"E\x00")
 
-        self.assertEqual(secsvar.get(), "")
+        assert secsvar.get() == ""
 
     def testDecodeSingle(self):
         secsvar = JIS8()
 
         secsvar.decode(b"E\x01a")
 
-        self.assertEqual(secsvar.get(), "a")
+        assert secsvar.get() == "a"
 
     def testDecodeMulti(self):
         secsvar = JIS8()
 
         secsvar.decode(b"E\x05asdfg")
 
-        self.assertEqual(secsvar.get(), "asdfg")
+        assert secsvar.get() == "asdfg"
 
 
 class TestSecsVarI8(unittest.TestCase):
@@ -1227,64 +1229,64 @@ class TestSecsVarI8(unittest.TestCase):
         secsvar = I8(17)
         secsvar1 = Dynamic([I8], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = I8(17)
         secsvar1 = I8(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = I8(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testRepr(self):
-        print(I8(8))
+        log.info(I8(8))
 
     def testEmptyRepr(self):
-        print(I8([]))
+        log.info(I8([]))
 
     def testEqualityList(self):
         secsvar = U8([1, 2, 3])
         secsvar1 = [1, 2, 3]
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testGettingUninitialized(self):
         secsvar = I8()
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testEncode(self):
         secsvar = I8(1337)
 
-        self.assertEqual(secsvar.encode(), b"a\x08\x00\x00\x00\x00\x00\x00\x059")
+        assert secsvar.encode() == b"a\x08\x00\x00\x00\x00\x00\x00\x059"
 
     def testWrongLengthDecode(self):
         secsvar = I8(0)
 
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             secsvar.decode(b"a\x08\x00\x00\x00\x00\x00\x00")
 
     def testEncodeEmpty(self):
         secsvar = I8([])
 
-        self.assertEqual(secsvar.encode(), b"a\x00")
+        assert secsvar.encode() == b"a\x00"
 
     def testEncodeSingle(self):
         secsvar = I8(123)
 
-        self.assertEqual(secsvar.encode(), b"a\x08\x00\x00\x00\x00\x00\x00\x00{")
+        assert secsvar.encode() == b"a\x08\x00\x00\x00\x00\x00\x00\x00{"
 
     def testEncodeMulti(self):
         secsvar = I8([123, 234, -345])
 
-        self.assertEqual(
-            secsvar.encode(),
-            b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7",
+        assert (
+            secsvar.encode()
+            == b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7"
         )
 
     def testDecodeEmpty(self):
@@ -1292,14 +1294,14 @@ class TestSecsVarI8(unittest.TestCase):
 
         secsvar.decode(b"a\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = I8()
 
         secsvar.decode(b"a\x08\x00\x00\x00\x00\x00\x00\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = I8()
@@ -1308,12 +1310,12 @@ class TestSecsVarI8(unittest.TestCase):
             b"a\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\xff\xff\xff\xff\xff\xff\xfe\xa7"
         )
 
-        self.assertEqual(secsvar.get(), [123, 234, -345])
+        assert secsvar.get() == [123, 234, -345]
 
     def testLen(self):
         secsvar = I8([1, 2, 3])
 
-        self.assertEqual(len(secsvar), 3)
+        assert len(secsvar) == 3
 
 
 class TestSecsVarI1(unittest.TestCase):
@@ -1325,55 +1327,55 @@ class TestSecsVarI1(unittest.TestCase):
         secsvar = I1(17)
         secsvar1 = Dynamic([I1], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = I1(17)
         secsvar1 = I1(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = I1(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = I1([])
 
-        self.assertEqual(secsvar.encode(), b"e\x00")
+        assert secsvar.encode() == b"e\x00"
 
     def testEncodeSingle(self):
         secsvar = I1(123)
 
-        self.assertEqual(secsvar.encode(), b"e\x01{")
+        assert secsvar.encode() == b"e\x01{"
 
     def testEncodeMulti(self):
         secsvar = I1([12, 23, -34])
 
-        self.assertEqual(secsvar.encode(), b"e\x03\x0c\x17\xde")
+        assert secsvar.encode() == b"e\x03\x0c\x17\xde"
 
     def testDecodeEmpty(self):
         secsvar = I1()
 
         secsvar.decode(b"e\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = I1()
 
         secsvar.decode(b"e\x01{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = I1()
 
         secsvar.decode(b"e\x03\x0c\x17\xde")
 
-        self.assertEqual(secsvar.get(), [12, 23, -34])
+        assert secsvar.get() == [12, 23, -34]
 
 
 class TestSecsVarI2(unittest.TestCase):
@@ -1385,55 +1387,55 @@ class TestSecsVarI2(unittest.TestCase):
         secsvar = I2(17)
         secsvar1 = Dynamic([I2], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = I2(17)
         secsvar1 = I2(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = I2(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = I2([])
 
-        self.assertEqual(secsvar.encode(), b"i\x00")
+        assert secsvar.encode() == b"i\x00"
 
     def testEncodeSingle(self):
         secsvar = I2(123)
 
-        self.assertEqual(secsvar.encode(), b"i\x02\x00{")
+        assert secsvar.encode() == b"i\x02\x00{"
 
     def testEncodeMulti(self):
         secsvar = I2([123, 234, -345])
 
-        self.assertEqual(secsvar.encode(), b"i\x06\x00{\x00\xea\xfe\xa7")
+        assert secsvar.encode() == b"i\x06\x00{\x00\xea\xfe\xa7"
 
     def testDecodeEmpty(self):
         secsvar = I2()
 
         secsvar.decode(b"i\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = I2()
 
         secsvar.decode(b"i\x02\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = I2()
 
         secsvar.decode(b"i\x06\x00{\x00\xea\xfe\xa7")
 
-        self.assertEqual(secsvar.get(), [123, 234, -345])
+        assert secsvar.get() == [123, 234, -345]
 
 
 class TestSecsVarI4(unittest.TestCase):
@@ -1445,55 +1447,55 @@ class TestSecsVarI4(unittest.TestCase):
         secsvar = I4(17)
         secsvar1 = Dynamic([I4], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = I4(17)
         secsvar1 = I4(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = I4(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = I4([])
 
-        self.assertEqual(secsvar.encode(), b"q\x00")
+        assert secsvar.encode() == b"q\x00"
 
     def testEncodeSingle(self):
         secsvar = I4(123)
 
-        self.assertEqual(secsvar.encode(), b"q\x04\x00\x00\x00{")
+        assert secsvar.encode() == b"q\x04\x00\x00\x00{"
 
     def testEncodeMulti(self):
         secsvar = I4([123, 234, -345])
 
-        self.assertEqual(secsvar.encode(), b"q\x0c\x00\x00\x00{\x00\x00\x00\xea\xff\xff\xfe\xa7")
+        assert secsvar.encode() == b"q\x0c\x00\x00\x00{\x00\x00\x00\xea\xff\xff\xfe\xa7"
 
     def testDecodeEmpty(self):
         secsvar = I4()
 
         secsvar.decode(b"q\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = I4()
 
         secsvar.decode(b"q\x04\x00\x00\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = I4()
 
         secsvar.decode(b"q\x0c\x00\x00\x00{\x00\x00\x00\xea\xff\xff\xfe\xa7")
 
-        self.assertEqual(secsvar.get(), [123, 234, -345])
+        assert secsvar.get() == [123, 234, -345]
 
 
 class TestSecsVarF8(unittest.TestCase):
@@ -1505,35 +1507,36 @@ class TestSecsVarF8(unittest.TestCase):
         secsvar = F8(12.3)
         secsvar1 = Dynamic([F8], 12.3)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = F8(12.3)
         secsvar1 = F8(12.3)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = F8(12.3)
         secsvar1 = 12.3
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = F8([])
 
-        self.assertEqual(secsvar.encode(), b"\x81\x00")
+        assert secsvar.encode() == b"\x81\x00"
 
     def testEncodeSingle(self):
         secsvar = F8(123)
 
-        self.assertEqual(secsvar.encode(), b"\x81\x08@^\xc0\x00\x00\x00\x00\x00")
+        assert secsvar.encode() == b"\x81\x08@^\xc0\x00\x00\x00\x00\x00"
 
     def testEncodeMulti(self):
         secsvar = F8([123, 234, -345])
 
-        self.assertEqual(
-            secsvar.encode(), b"\x81\x18@^\xc0\x00\x00\x00\x00\x00@m@\x00\x00\x00\x00\x00\xc0u\x90\x00\x00\x00\x00\x00"
+        assert (
+            secsvar.encode()
+            == b"\x81\x18@^\xc0\x00\x00\x00\x00\x00@m@\x00\x00\x00\x00\x00\xc0u\x90\x00\x00\x00\x00\x00"
         )
 
     def testDecodeEmpty(self):
@@ -1541,21 +1544,21 @@ class TestSecsVarF8(unittest.TestCase):
 
         secsvar.decode(b"\x81\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = F8()
 
         secsvar.decode(b"\x81\x08@^\xc0\x00\x00\x00\x00\x00")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = F8()
 
         secsvar.decode(b"\x81\x18@^\xc0\x00\x00\x00\x00\x00@m@\x00\x00\x00\x00\x00\xc0u\x90\x00\x00\x00\x00\x00")
 
-        self.assertEqual(secsvar.get(), [123, 234, -345])
+        assert secsvar.get() == [123, 234, -345]
 
 
 class TestSecsVarF4(unittest.TestCase):
@@ -1567,55 +1570,55 @@ class TestSecsVarF4(unittest.TestCase):
         secsvar = F4(17)
         secsvar1 = Dynamic([F4], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = F4(17)
         secsvar1 = F4(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = F4(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = F4([])
 
-        self.assertEqual(secsvar.encode(), b"\x91\x00")
+        assert secsvar.encode() == b"\x91\x00"
 
     def testEncodeSingle(self):
         secsvar = F4(123)
 
-        self.assertEqual(secsvar.encode(), b"\x91\x04B\xf6\x00\x00")
+        assert secsvar.encode() == b"\x91\x04B\xf6\x00\x00"
 
     def testEncodeMulti(self):
         secsvar = F4([123, 234, -345])
 
-        self.assertEqual(secsvar.encode(), b"\x91\x0cB\xf6\x00\x00Cj\x00\x00\xc3\xac\x80\x00")
+        assert secsvar.encode() == b"\x91\x0cB\xf6\x00\x00Cj\x00\x00\xc3\xac\x80\x00"
 
     def testDecodeEmpty(self):
         secsvar = F4()
 
         secsvar.decode(b"\x91\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = F4()
 
         secsvar.decode(b"\x91\x04B\xf6\x00\x00")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = F4()
 
         secsvar.decode(b"\x91\x0cB\xf6\x00\x00Cj\x00\x00\xc3\xac\x80\x00")
 
-        self.assertEqual(secsvar.get(), [123, 234, -345])
+        assert secsvar.get() == [123, 234, -345]
 
 
 class TestSecsVarU8(unittest.TestCase):
@@ -1627,36 +1630,36 @@ class TestSecsVarU8(unittest.TestCase):
         secsvar = U8(17)
         secsvar1 = Dynamic([U8], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = U8(17)
         secsvar1 = U8(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = U8(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = U8([])
 
-        self.assertEqual(secsvar.encode(), b"\xa1\x00")
+        assert secsvar.encode() == b"\xa1\x00"
 
     def testEncodeSingle(self):
         secsvar = U8(123)
 
-        self.assertEqual(secsvar.encode(), b"\xa1\x08\x00\x00\x00\x00\x00\x00\x00{")
+        assert secsvar.encode() == b"\xa1\x08\x00\x00\x00\x00\x00\x00\x00{"
 
     def testEncodeMulti(self):
         secsvar = U8([123, 234, 345])
 
-        self.assertEqual(
-            secsvar.encode(),
-            b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y",
+        assert (
+            secsvar.encode()
+            == b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y"
         )
 
     def testDecodeEmpty(self):
@@ -1664,14 +1667,14 @@ class TestSecsVarU8(unittest.TestCase):
 
         secsvar.decode(b"\xa1\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = U8()
 
         secsvar.decode(b"\xa1\x08\x00\x00\x00\x00\x00\x00\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = U8()
@@ -1680,7 +1683,7 @@ class TestSecsVarU8(unittest.TestCase):
             b"\xa1\x18\x00\x00\x00\x00\x00\x00\x00{\x00\x00\x00\x00\x00\x00\x00\xea\x00\x00\x00\x00\x00\x00\x01Y"
         )
 
-        self.assertEqual(secsvar.get(), [123, 234, 345])
+        assert secsvar.get() == [123, 234, 345]
 
 
 class TestSecsVarU1(unittest.TestCase):
@@ -1692,55 +1695,55 @@ class TestSecsVarU1(unittest.TestCase):
         secsvar = U1(17)
         secsvar1 = Dynamic([U1], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = U1(17)
         secsvar1 = U1(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = U1(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = U1([])
 
-        self.assertEqual(secsvar.encode(), b"\xa5\x00")
+        assert secsvar.encode() == b"\xa5\x00"
 
     def testEncodeSingle(self):
         secsvar = U1(123)
 
-        self.assertEqual(secsvar.encode(), b"\xa5\x01{")
+        assert secsvar.encode() == b"\xa5\x01{"
 
     def testEncodeMulti(self):
         secsvar = U1([12, 23, 34])
 
-        self.assertEqual(secsvar.encode(), b'\xa5\x03\x0c\x17"')
+        assert secsvar.encode() == b'\xa5\x03\x0c\x17"'
 
     def testDecodeEmpty(self):
         secsvar = U1()
 
         secsvar.decode(b"\xa5\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = U1()
 
         secsvar.decode(b"\xa5\x01{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = U1()
 
         secsvar.decode(b'\xa5\x03\x0c\x17"')
 
-        self.assertEqual(secsvar.get(), [12, 23, 34])
+        assert secsvar.get() == [12, 23, 34]
 
 
 class TestSecsVarU2(unittest.TestCase):
@@ -1752,55 +1755,55 @@ class TestSecsVarU2(unittest.TestCase):
         secsvar = U2(17)
         secsvar1 = Dynamic([U2], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = U2(17)
         secsvar1 = U2(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = U2(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = U2([])
 
-        self.assertEqual(secsvar.encode(), b"\xa9\x00")
+        assert secsvar.encode() == b"\xa9\x00"
 
     def testEncodeSingle(self):
         secsvar = U2(123)
 
-        self.assertEqual(secsvar.encode(), b"\xa9\x02\x00{")
+        assert secsvar.encode() == b"\xa9\x02\x00{"
 
     def testEncodeMulti(self):
         secsvar = U2([123, 234, 345])
 
-        self.assertEqual(secsvar.encode(), b"\xa9\x06\x00{\x00\xea\x01Y")
+        assert secsvar.encode() == b"\xa9\x06\x00{\x00\xea\x01Y"
 
     def testDecodeEmpty(self):
         secsvar = U2()
 
         secsvar.decode(b"\xa9\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = U2()
 
         secsvar.decode(b"\xa9\x02\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = U2()
 
         secsvar.decode(b"\xa9\x06\x00{\x00\xea\x01Y")
 
-        self.assertEqual(secsvar.get(), [123, 234, 345])
+        assert secsvar.get() == [123, 234, 345]
 
 
 class TestSecsVarU4(unittest.TestCase):
@@ -1812,55 +1815,55 @@ class TestSecsVarU4(unittest.TestCase):
         secsvar = U4(17)
         secsvar1 = Dynamic([U4], 17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualitySecsVar(self):
         secsvar = U4(17)
         secsvar1 = U4(17)
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEqualityVar(self):
         secsvar = U4(17)
         secsvar1 = 17
 
-        self.assertEqual(secsvar, secsvar1)
+        assert secsvar == secsvar1
 
     def testEncodeEmpty(self):
         secsvar = U4([])
 
-        self.assertEqual(secsvar.encode(), b"\xb1\x00")
+        assert secsvar.encode() == b"\xb1\x00"
 
     def testEncodeSingle(self):
         secsvar = U4(123)
 
-        self.assertEqual(secsvar.encode(), b"\xb1\x04\x00\x00\x00{")
+        assert secsvar.encode() == b"\xb1\x04\x00\x00\x00{"
 
     def testEncodeMulti(self):
         secsvar = U4([123, 234, 345])
 
-        self.assertEqual(secsvar.encode(), b"\xb1\x0c\x00\x00\x00{\x00\x00\x00\xea\x00\x00\x01Y")
+        assert secsvar.encode() == b"\xb1\x0c\x00\x00\x00{\x00\x00\x00\xea\x00\x00\x01Y"
 
     def testDecodeEmpty(self):
         secsvar = U4()
 
         secsvar.decode(b"\xb1\x00")
 
-        self.assertEqual(secsvar.get(), [])
+        assert secsvar.get() == []
 
     def testDecodeSingle(self):
         secsvar = U4()
 
         secsvar.decode(b"\xb1\x04\x00\x00\x00{")
 
-        self.assertEqual(secsvar.get(), 123)
+        assert secsvar.get() == 123
 
     def testDecodeMulti(self):
         secsvar = U4()
 
         secsvar.decode(b"\xb1\x0c\x00\x00\x00{\x00\x00\x00\xea\x00\x00\x01Y")
 
-        self.assertEqual(secsvar.get(), [123, 234, 345])
+        assert secsvar.get() == [123, 234, 345]
 
 
 class GoodBadLists:
@@ -1869,68 +1872,24 @@ class GoodBadLists:
     badValues = []
 
     def goodAssignmentCheck(self, value):
-        if "LENGTH" in value:
-            secsvar = self._type(count=value["LENGTH"])
-        else:
-            secsvar = self._type()
-
-        print(
-            self._type.__name__,
-            "testing assignment of good",
-            type(value["VALUE"]).__name__,
-            "value",
-            printable_value(value["VALUE"]),
-        )
+        secsvar = self._type(count=value["LENGTH"]) if "LENGTH" in value else self._type()
 
         secsvar.set(value["VALUE"])
         assert secsvar.get() == value["RESULT"]
 
     def badAssignmentCheck(self, value):
-        if "LENGTH" in value:
-            secsvar = self._type(count=value["LENGTH"])
-        else:
-            secsvar = self._type()
+        secsvar = self._type(count=value["LENGTH"]) if "LENGTH" in value else self._type()
 
-        print(
-            self._type.__name__,
-            "testing assignment of bad",
-            type(value["VALUE"]).__name__,
-            "value",
-            printable_value(value["VALUE"]),
-        )
         with pytest.raises((ValueError, TypeError)):
             secsvar.set(value["VALUE"])
-        print(self._type.__name__, "unexpected bad assignment", secsvar.get())
 
     def goodSupportedCheck(self, value):
-        if "LENGTH" in value:
-            secsvar = self._type(count=value["LENGTH"])
-        else:
-            secsvar = self._type()
-
-        print(
-            self._type.__name__,
-            "testing isSupported for good",
-            type(value["VALUE"]).__name__,
-            "value",
-            printable_value(value["VALUE"]),
-        )
+        secsvar = self._type(count=value["LENGTH"]) if "LENGTH" in value else self._type()
 
         assert secsvar.supports_value(value["VALUE"])
 
     def badSupportedCheck(self, value):
-        if "LENGTH" in value:
-            secsvar = self._type(count=value["LENGTH"])
-        else:
-            secsvar = self._type()
-
-        print(
-            self._type.__name__,
-            "testing isSupported for bad",
-            type(value["VALUE"]).__name__,
-            "value",
-            printable_value(value["VALUE"]),
-        )
+        secsvar = self._type(count=value["LENGTH"]) if "LENGTH" in value else self._type()
 
         assert secsvar.supports_value(value["VALUE"]) is False
 

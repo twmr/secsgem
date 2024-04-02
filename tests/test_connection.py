@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import datetime
 import logging
-import typing
 
 import secsgem.common
 import secsgem.common.settings
@@ -28,8 +27,7 @@ from secsgem.hsms.protocol import HsmsProtocol
 
 
 class HsmsTestConnection(secsgem.common.Connection):
-    """
-    Connection class for single connection from hsmsMultiPassiveServer.
+    """Connection class for single connection from hsmsMultiPassiveServer.
 
     Handles connections incoming connection from hsmsMultiPassiveServer
 
@@ -43,7 +41,6 @@ class HsmsTestConnection(secsgem.common.Connection):
     :type delegate: inherited from :class:`secsgem.hsms.HsmsHandler`
 
     Example:
-
         # TODO: create example
 
     """
@@ -61,7 +58,7 @@ class HsmsTestConnection(secsgem.common.Connection):
         if (
             self._delegate
             and hasattr(self._delegate, "on_connection_established")
-            and callable(getattr(self._delegate, "on_connection_established"))
+            and callable(self._delegate.on_connection_established)
         ):
             self._delegate.on_connection_established(self)
 
@@ -74,7 +71,7 @@ class HsmsTestConnection(secsgem.common.Connection):
         if (
             self._delegate
             and hasattr(self._delegate, "on_connection_message_received")
-            and callable(getattr(self._delegate, "on_connection_message_received"))
+            and callable(self._delegate.on_connection_message_received)
         ):
             self._delegate.on_connection_message_received(self, message)
 
@@ -103,7 +100,7 @@ class HsmsTestConnection(secsgem.common.Connection):
             if (
                 self._delegate
                 and hasattr(self._delegate, "on_connection_before_closed")
-                and callable(getattr(self._delegate, "on_connection_before_closed"))
+                and callable(self._delegate.on_connection_before_closed)
             ):
                 self._delegate.on_connection_before_closed(self)
 
@@ -111,7 +108,7 @@ class HsmsTestConnection(secsgem.common.Connection):
             if (
                 self._delegate
                 and hasattr(self._delegate, "on_connection_closed")
-                and callable(getattr(self._delegate, "on_connection_closed"))
+                and callable(self._delegate.on_connection_closed)
             ):
                 self._delegate.on_connection_closed(self)
 
@@ -124,7 +121,8 @@ class HsmsTestServerSettings(secsgem.common.Settings):
     @classmethod
     def _attributes(cls) -> list[secsgem.common.settings.Setting]:
         """Get the available settings for the class."""
-        return super()._attributes() + [
+        return [
+            *super()._attributes(),
             secsgem.common.settings.Setting("server", None, "Server for connection"),
             secsgem.common.settings.Setting("connect_mode", secsgem.hsms.HsmsConnectMode.ACTIVE, "Hsms connect mode"),
             secsgem.common.settings.Setting("address", "127.0.0.1", "Remote (active) or local (passive) IP address"),
@@ -187,9 +185,8 @@ class HsmsTestServer:
         self.logger.debug("server started")
 
     def stop(self, terminate_connections=True):
-        if terminate_connections:
-            if self.connection:
-                self.connection.disconnect()
+        if terminate_connections and self.connection:
+            self.connection.disconnect()
 
         self.logger.debug("server stopped")
 

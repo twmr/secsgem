@@ -38,4 +38,4 @@ class TestCodecJIS8:
         assert char_map[1].decode("jis_8") == char_map[0]
 
     def test_unknown_search(self):
-        assert secsgem.common.codec_jis_x_0201._jis_x_0201_search("invalid") == None
+        assert secsgem.common.codec_jis_x_0201._jis_x_0201_search("invalid") is None

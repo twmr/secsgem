@@ -18,12 +18,11 @@ import threading
 import unittest.mock
 
 import pytest
+from mock_protocol import MockProtocol
+from mock_settings import MockSettings
 
 import secsgem.hsms
 import secsgem.secs
-
-from mock_protocol import MockProtocol
-from mock_settings import MockSettings
 
 
 class TestSecsHandler(unittest.TestCase):
@@ -37,10 +36,10 @@ class TestSecsHandler(unittest.TestCase):
 
         function = client.streams_functions.decode(packet)
 
-        self.assertEqual(function.stream, 1)
-        self.assertEqual(function.function, 2)
-        self.assertEqual(function[0], "MDLN")
-        self.assertEqual(function[1], "SOFTREV")
+        assert function.stream == 1
+        assert function.function == 2
+        assert function[0] == "MDLN"
+        assert function[1] == "SOFTREV"
 
     def testSecsDecodeNone(self):
         settings = MockSettings(MockProtocol)
@@ -48,7 +47,7 @@ class TestSecsHandler(unittest.TestCase):
 
         function = client.streams_functions.decode(None)
 
-        self.assertIsNone(function)
+        assert function is None
 
     def testSecsDecodeInvalidStream(self):
         settings = MockSettings(MockProtocol)
@@ -72,7 +71,7 @@ class TestSecsHandler(unittest.TestCase):
 
         function = client.stream_function(1, 1)
 
-        self.assertIs(function, secsgem.secs.functions.SecsS01F01)
+        assert function is secsgem.secs.functions.SecsS01F01
 
     def testStreamFunctionInvalidStream(self):
         settings = MockSettings(MockProtocol)
@@ -116,10 +115,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 2)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 2
 
     def testStreamFunctionSending(self):
         self.settings.protocol.simulate_connect()
@@ -135,10 +134,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 1)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 1
 
         self.settings.protocol.simulate_message(
             self.settings.protocol.create_message_for_function(
@@ -147,7 +146,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         )
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testStreamFunctionReceivingUnhandledFunction(self):
         self.settings.protocol.simulate_connect()
@@ -160,10 +159,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0)
-        self.assertEqual(packet.header.stream, 9)
-        self.assertEqual(packet.header.function, 5)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 9
+        assert packet.header.function == 5
 
     def testStreamFunctionReceivingExceptingCallback(self):
         self.settings.protocol.simulate_connect()
@@ -180,10 +179,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(system_id=system_id)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 0)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 0
 
     def testDisableCeids(self):
         self.settings.protocol.simulate_connect()
@@ -196,15 +195,15 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=37)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 37)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 37
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function["CEED"], False)
-        self.assertEqual(function["CEID"].get(), [])
+        assert function["CEED"] == False
+        assert function["CEID"].get() == []
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F38(secsgem.secs.data_items.ERACK.ACCEPTED), packet.header.system
@@ -212,7 +211,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testDisableCeidReports(self):
         self.settings.protocol.simulate_connect()
@@ -225,15 +224,15 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=33)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 33)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 33
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function["DATAID"], 0)
-        self.assertEqual(function["DATA"].get(), [])
+        assert function["DATAID"] == 0
+        assert function["DATA"].get() == []
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F34(secsgem.secs.data_items.DRACK.ACK), packet.header.system
@@ -241,7 +240,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testListSVsAll(self):
         self.settings.protocol.simulate_connect()
@@ -254,14 +253,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=11)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 11)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 11
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [])
+        assert function.get() == []
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system
@@ -269,7 +268,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testListSVsSpecific(self):
         self.settings.protocol.simulate_connect()
@@ -282,14 +281,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=11)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 11)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 11
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS01F12([{"SVID": 1, "SVNAME": "SV1", "UNITS": "mm"}]), packet.header.system
@@ -297,7 +296,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testRequestSVs(self):
         self.settings.protocol.simulate_connect()
@@ -310,14 +309,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=3)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 3)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 3
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS01F04([1337]), packet.header.system
@@ -325,7 +324,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testRequestSV(self):
         self.settings.protocol.simulate_connect()
@@ -338,14 +337,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=3)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 3)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 3
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS01F04([1337]), packet.header.system
@@ -353,7 +352,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testListECsAll(self):
         self.settings.protocol.simulate_connect()
@@ -366,14 +365,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=29)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 29)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 29
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [])
+        assert function.get() == []
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F30(
@@ -393,7 +392,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testListECsSpecific(self):
         self.settings.protocol.simulate_connect()
@@ -406,14 +405,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=29)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 29)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 29
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F30(
@@ -433,7 +432,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testRequestECs(self):
         self.settings.protocol.simulate_connect()
@@ -446,14 +445,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=13)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 13)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 13
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F14([1337]), packet.header.system
@@ -461,7 +460,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testRequestEC(self):
         self.settings.protocol.simulate_connect()
@@ -474,14 +473,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=13)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 13)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 13
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [1])
+        assert function.get() == [1]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F14([1337]), packet.header.system
@@ -489,7 +488,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testSetECs(self):
         self.settings.protocol.simulate_connect()
@@ -502,14 +501,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=15)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 15)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 15
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [{"ECID": 1, "ECV": "1337"}])
+        assert function.get() == [{"ECID": 1, "ECV": "1337"}]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system
@@ -517,7 +516,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testSetEC(self):
         self.settings.protocol.simulate_connect()
@@ -530,14 +529,14 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=15)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 2)
-        self.assertEqual(packet.header.function, 15)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 2
+        assert packet.header.function == 15
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.get(), [{"ECV": 1337, "ECID": 1}])
+        assert function.get() == [{"ECV": 1337, "ECID": 1}]
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS02F16(secsgem.secs.data_items.EAC.ACK), packet.header.system
@@ -545,7 +544,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testSendEquipmentTerminal(self):
         self.settings.protocol.simulate_connect()
@@ -560,15 +559,15 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=3)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 10)
-        self.assertEqual(packet.header.function, 3)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 10
+        assert packet.header.function == 3
 
         function = self.client.streams_functions.decode(packet)
 
-        self.assertEqual(function.TID.get(), 0)
-        self.assertEqual(function.TEXT.get(), "Hello World")
+        assert function.TID.get() == 0
+        assert function.TEXT.get() == "Hello World"
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS10F04(secsgem.secs.data_items.ACKC10.ACCEPTED), packet.header.system
@@ -576,7 +575,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testAreYouThere(self):
         self.settings.protocol.simulate_connect()
@@ -589,10 +588,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
 
         packet = self.settings.protocol.expect_message(function=1)
 
-        self.assertIsNot(packet, None)
-        self.assertEqual(packet.header.session_id, 0x0)
-        self.assertEqual(packet.header.stream, 1)
-        self.assertEqual(packet.header.function, 1)
+        assert packet is not None
+        assert packet.header.session_id == 0
+        assert packet.header.stream == 1
+        assert packet.header.function == 1
 
         packet = self.settings.protocol.create_message_for_function(
             secsgem.secs.functions.SecsS01F02([]), packet.header.system
@@ -600,7 +599,7 @@ class TestSecsHandlerPassive(unittest.TestCase):
         self.settings.protocol.simulate_message(packet)
 
         clientCommandThread.join(1)
-        self.assertFalse(clientCommandThread.is_alive())
+        assert not clientCommandThread.is_alive()
 
     def testUnhandeledFunctionCallback(self):
         self.settings.protocol.simulate_connect()
@@ -626,28 +625,28 @@ class TestSecsHandlerPassive(unittest.TestCase):
         f = unittest.mock.Mock()
 
         self.client.register_stream_function(0, 0, f)
-        self.assertIn(self.client._generate_sf_callback_name(0, 0), self.client._callback_handler._callbacks)
+        assert self.client._generate_sf_callback_name(0, 0) in self.client._callback_handler._callbacks
 
         self.client.unregister_stream_function(0, 0)
-        self.assertNotIn(self.client._generate_sf_callback_name(0, 0), self.client._callback_handler._callbacks)
+        assert self.client._generate_sf_callback_name(0, 0) not in self.client._callback_handler._callbacks
 
     def testRegisterCallback(self):
         f = unittest.mock.Mock()
 
         self.client.callbacks.test = f
-        self.assertIn("test", self.client.callbacks._callbacks)
+        assert "test" in self.client.callbacks._callbacks
 
     def testCallbackIn(self):
         f = unittest.mock.Mock()
 
         self.client.callbacks.test = f
-        self.assertIn("test", self.client.callbacks)
+        assert "test" in self.client.callbacks
 
     def testCallCallback(self):
         f = unittest.mock.Mock()
 
         self.client.callbacks.test = f
-        self.assertIn("test", self.client._callback_handler._callbacks)
+        assert "test" in self.client._callback_handler._callbacks
 
         self.client.callbacks.test()
 
@@ -657,10 +656,10 @@ class TestSecsHandlerPassive(unittest.TestCase):
         f = unittest.mock.Mock()
 
         self.client.callbacks.test = f
-        self.assertIn("test", self.client._callback_handler._callbacks)
+        assert "test" in self.client._callback_handler._callbacks
 
         self.client.callbacks.test = None
-        self.assertNotIn("test", self.client._callback_handler._callbacks)
+        assert "test" not in self.client._callback_handler._callbacks
 
 
 class TestSecsHandlerActive(unittest.TestCase):
