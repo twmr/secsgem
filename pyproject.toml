@@ -64,7 +64,6 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 120
 extend-exclude = [
-    "tests",
     "data",
     "docs",
     "samples",
@@ -125,6 +124,44 @@ ignore = [
   "ANN101",
   "ANN102",
   "RUF012",  # TODO: remove
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# Also ignore `E402` in all `__init__.py` files.
+"__init__.py" = ["E402"]
+"tests/**/*.py" = [
+    # at least this three should be fine in tests:
+    "ARG002",
+    "B018",
+    "D100", # missing docstring in public module
+    "D101",
+    "D102",
+    "D103", # missing docstring in public function
+    "D107",
+    "DTZ005",
+    "DTZ007",
+    "E501",
+    "E712",
+    "ERA001",
+    "F403", # wildcard import
+    "F405", # star import
+    "FIX002",
+    "INP00",
+    "N801", # capwords
+    "N802",
+    "N806", # lowercase
+    "N815",
+    "PERF401",
+    "PT011", # pytest.raises too broad
+    "PTH118",
+    "PTH120",
+    "RET505",
+    "S101", # asserts allowed in tests...
+    "SLF001", # private member accessed
+    "TD002",
+    "TD003",
+    "TD004",
+    "TD005",
 ]
 
 [tool.ruff.lint.flake8-annotations]
