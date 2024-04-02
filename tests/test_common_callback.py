@@ -19,7 +19,7 @@ import unittest.mock
 import secsgem.common
 
 
-class TestCallbackHandler(unittest.TestCase):
+class TestCallbackHandler:
     def testRegisterCallback(self):
         f = unittest.mock.Mock()
 
