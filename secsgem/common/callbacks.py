@@ -51,7 +51,7 @@ class CallbackHandler:
         self.target: object = None
         self._object_intitialized = True
 
-    def __setattr__(self, name: str, value: typing.Callable):
+    def __setattr__(self, name: str, value: typing.Callable | None) -> None:
         """Set an item as object member.
 
         Args:
