@@ -15,10 +15,6 @@
 #####################################################################
 """Data items module initializer."""
 
-from .base import DataItemBase
-
-# isort: split
-
 from .abs import ABS
 from .acka import ACKA
 from .ackc5 import ACKC5
@@ -32,6 +28,7 @@ from .altx import ALTX
 from .attrdata import ATTRDATA
 from .attrid import ATTRID
 from .attrreln import ATTRRELN
+from .base import DataItemBase
 from .bcequ import BCEQU
 from .binlt import BINLT
 from .ceed import CEED
