@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CEED(DataItemBase):
+class CEED(DataItemBase, variables.Boolean):
     """Collection event or trace enable/disable code.
 
     :Type: :class:`Boolean <secsgem.secs.variables.Boolean>`

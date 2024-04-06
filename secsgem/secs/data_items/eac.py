@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class EAC(DataItemBase):
+class EAC(DataItemBase, variables.Binary):
     """Equipment acknowledge code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

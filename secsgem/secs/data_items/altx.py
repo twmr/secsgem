@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ALTX(DataItemBase):
+class ALTX(DataItemBase, variables.String):
     """Alarm text.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

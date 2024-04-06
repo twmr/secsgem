@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MAPFT(DataItemBase):
+class MAPFT(DataItemBase, variables.Binary):
     """Map data format.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ERRTEXT(DataItemBase):
+class ERRTEXT(DataItemBase, variables.String):
     """Error description for error code.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

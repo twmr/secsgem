@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LIMITMIN(DataItemBase):
+class LIMITMIN(DataItemBase, variables.Dynamic):
     """Minimum allowed for limit.
 
     :Types:

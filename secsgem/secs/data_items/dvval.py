@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DVVAL(DataItemBase):
+class DVVAL(DataItemBase, variables.Dynamic):
     """Data value.
 
     :Types:

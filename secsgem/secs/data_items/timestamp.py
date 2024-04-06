@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TIMESTAMP(DataItemBase):
+class TIMESTAMP(DataItemBase, variables.String):
     """Timestamp.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

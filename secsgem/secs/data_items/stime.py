@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class STIME(DataItemBase):
+class STIME(DataItemBase, variables.String):
     """Sample time.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

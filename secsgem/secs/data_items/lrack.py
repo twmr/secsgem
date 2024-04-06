@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LRACK(DataItemBase):
+class LRACK(DataItemBase, variables.Binary):
     """Link report acknowledge code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TOTSMP(DataItemBase):
+class TOTSMP(DataItemBase, variables.Dynamic):
     """Total samples.
 
     :Types:

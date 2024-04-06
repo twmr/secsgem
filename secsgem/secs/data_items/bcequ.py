@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class BCEQU(DataItemBase):
+class BCEQU(DataItemBase, variables.Dynamic):
     """Bin code equivalents.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class COMMACK(DataItemBase):
+class COMMACK(DataItemBase, variables.Binary):
     """Establish communications acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

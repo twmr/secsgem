@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class OBJSPEC(DataItemBase):
+class OBJSPEC(DataItemBase, variables.String):
     """Specific object instance.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

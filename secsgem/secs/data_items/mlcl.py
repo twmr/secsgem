@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MLCL(DataItemBase):
+class MLCL(DataItemBase, variables.Dynamic):
     """Message length.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DVNAME(DataItemBase):
+class DVNAME(DataItemBase, variables.Dynamic):
     """Data value name.
 
     :Types:

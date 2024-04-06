@@ -21,17 +21,7 @@ from __future__ import annotations
 from .. import variables
 
 
-class DataItemMeta(type):
-    """Meta class for data items."""
-
-    def __new__(cls, name, bases, attrs):
-        """Meta class creation."""
-        if name != "DataItemBase":
-            bases += (attrs["__type__"],)
-        return type.__new__(cls, name, bases, attrs)
-
-
-class DataItemBase(metaclass=DataItemMeta):
+class DataItemBase:
     """Base class for data items.
 
     It provides type and output handling.

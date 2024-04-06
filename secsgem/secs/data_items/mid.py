@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MID(DataItemBase):
+class MID(DataItemBase, variables.Dynamic):
     """Material ID.
 
     :Types:

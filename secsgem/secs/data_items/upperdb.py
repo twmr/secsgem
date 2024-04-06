@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class UPPERDB(DataItemBase):
+class UPPERDB(DataItemBase, variables.Dynamic):
     """Limit for variable upper deadband.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class OBJID(DataItemBase):
+class OBJID(DataItemBase, variables.Dynamic):
     """Object identifier.
 
     :Types:

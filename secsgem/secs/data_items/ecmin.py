@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECMIN(DataItemBase):
+class ECMIN(DataItemBase, variables.Dynamic):
     """Equipment constant minimum value.
 
     :Types:

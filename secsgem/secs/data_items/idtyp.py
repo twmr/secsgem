@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class IDTYP(DataItemBase):
+class IDTYP(DataItemBase, variables.Binary):
     """ID type.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

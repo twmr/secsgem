@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class UNITS(DataItemBase):
+class UNITS(DataItemBase, variables.String):
     """Units identifier.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

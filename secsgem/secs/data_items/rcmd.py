@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RCMD(DataItemBase):
+class RCMD(DataItemBase, variables.Dynamic):
     """Remote command.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TRID(DataItemBase):
+class TRID(DataItemBase, variables.Dynamic):
     """Trace request ID.
 
     :Types:

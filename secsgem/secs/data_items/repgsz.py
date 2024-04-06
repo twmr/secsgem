@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class REPGSZ(DataItemBase):
+class REPGSZ(DataItemBase, variables.Dynamic):
     """Report grouping size.
 
     :Types:

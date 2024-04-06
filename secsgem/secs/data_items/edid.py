@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class EDID(DataItemBase):
+class EDID(DataItemBase, variables.Dynamic):
     """Expected data identification.
 
     :Types:

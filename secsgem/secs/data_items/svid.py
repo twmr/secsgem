@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SVID(DataItemBase):
+class SVID(DataItemBase, variables.Dynamic):
     """Status variable ID.
 
     :Types:

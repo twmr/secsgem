@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SV(DataItemBase):
+class SV(DataItemBase, variables.Dynamic):
     """Status variable value.
 
     :Types:

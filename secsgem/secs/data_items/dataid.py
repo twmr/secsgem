@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DATAID(DataItemBase):
+class DATAID(DataItemBase, variables.Dynamic):
     """Data ID.
 
     :Types:

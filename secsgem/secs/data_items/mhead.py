@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MHEAD(DataItemBase):
+class MHEAD(DataItemBase, variables.Binary):
     """SECS message header.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

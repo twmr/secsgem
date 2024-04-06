@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class COLCT(DataItemBase):
+class COLCT(DataItemBase, variables.Dynamic):
     """Column count in dies.
 
     :Types:

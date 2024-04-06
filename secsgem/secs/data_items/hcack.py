@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class HCACK(DataItemBase):
+class HCACK(DataItemBase, variables.Binary):
     """Host command parameter acknowledge code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class OFLACK(DataItemBase):
+class OFLACK(DataItemBase, variables.Binary):
     """Acknowledge code for OFFLINE request.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

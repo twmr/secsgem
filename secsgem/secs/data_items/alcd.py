@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ALCD(DataItemBase):
+class ALCD(DataItemBase, variables.Binary):
     """Alarm code byte.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

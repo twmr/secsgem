@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ACKC7(DataItemBase):
+class ACKC7(DataItemBase, variables.Binary):
     """Acknowledge code for stream 7.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

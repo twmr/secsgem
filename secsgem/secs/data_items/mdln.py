@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MDLN(DataItemBase):
+class MDLN(DataItemBase, variables.String):
     """Equipment model type.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

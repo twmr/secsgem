@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class YDIES(DataItemBase):
+class YDIES(DataItemBase, variables.Dynamic):
     """Die size/index Y-axis.
 
     :Types:

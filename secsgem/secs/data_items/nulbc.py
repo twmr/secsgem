@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class NULBC(DataItemBase):
+class NULBC(DataItemBase, variables.Dynamic):
     """Column count in dies.
 
     :Types:

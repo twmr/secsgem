@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class GRANT6(DataItemBase):
+class GRANT6(DataItemBase, variables.Binary):
     """Permission to send.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

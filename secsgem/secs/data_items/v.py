@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class V(DataItemBase):  # pylint: disable=invalid-name
+class V(DataItemBase, variables.Dynamic):  # pylint: disable=invalid-name
     """Variable data.
 
     :Types:

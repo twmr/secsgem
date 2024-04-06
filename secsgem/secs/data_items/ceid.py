@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CEID(DataItemBase):
+class CEID(DataItemBase, variables.Dynamic):
     """Collection event ID.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECID(DataItemBase):
+class ECID(DataItemBase, variables.Dynamic):
     """Equipment constant ID.
 
     :Types:

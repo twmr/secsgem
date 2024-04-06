@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class XYPOS(DataItemBase):
+class XYPOS(DataItemBase, variables.Dynamic):
     """X/Y coordinate position.
 
     :Types:

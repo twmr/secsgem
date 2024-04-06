@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RPTID(DataItemBase):
+class RPTID(DataItemBase, variables.Dynamic):
     """Report ID.
 
     :Types:

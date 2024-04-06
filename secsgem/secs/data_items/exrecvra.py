@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class EXRECVRA(DataItemBase):
+class EXRECVRA(DataItemBase, variables.String):
     """Exception recovery action.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

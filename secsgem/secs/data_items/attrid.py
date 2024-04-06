@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ATTRID(DataItemBase):
+class ATTRID(DataItemBase, variables.Dynamic):
     """Object attribute identifier.
 
     :Types:

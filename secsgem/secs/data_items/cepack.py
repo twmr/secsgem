@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CEPACK(DataItemBase):
+class CEPACK(DataItemBase, variables.Binary):
     """Command enhanced parameter acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ALID(DataItemBase):
+class ALID(DataItemBase, variables.Dynamic):
     """Alarm ID.
 
     :Types:

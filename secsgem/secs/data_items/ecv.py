@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECV(DataItemBase):
+class ECV(DataItemBase, variables.Dynamic):
     """Equipment constant value.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CENAME(DataItemBase):
+class CENAME(DataItemBase, variables.String):
     """Collection event Name.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

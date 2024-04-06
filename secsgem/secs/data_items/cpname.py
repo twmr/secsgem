@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CPNAME(DataItemBase):
+class CPNAME(DataItemBase, variables.Dynamic):
     """Command parameter name.
 
     :Types:

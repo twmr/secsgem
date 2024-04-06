@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SDACK(DataItemBase):
+class SDACK(DataItemBase, variables.Binary):
     """Map setup acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

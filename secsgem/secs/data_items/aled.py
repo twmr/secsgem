@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ALED(DataItemBase):
+class ALED(DataItemBase, variables.Binary):
     """Alarm en-/disable code byte.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

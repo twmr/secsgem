@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class FNLOC(DataItemBase):
+class FNLOC(DataItemBase, variables.U2):
     """Flat/notch location.
 
     In degrees from the bottom CW. (Bottom equals zero degrees.) Zero length indicates not used.

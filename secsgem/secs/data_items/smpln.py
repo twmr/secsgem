@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SMPLN(DataItemBase):
+class SMPLN(DataItemBase, variables.Dynamic):
     """Sample number.
 
     :Types:

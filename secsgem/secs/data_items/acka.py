@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ACKA(DataItemBase):
+class ACKA(DataItemBase, variables.Boolean):
     """Request success.
 
     :Type: :class:`Boolean <secsgem.secs.variables.Boolean>`

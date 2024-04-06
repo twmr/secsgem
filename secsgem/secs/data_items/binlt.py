@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class BINLT(DataItemBase):
+class BINLT(DataItemBase, variables.Dynamic):
     """Bin list.
 
     :Types:

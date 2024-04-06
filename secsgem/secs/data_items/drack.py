@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DRACK(DataItemBase):
+class DRACK(DataItemBase, variables.Binary):
     """Define report acknowledge code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

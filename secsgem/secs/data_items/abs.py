@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ABS(DataItemBase):
+class ABS(DataItemBase, variables.Binary):
     """Any binary string.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

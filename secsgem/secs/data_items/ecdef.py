@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECDEF(DataItemBase):
+class ECDEF(DataItemBase, variables.Dynamic):
     """Equipment constant default value.
 
     :Types:

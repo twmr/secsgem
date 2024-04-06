@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class STRP(DataItemBase):
+class STRP(DataItemBase, variables.Dynamic):
     """Starting position.
 
     :Types:

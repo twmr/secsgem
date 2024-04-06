@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CEPVAL(DataItemBase):
+class CEPVAL(DataItemBase, variables.Dynamic):
     """Command enhanced parameter value.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ORLOC(DataItemBase):
+class ORLOC(DataItemBase, variables.Binary):
     """Origin location.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

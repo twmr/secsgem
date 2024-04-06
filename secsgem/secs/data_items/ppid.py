@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class PPID(DataItemBase):
+class PPID(DataItemBase, variables.Dynamic):
     """Process program ID.
 
     :Types:

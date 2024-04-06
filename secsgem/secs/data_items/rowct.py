@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ROWCT(DataItemBase):
+class ROWCT(DataItemBase, variables.Dynamic):
     """Row count in dies.
 
     :Types:

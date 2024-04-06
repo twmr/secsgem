@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class PPGNT(DataItemBase):
+class PPGNT(DataItemBase, variables.Binary):
     """Process program grant status.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

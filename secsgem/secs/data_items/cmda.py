@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class CMDA(DataItemBase):
+class CMDA(DataItemBase, variables.Dynamic):
     """Command acknowledged code.
 
     :Types:

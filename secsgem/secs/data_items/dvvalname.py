@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DVVALNAME(DataItemBase):
+class DVVALNAME(DataItemBase, variables.String):
     """Data value name.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

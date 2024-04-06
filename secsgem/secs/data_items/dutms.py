@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DUTMS(DataItemBase):
+class DUTMS(DataItemBase, variables.String):
     """Die units of measure.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

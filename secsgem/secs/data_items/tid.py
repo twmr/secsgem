@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TID(DataItemBase):
+class TID(DataItemBase, variables.Binary):
     """Terminal ID.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

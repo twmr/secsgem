@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DSPER(DataItemBase):
+class DSPER(DataItemBase, variables.String):
     """Data sample period.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

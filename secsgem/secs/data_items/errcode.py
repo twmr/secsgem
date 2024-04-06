@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ERRCODE(DataItemBase):
+class ERRCODE(DataItemBase, variables.Dynamic):
     """Code identifying an error.
 
     :Types:

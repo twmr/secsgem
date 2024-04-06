@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TIAACK(DataItemBase):
+class TIAACK(DataItemBase, variables.Binary):
     """Equipment acknowledgement code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

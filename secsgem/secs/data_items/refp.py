@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class REFP(DataItemBase):
+class REFP(DataItemBase, variables.Dynamic):
     """Reference point.
 
     :Types:

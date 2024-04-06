@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class STRACK(DataItemBase):
+class STRACK(DataItemBase, variables.Binary):
     """Spool stream acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

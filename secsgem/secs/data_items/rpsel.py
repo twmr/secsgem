@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RPSEL(DataItemBase):
+class RPSEL(DataItemBase, variables.U1):
     """Reference point select.
 
     :Type: :class:`U1 <secsgem.secs.variables.U1>`

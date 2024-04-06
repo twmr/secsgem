@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LENGTH(DataItemBase):
+class LENGTH(DataItemBase, variables.Dynamic):
     """Service/process program length.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ATTRRELN(DataItemBase):
+class ATTRRELN(DataItemBase, variables.U1):
     """Attribute relation to attribute of object.
 
     :Type: :class:`U1 <secsgem.secs.variables.U1>`

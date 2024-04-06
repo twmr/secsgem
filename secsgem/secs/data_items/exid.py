@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class EXID(DataItemBase):
+class EXID(DataItemBase, variables.String):
     """Exception identifier.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

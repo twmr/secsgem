@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TEXT(DataItemBase):
+class TEXT(DataItemBase, variables.Dynamic):
     """Line of characters.
 
     :Types:

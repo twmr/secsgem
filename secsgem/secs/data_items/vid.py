@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class VID(DataItemBase):
+class VID(DataItemBase, variables.Dynamic):
     """Variable ID.
 
     :Types:

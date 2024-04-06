@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LIMITID(DataItemBase):
+class LIMITID(DataItemBase, variables.Binary):
     """Limit ID.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

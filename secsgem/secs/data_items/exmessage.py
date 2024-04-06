@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class EXMESSAGE(DataItemBase):
+class EXMESSAGE(DataItemBase, variables.String):
     """Exception message.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

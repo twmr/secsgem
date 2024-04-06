@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class STRID(DataItemBase):
+class STRID(DataItemBase, variables.U1):
     """Stream ID.
 
     :Type: :class:`U1 <secsgem.secs.variables.U1>`

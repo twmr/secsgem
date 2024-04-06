@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECMAX(DataItemBase):
+class ECMAX(DataItemBase, variables.Dynamic):
     """Equipment constant maximum value.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class MEXP(DataItemBase):
+class MEXP(DataItemBase, variables.String):
     """Message expected.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

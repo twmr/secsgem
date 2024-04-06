@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RSINF(DataItemBase):
+class RSINF(DataItemBase, variables.Dynamic):
     """Starting location.
 
     :Types:

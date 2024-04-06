@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class PRDCT(DataItemBase):
+class PRDCT(DataItemBase, variables.Dynamic):
     """Process die count.
 
     :Types:

@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ERACK(DataItemBase):
+class ERACK(DataItemBase, variables.Binary):
     """Enable/disable event report acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

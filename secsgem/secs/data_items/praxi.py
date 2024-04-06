@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class PRAXI(DataItemBase):
+class PRAXI(DataItemBase, variables.Binary):
     """Process axis.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

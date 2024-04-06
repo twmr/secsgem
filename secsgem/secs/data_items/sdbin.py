@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SDBIN(DataItemBase):
+class SDBIN(DataItemBase, variables.Binary):
     """Send bin information.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

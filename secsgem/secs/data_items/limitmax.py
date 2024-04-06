@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LIMITMAX(DataItemBase):
+class LIMITMAX(DataItemBase, variables.Dynamic):
     """Maximum allowed for limit.
 
     :Types:

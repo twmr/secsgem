@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LIMITACK(DataItemBase):
+class LIMITACK(DataItemBase, variables.Binary):
     """Acknowledgement code for variable limit.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

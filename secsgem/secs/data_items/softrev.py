@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class SOFTREV(DataItemBase):
+class SOFTREV(DataItemBase, variables.String):
     """Software revision.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

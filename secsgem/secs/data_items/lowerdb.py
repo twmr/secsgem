@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class LOWERDB(DataItemBase):
+class LOWERDB(DataItemBase, variables.Dynamic):
     """Limit for variable lower deadband.
 
     :Types:

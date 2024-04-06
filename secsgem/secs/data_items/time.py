@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class TIME(DataItemBase):
+class TIME(DataItemBase, variables.String):
     """Time of day.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

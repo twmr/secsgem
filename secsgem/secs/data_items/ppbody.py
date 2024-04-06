@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class PPBODY(DataItemBase):
+class PPBODY(DataItemBase, variables.Dynamic):
     """Status variable ID.
 
     :Types:

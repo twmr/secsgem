@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RSDC(DataItemBase):
+class RSDC(DataItemBase, variables.U1):
     """Request spooled data command.
 
     :Type: :class:`U1 <secsgem.secs.variables.U1>`

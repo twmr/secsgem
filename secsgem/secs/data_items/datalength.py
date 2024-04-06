@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class DATALENGTH(DataItemBase):
+class DATALENGTH(DataItemBase, variables.Dynamic):
     """Length of data to be sent.
 
     :Types:

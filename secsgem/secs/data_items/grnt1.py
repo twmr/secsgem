@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class GRNT1(DataItemBase):
+class GRNT1(DataItemBase, variables.Binary):
     """Grant code.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`

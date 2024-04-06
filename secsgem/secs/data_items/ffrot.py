@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class FFROT(DataItemBase):
+class FFROT(DataItemBase, variables.U2):
     """Film frame rotation.
 
     In degrees from the bottom CW. (Bottom equals zero degrees.) Zero length indicates not used.

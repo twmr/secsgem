@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class ECNAME(DataItemBase):
+class ECNAME(DataItemBase, variables.String):
     """Equipment constant name.
 
     :Type: :class:`String <secsgem.secs.variables.String>`

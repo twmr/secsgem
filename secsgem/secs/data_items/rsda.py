@@ -19,7 +19,7 @@ from .. import variables
 from .base import DataItemBase
 
 
-class RSDA(DataItemBase):
+class RSDA(DataItemBase, variables.Binary):
     """Request spooled data acknowledge.
 
     :Type: :class:`Binary <secsgem.secs.variables.Binary>`
