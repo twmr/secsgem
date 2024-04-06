@@ -49,7 +49,6 @@ class ORLOC(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     CENTER_DIE = 0

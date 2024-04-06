@@ -6,8 +6,7 @@ Custom data item
 
 A new data item is created by overriding the :code:`DataItemBase` class::
 
-    class UNITS_New(DataItemBase):
-        __type__ = Dynamic
+    class UNITS_New(DataItemBase, Dynamic):
         __allowedtypes__ = [Array, Boolean, U1, U2, U4, U8, I1, I2, I4, I8, \
                             F4, F8, String, Binary]
 

@@ -41,7 +41,6 @@ class CPNAME(DataItemBase, variables.Dynamic):
 
     """
 
-    __type__ = variables.Dynamic
     __allowedtypes__ = [
         variables.U1,
         variables.U2,

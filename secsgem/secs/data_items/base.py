@@ -29,7 +29,6 @@ class DataItemBase:  # pylint: disable=too-few-public-methods
     It provides type and output handling.
     """
 
-    __type__: type[variables.Base] | None = None
     __allowedtypes__: list[type[variables.Base]] | None = None
     __count__ = -1
 

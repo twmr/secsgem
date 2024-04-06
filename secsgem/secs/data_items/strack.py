@@ -43,7 +43,6 @@ class STRACK(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     NOT_ALLOWED = 1

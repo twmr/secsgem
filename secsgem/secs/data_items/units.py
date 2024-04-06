@@ -31,5 +31,3 @@ class UNITS(DataItemBase, variables.String):
         - :class:`SecsS02F48 <secsgem.secs.functions.SecsS02F48>`
 
     """
-
-    __type__ = variables.String

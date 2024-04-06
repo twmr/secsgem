@@ -43,7 +43,6 @@ class RSDA(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     ACK = 0

@@ -43,8 +43,6 @@ class CEPACK(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
-
     NO_ERROR = 0
     CPNAME_UNKNOWN = 1
     CEPVAL_ILLEGAL_VALUE = 2

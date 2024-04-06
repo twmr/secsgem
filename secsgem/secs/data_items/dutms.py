@@ -29,5 +29,3 @@ class DUTMS(DataItemBase, variables.String):
         - :class:`SecsS12F04 <secsgem.secs.functions.SecsS12F04>`
 
     """
-
-    __type__ = variables.String

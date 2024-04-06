@@ -52,8 +52,6 @@ class ATTRRELN(DataItemBase, variables.U1):
 
     """
 
-    __type__ = variables.U1
-
     EQUAL = 0
     NOT_EQUAL = 1
     LESS = 2

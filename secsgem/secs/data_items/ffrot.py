@@ -31,5 +31,3 @@ class FFROT(DataItemBase, variables.U2):
         - :class:`SecsS12F03 <secsgem.secs.functions.SecsS12F03>`
 
     """
-
-    __type__ = variables.U2

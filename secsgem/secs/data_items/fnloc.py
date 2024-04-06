@@ -32,5 +32,3 @@ class FNLOC(DataItemBase, variables.U2):
         - :class:`SecsS12F04 <secsgem.secs.functions.SecsS12F04>`
 
     """
-
-    __type__ = variables.U2

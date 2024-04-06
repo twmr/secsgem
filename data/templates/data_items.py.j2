@@ -45,10 +45,7 @@ class {{ data.name }}(DataItemBase, variables.{{ data.single_type and data.type[
 
 {% endif %}    """
 
-  {% if data.single_type %}
-    __type__ = variables.{{ data.type[0] }}
-  {% else %}
-    __type__ = variables.Dynamic
+  {% if not data.single_type %}
     __allowedtypes__ = [
       {% for type in data.type %}
         variables.{{ type }}{{ "," if not loop.last else "" }}

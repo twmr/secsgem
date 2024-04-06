@@ -30,5 +30,3 @@ class OBJSPEC(DataItemBase, variables.String):
         - :class:`SecsS14F03 <secsgem.secs.functions.SecsS14F03>`
 
     """
-
-    __type__ = variables.String

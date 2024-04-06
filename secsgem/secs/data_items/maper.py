@@ -43,7 +43,6 @@ class MAPER(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     ID_UNKNOWN = 0

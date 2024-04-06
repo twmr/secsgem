@@ -42,7 +42,6 @@ class OBJACK(DataItemBase, variables.U1):
 
     """
 
-    __type__ = variables.U1
     __count__ = 1
 
     SUCCESSFUL = 0

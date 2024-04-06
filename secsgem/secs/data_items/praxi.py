@@ -54,7 +54,6 @@ class PRAXI(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     ROWS_TOP_INCR = 0

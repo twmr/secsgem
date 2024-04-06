@@ -28,5 +28,3 @@ class DATLC(DataItemBase, variables.U1):
         - :class:`SecsS12F19 <secsgem.secs.functions.SecsS12F19>`
 
     """
-
-    __type__ = variables.U1

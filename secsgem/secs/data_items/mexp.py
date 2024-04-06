@@ -30,5 +30,4 @@ class MEXP(DataItemBase, variables.String):
 
     """
 
-    __type__ = variables.String
     __count__ = 6

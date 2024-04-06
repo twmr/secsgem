@@ -43,7 +43,6 @@ class ONLACK(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     ACCEPTED = 0

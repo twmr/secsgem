@@ -41,5 +41,4 @@ class ACKA(DataItemBase, variables.Boolean):
 
     """
 
-    __type__ = variables.Boolean
     __count__ = 1

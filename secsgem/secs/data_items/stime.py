@@ -28,5 +28,3 @@ class STIME(DataItemBase, variables.String):
         - :class:`SecsS06F01 <secsgem.secs.functions.SecsS06F01>`
 
     """
-
-    __type__ = variables.String

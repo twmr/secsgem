@@ -28,5 +28,3 @@ class DVVALNAME(DataItemBase, variables.String):
         - :class:`SecsS01F22 <secsgem.secs.functions.SecsS01F22>`
 
     """
-
-    __type__ = variables.String

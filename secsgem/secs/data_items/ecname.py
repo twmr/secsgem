@@ -28,5 +28,3 @@ class ECNAME(DataItemBase, variables.String):
         - :class:`SecsS02F30 <secsgem.secs.functions.SecsS02F30>`
 
     """
-
-    __type__ = variables.String

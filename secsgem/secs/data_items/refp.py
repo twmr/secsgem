@@ -34,5 +34,4 @@ class REFP(DataItemBase, variables.Dynamic):
 
     """
 
-    __type__ = variables.Dynamic
     __allowedtypes__ = [variables.I1, variables.I2, variables.I4, variables.I8]

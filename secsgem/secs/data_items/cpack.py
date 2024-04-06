@@ -44,7 +44,6 @@ class CPACK(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     PARAMETER_UNKNOWN = 1

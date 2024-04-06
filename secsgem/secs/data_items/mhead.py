@@ -34,5 +34,4 @@ class MHEAD(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 10

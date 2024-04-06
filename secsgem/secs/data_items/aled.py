@@ -43,7 +43,6 @@ class ALED(DataItemBase, variables.Binary):
 
     """
 
-    __type__ = variables.Binary
     __count__ = 1
 
     DISABLE = 0

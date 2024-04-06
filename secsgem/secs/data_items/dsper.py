@@ -28,5 +28,3 @@ class DSPER(DataItemBase, variables.String):
         - :class:`SecsS02F23 <secsgem.secs.functions.SecsS02F23>`
 
     """
-
-    __type__ = variables.String

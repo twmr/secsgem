@@ -29,5 +29,3 @@ class EXTYPE(DataItemBase, variables.String):
         - :class:`SecsS05F11 <secsgem.secs.functions.SecsS05F11>`
 
     """
-
-    __type__ = variables.String
