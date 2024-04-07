@@ -40,10 +40,10 @@ class DataItemBase:  # pylint: disable=too-few-public-methods
         """
         self.name: str = self.__class__.__name__
 
-        if self.__type__ is variables.Dynamic:
-            self.__type__.__init__(self, self.__allowedtypes__, value, self.__count__)
+        if isinstance(self, variables.Dynamic):
+            super().__init__(self.__allowedtypes__, value, self.__count__)
         else:
-            self.__type__.__init__(self, value, self.__count__)
+            super().__init__(value, self.__count__)
 
     @classmethod
     def get_format(cls, showname=True) -> str:
@@ -58,13 +58,13 @@ class DataItemBase:  # pylint: disable=too-few-public-methods
         """
         clsname = format(cls.__name__) if showname else "DATA"
 
-        if cls.__type__ is variables.Dynamic:
+        if issubclass(cls, variables.Dynamic):
             if cls.__count__ > 0:
                 return f"{clsname}: {'/'.join([x.text_code for x in cls.__allowedtypes__])}[{cls.__count__}]"
 
             return f"{clsname}: {'/'.join([x.text_code for x in cls.__allowedtypes__])}"
 
         if cls.__count__ > 0:
-            return f"{clsname}: {cls.__type__.text_code}[{cls.__count__}]"
+            return f"{clsname}: {cls.text_code}[{cls.__count__}]"  # pylint: disable=no-member
 
-        return f"{clsname}: {cls.__type__.text_code}"
+        return f"{clsname}: {cls.text_code}"  # pylint: disable=no-member
