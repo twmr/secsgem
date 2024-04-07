@@ -21,7 +21,7 @@ from __future__ import annotations
 from .. import variables
 
 
-class DataItemBase:
+class DataItemBase:  # pylint: disable=too-few-public-methods
     """Base class for data items.
 
     It provides type and output handling.
@@ -42,11 +42,6 @@ class DataItemBase:
             self.__type__.__init__(self, self.__allowedtypes__, value, self.__count__)
         else:
             self.__type__.__init__(self, value, self.__count__)
-
-    @property
-    def typ(self) -> type[variables.Base] | None:
-        """Get the configured type."""
-        return self.__type__
 
     @classmethod
     def get_format(cls, showname=True) -> str:
