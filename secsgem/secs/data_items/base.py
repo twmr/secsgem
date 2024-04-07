@@ -18,6 +18,8 @@
 
 from __future__ import annotations
 
+import typing
+
 from .. import variables
 
 
@@ -31,12 +33,12 @@ class DataItemBase:  # pylint: disable=too-few-public-methods
     __allowedtypes__: list[type[variables.Base]] | None = None
     __count__ = -1
 
-    def __init__(self, value=None):
+    def __init__(self, value: typing.Any | None = None) -> None:
         """Initialize a data item.
 
         :param value: Value of the data item
         """
-        self.name = self.__class__.__name__
+        self.name: str = self.__class__.__name__
 
         if self.__type__ is variables.Dynamic:
             self.__type__.__init__(self, self.__allowedtypes__, value, self.__count__)
