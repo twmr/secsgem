@@ -28,6 +28,7 @@ class MID(DataItemBase, variables.Dynamic):
     :Length: 80
 
     **Used In Function**
+        - :class:`SecsS03F02 <secsgem.secs.functions.SecsS03F02>`
         - :class:`SecsS12F01 <secsgem.secs.functions.SecsS12F01>`
         - :class:`SecsS12F03 <secsgem.secs.functions.SecsS12F03>`
         - :class:`SecsS12F04 <secsgem.secs.functions.SecsS12F04>`

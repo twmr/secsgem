@@ -65,6 +65,8 @@ from .s02f47 import SecsS02F47
 from .s02f48 import SecsS02F48
 from .s02f49 import SecsS02F49
 from .s02f50 import SecsS02F50
+from .s03f01 import SecsS03F01
+from .s03f02 import SecsS03F02
 from .s05f00 import SecsS05F00
 from .s05f01 import SecsS05F01
 from .s05f02 import SecsS05F02
@@ -204,6 +206,8 @@ __all__ = [
     "SecsS02F48",
     "SecsS02F49",
     "SecsS02F50",
+    "SecsS03F01",
+    "SecsS03F02",
     "SecsS05F00",
     "SecsS05F01",
     "SecsS05F02",

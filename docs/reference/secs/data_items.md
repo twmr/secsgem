@@ -253,6 +253,14 @@
     :members:
 ```
 ```{eval-rst}
+.. autoclass:: secsgem.secs.data_items.LOC
+    :members:
+```
+```{eval-rst}
+.. autoclass:: secsgem.secs.data_items.LOCID
+    :members:
+```
+```{eval-rst}
 .. autoclass:: secsgem.secs.data_items.LOWERDB
     :members:
 ```
@@ -282,6 +290,10 @@
 ```
 ```{eval-rst}
 .. autoclass:: secsgem.secs.data_items.MEXP
+    :members:
+```
+```{eval-rst}
+.. autoclass:: secsgem.secs.data_items.MF
     :members:
 ```
 ```{eval-rst}

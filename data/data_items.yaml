@@ -978,6 +978,15 @@ LIMITMIN:
   description: Minimum allowed for limit
   length: 1
 
+LOC:
+  type: Binary
+  description: Machine material location code
+  length: 1
+
+LOCID:
+  type: String
+  description: Logical identifier of a material location
+
 LOWERDB:
   type:
     - Boolean
@@ -1107,6 +1116,19 @@ MEXP:
   type: String
   description: Message expected
   length: 6
+
+MF:
+  type:
+    - Binary
+    - String
+  description: Material format code
+  values:
+    1:
+      description: xxx
+      constant: QUANTITIES_IN_WAFERS
+    15-63:
+      description: Reserved, error
+# TODO include identifiers of units from E5 section 12
 
 MHEAD:
   type: Binary

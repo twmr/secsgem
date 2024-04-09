@@ -621,6 +621,23 @@ S02F50:
         {"CPNAME": "PARAM2", "CPACK": secsgem.secs.data_items.CPACK.CPVAL_ILLEGAL_FORMAT}]}
 
 
+S03F01:
+  description: Material status request
+  to_host: False
+  to_equipment: True
+  reply: True
+  reply_required: True
+  multi_block: False
+
+S03F02:
+  description: Material status data
+  to_host: True
+  to_equipment: False
+  reply: False
+  reply_required: False
+  multi_block: False
+  structure: [MF, [["PARAMS", LOC, QUA, MID]]]
+
 S05F00:
   description: abort transaction stream 5
   to_host: True

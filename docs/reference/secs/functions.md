@@ -197,6 +197,14 @@
     :members:
 ```
 ```{eval-rst}
+.. autoclass:: secsgem.secs.functions.SecsS03F01
+    :members:
+```
+```{eval-rst}
+.. autoclass:: secsgem.secs.functions.SecsS03F02
+    :members:
+```
+```{eval-rst}
 .. autoclass:: secsgem.secs.functions.SecsS05F00
     :members:
 ```
