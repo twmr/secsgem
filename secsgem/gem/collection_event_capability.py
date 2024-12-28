@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 import threading
+import typing
 
 import secsgem.common
 import secsgem.secs
@@ -27,6 +28,12 @@ from .collection_event import CollectionEvent, CollectionEventId
 from .collection_event_link import CollectionEventLink
 from .collection_event_report import CollectionEventReport
 from .handler import GemHandler
+
+
+class Report(typing.TypedDict):
+    """Represents an event report."""
+    RPTID: int | str
+    V: list[typing.Any]
 
 
 class CollectionEventCapability(GemHandler, Capability):
@@ -302,7 +309,7 @@ class CollectionEventCapability(GemHandler, Capability):
 
         return result
 
-    def _build_reports_for_collection_event(self, ceid: int | str):
+    def _build_reports_for_collection_event(self, ceid: int | str) -> list[Report]:
         """Build reports for a collection event.
 
         Args:
@@ -326,7 +333,7 @@ class CollectionEventCapability(GemHandler, Capability):
                     value = self._get_dv_value(self._data_values[var])
                     variables.append(value)
 
-            reports.append({"RPTID": rptid, "V": variables})
+            reports.append(Report(RPTID=rptid, V=variables))
 
         return reports
 
