@@ -7,7 +7,7 @@
 ```
 
 ```{eval-rst}
-.. autoclass:: secsgem.gem.DataValue
+.. autoclass:: secsgem.gem.DataVariable
     :members:
     :inherited-members:
 ```

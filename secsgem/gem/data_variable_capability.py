@@ -1,5 +1,5 @@
 #####################################################################
-# data_value_capability.py
+# data_variable_capability.py
 #
 # (c) Copyright 2023, Benjamin Parzella. All rights reserved.
 #
@@ -25,68 +25,68 @@ from .handler import GemHandler
 if typing.TYPE_CHECKING:
     import secsgem.secs
 
-    from .data_value import DataValue
+    from .data_variable import DataVariable
 
 
-class DataValueCapability(GemHandler, Capability):
+class DataVariableCapability(GemHandler, Capability):
     """Data Value capability on GEM equipment."""
 
     def __init__(self, *args, **kwargs) -> None:
         """Initialize capability."""
         super().__init__(*args, **kwargs)
 
-        self.__data_values: dict[int | str, DataValue] = {}
+        self.__data_variables: dict[int | str, DataVariable] = {}
 
     @property
-    def _data_values(self) -> dict[int | str, DataValue]:
+    def _data_variables(self) -> dict[int | str, DataVariable]:
         """Get list of the data values.
 
         Returns:
-            Data value list
+            Data variable list
 
         """
-        return self.__data_values
+        return self.__data_variables
 
     @property
-    def data_values(self) -> dict[int | str, DataValue]:
+    def data_variables(self) -> dict[int | str, DataVariable]:
         """Get list of the data values.
 
         Returns:
-            Data value list
+            Data variablelist
 
         """
-        return self._data_values
+        return self._data_variables
 
     def on_dv_value_request(
         self,
-        _data_value_id: secsgem.secs.variables.Base,
-        data_value: DataValue,
+        _data_variable_id: secsgem.secs.variables.Base,
+        data_variable: DataVariable,
     ) -> secsgem.secs.variables.Base:
         """Get the data value depending on its configuation.
 
         Override in inherited class to provide custom data value request handling.
 
         Args:
-            data_value_id: Id of the data value encoded in the corresponding type
-            data_value: The data value requested
+            data_variable_id: Id of the data value encoded in the corresponding type
+            data_variable: The data value requested
 
         Returns:
             The value encoded in the corresponding type
 
         """
-        return data_value.value_type(data_value.value)
+        return data_variable.value_type(data_variable.value)
 
-    def _get_dv_value(self, data_value: DataValue) -> secsgem.secs.variables.Base:
+    def _get_dv_value(self, data_variable: DataVariable) -> secsgem.secs.variables.Base:
         """Get the data value depending on its configuation.
 
         Args:
-            data_value: The data value requested
+            data_variable: The data value requested
 
         Returns:
             The value encoded in the corresponding type
 
         """
-        if data_value.use_callback:
-            return self.on_dv_value_request(data_value.id_type(data_value.dvid), data_value)
+        if data_variable.use_callback:
+            return self.on_dv_value_request(data_variable.id_type(data_variable.dvid), data_variable)
 
-        return data_value.value_type(data_value.value)
+        return data_variable.value_type(data_variable.value)

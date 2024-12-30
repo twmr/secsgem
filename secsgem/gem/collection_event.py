@@ -35,7 +35,7 @@ class CollectionEventId(enum.Enum):
 class CollectionEvent:  # pylint: disable=too-few-public-methods
     """Collection event definition."""
 
-    def __init__(self, ceid: int | str | CollectionEventId, name: str, data_values: list[int | str], **kwargs):
+    def __init__(self, ceid: int | str | CollectionEventId, name: str, data_variables: list[int | str], **kwargs):
         """Initialize a collection event.
 
         You can manually set the secs-type of the id with the 'id_type' keyword argument.
@@ -49,13 +49,13 @@ class CollectionEvent:  # pylint: disable=too-few-public-methods
         Args:
             ceid: ID of the collection event
             name: long name of the collection event
-            data_values: data values available for this event
+            data_variables: data variables available for this event
             **kwargs: additional attributes for object
 
         """
         self.ceid = ceid if not isinstance(ceid, CollectionEventId) else ceid.value
         self.name = name
-        self.data_values = data_values
+        self.data_variables = data_variables
 
         self.id_type: type[secsgem.secs.variables.Base]
 

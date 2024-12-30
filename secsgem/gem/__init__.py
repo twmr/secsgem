@@ -19,7 +19,7 @@ from .alarm import Alarm
 from .collection_event import CollectionEvent, CollectionEventId
 from .collection_event_link import CollectionEventLink
 from .collection_event_report import CollectionEventReport
-from .data_value import DataValue
+from .data_variable import DataVariable
 from .equipment_constant import EquipmentConstant, EquipmentConstantId
 from .equipmenthandler import GemEquipmentHandler
 from .handler import GemHandler
@@ -33,7 +33,7 @@ __all__ = [
     "CollectionEventId",
     "CollectionEventLink",
     "CollectionEventReport",
-    "DataValue",
+    "DataVariable",
     "EquipmentConstant",
     "EquipmentConstantId",
     "GemEquipmentHandler",

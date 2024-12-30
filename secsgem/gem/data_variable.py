@@ -1,5 +1,5 @@
 #####################################################################
-# data_value.py
+# data_variable.py
 #
 # (c) Copyright 2021, Benjamin Parzella. All rights reserved.
 #
@@ -13,14 +13,14 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
 #####################################################################
-"""Wrapper for GEM data value."""
+"""Wrapper for GEM data variable."""
 
 from __future__ import annotations
 
 import secsgem.secs
 
 
-class DataValue:
+class DataVariable:
     """Data value definition."""
 
     def __init__(

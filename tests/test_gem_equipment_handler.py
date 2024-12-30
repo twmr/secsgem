@@ -34,22 +34,22 @@ from mock_protocol import MockProtocol
 from mock_settings import MockSettings
 
 
-class TestDataValue(unittest.TestCase):
+class TestDataVariable(unittest.TestCase):
     def testConstructorWithInt(self):
-        dv = secsgem.gem.DataValue(123, "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        dv = secsgem.gem.DataVariable(123, "TestDataVariable", secsgem.secs.variables.String, False, param1="param1", param2=2)
 
         self.assertEqual(dv.dvid, 123)
-        self.assertEqual(dv.name, "TestDataValue")
+        self.assertEqual(dv.name, "TestDataVariable")
         self.assertEqual(dv.value_type, secsgem.secs.variables.String)
         self.assertEqual(dv.use_callback, False)
         self.assertEqual(dv.param1, "param1")
         self.assertEqual(dv.param2, 2)
 
     def testConstructorWithStr(self):
-        dv = secsgem.gem.DataValue("DV123", "TestDataValue", secsgem.secs.variables.String, False, param1="param1", param2=2)
+        dv = secsgem.gem.DataVariable("DV123", "TestDataVariable", secsgem.secs.variables.String, False, param1="param1", param2=2)
 
         self.assertEqual(dv.dvid, "DV123")
-        self.assertEqual(dv.name, "TestDataValue")
+        self.assertEqual(dv.name, "TestDataVariable")
         self.assertEqual(dv.value_type, secsgem.secs.variables.String)
         self.assertEqual(dv.use_callback, False)
         self.assertEqual(dv.param1, "param1")
@@ -86,7 +86,7 @@ class TestCollectionEvent(unittest.TestCase):
 
         self.assertEqual(ce.ceid, 123)
         self.assertEqual(ce.name, "TestCollectionEvent")
-        self.assertEqual(ce.data_values, [123, "DV123"])
+        self.assertEqual(ce.data_variables, [123, "DV123"])
         self.assertEqual(ce.param1, "param1")
         self.assertEqual(ce.param2, 2)
 
@@ -95,7 +95,7 @@ class TestCollectionEvent(unittest.TestCase):
 
         self.assertEqual(ce.ceid, "CE123")
         self.assertEqual(ce.name, "TestCollectionEvent")
-        self.assertEqual(ce.data_values, [123, "DV123"])
+        self.assertEqual(ce.data_variables, [123, "DV123"])
         self.assertEqual(ce.param1, "param1")
         self.assertEqual(ce.param2, 2)
 
@@ -643,7 +643,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertTrue(now - delta < equ_datetime < now + delta)
 
     def testStatusVariablePredefinedEventsEnabled(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -704,12 +704,12 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         function = self.sendSVRequest([secsgem.gem.StatusVariableId.ALARMS_SET.value])
         self.assertEqual(function[0].get(), [])
 
-    def setupTestDataValues(self, use_callbacks=False):
-        self.client.data_values.update({
-            30: secsgem.gem.DataValue(30, "sample1, numeric DV, U4", secsgem.secs.variables.U4, use_callbacks),
+    def setupTestDataVariables(self, use_callbacks=False):
+        self.client.data_variables.update({
+            30: secsgem.gem.DataVariable(30, "sample1, numeric DV, U4", secsgem.secs.variables.U4, use_callbacks),
         })
 
-        self.client.data_values[30].value = 31337
+        self.client.data_variables[30].value = 31337
 
     def setupTestCollectionEvents(self):
         self.client.collection_events.update({
@@ -813,7 +813,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         return self.client.settings.streams_functions.decode(packet)
 
     def testCollectionEventRegisterReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.establishCommunication()
 
         oldlen = len(self.client.registered_reports)
@@ -826,7 +826,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_reports), oldlen + 1)
 
     def testCollectionEventClearReports(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.establishCommunication()
 
         function = self.sendCEDefineReport()
@@ -844,7 +844,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_reports), 0)
 
     def testCollectionEventRemoveReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.establishCommunication()
 
         oldlen = len(self.client.registered_reports)
@@ -864,7 +864,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_reports), oldlen)
 
     def testCollectionEventRemoveReportWithLinkedCE(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -902,7 +902,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 4)
 
     def testCollectionEventDuplicateRegisterReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.establishCommunication()
 
         function = self.sendCEDefineReport()
@@ -916,7 +916,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 3)
 
     def testCollectionEventLinkReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -938,7 +938,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_collection_events), oldlenCE + 1)
 
     def testCollectionEventLinkReportUnknownCEID(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.establishCommunication()
 
         oldlenRPT = len(self.client.registered_reports)
@@ -957,7 +957,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 4)
 
     def testCollectionEventDuplicateLinkReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -986,7 +986,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_collection_events), oldlenCE + 1)
 
     def testCollectionEventLinkReportUnknown(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1000,7 +1000,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_collection_events), oldlenCE)
 
     def testCollectionEventUnlinkReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1029,7 +1029,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_collection_events), oldlenCE)
 
     def testCollectionEventLinkTwoReports(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1065,7 +1065,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(len(self.client.registered_collection_events), oldlenCE + 1)
 
     def testCollectionEventEnableReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1092,7 +1092,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 0)
 
     def testCollectionEventEnableAllReports(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1119,7 +1119,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 0)
 
     def testCollectionEventEnableUnlinkedReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1139,7 +1139,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.get(), 1)
 
     def testCollectionEventRequestReport(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 
@@ -1173,7 +1173,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.RPT[0].V[0].get(), 31337)
 
     def testCollectionEventRequestReportCallbackSV(self):
-        self.setupTestDataValues(True)
+        self.setupTestDataVariables(True)
         self.setupTestCollectionEvents()
         self.setupTestStatusVariables(True)
         self.establishCommunication()
@@ -1209,7 +1209,7 @@ class TestGemEquipmentHandlerPassiveControlState(unittest.TestCase):
         self.assertEqual(function.RPT[0].V[1].get(), 123)
 
     def testCollectionEventTrigger(self):
-        self.setupTestDataValues()
+        self.setupTestDataVariables()
         self.setupTestCollectionEvents()
         self.establishCommunication()
 

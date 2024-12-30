@@ -25,7 +25,7 @@ if typing.TYPE_CHECKING:
 
     from .alarm import Alarm
     from .collection_event import CollectionEventId
-    from .data_value import DataValue
+    from .data_variable import DataVariable
     from .status_variable import StatusVariable
 
 
@@ -54,7 +54,7 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
 
     @property
     @abc.abstractmethod
-    def _data_values(self) -> dict[int | str, DataValue]:
+    def _data_variables(self) -> dict[int | str, DataVariable]:
         raise NotImplementedError
 
     @property
@@ -72,7 +72,7 @@ class Capability(abc.ABC):  # pylint: disable=too-few-public-methods
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _get_dv_value(self, data_value: DataValue) -> secsgem.secs.variables.Base:
+    def _get_dv_value(self, data_variable: DataVariable) -> secsgem.secs.variables.Base:
         raise NotImplementedError
 
     @abc.abstractmethod

@@ -25,7 +25,7 @@ from .alarm_capability import AlarmCapability
 from .clock_capability import ClockCapability
 from .collection_event_capability import CollectionEventCapability
 from .control_state_machine import ControlState
-from .data_value_capability import DataValueCapability
+from .data_variable_capability import DataVariableCapability
 from .equipment_constants_capability import EquipmentConstantsCapability
 from .handler import GemHandler
 from .remote_control_capability import RemoteControlCapability
@@ -39,7 +39,7 @@ if typing.TYPE_CHECKING:
 class GemEquipmentHandler(  # pylint: disable=too-many-ancestors
     AlarmCapability,
     ClockCapability,
-    DataValueCapability,
+    DataVariableCapability,
     EquipmentConstantsCapability,
     RemoteControlCapability,
     StateModelsCapability,

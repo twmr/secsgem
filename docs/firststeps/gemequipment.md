@@ -125,8 +125,8 @@ class SampleEquipment(secsgem.gem.GemEquipmentHandler):
 ## Adding collection events
 
 A collection event can be added by inserting an instance of the {py:class}`secsgem.gem.equipmenthandler.CollectionEvent` class to the {py:attr}`secsgem.gem.equipmenthandler.GemEquipmentHandler.collection_events` dictionary.
-Data values can be added by inserting an instance of the {py:class}`secsgem.gem.DataValue` class to the {py:attr}`secsgem.gem.equipmenthandler.GemEquipmentHandler.data_values` dictionary.
-The data values for a collection event can be passed while creating the {py:class}`secsgem.gem.equipmenthandler.CollectionEvent` instance:
+Data variables can be added by inserting an instance of the {py:class}`secsgem.gem.DataValue` class to the {py:attr}`secsgem.gem.equipmenthandler.GemEquipmentHandler.data_variables` dictionary.
+The data variables for a collection event can be passed while creating the {py:class}`secsgem.gem.equipmenthandler.CollectionEvent` instance:
 
 ```python
 class SampleEquipment(secsgem.gem.GemEquipmentHandler):
@@ -135,8 +135,8 @@ class SampleEquipment(secsgem.gem.GemEquipmentHandler):
 
         self.dv1 = 31337
 
-        self.data_values.update({
-            30: secsgem.gem.DataValue(30, "sample1, numeric DV, SecsVarU4", secsgem.secs.variables.U4, True),
+        self.data_variables.update({
+            30: secsgem.gem.DataVariable(30, "sample1, numeric DV, SecsVarU4", secsgem.secs.variables.U4, True),
         })
 
         self.collection_events.update({
